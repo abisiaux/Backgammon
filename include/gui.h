@@ -2,7 +2,7 @@
 #include <SDL/SDL.h>
 
 #ifndef GUI_H
-	#define gui_H
+	#define GUI_H
 
 struct Display
 {
@@ -23,6 +23,8 @@ struct Display
 	// Taille par défaut de la fenêtre
 	int window_width;
 	int window_height;
+	
+	SDL_Rect positions[28]; // Tableau contenant la position de chaque flèche et des bars
 };
 
 typedef struct Display SDisplay;
@@ -33,10 +35,17 @@ void display_init(SDisplay *display);
 /* Libère les surfaces utilisées et quitte la SDL */
 void display_exit(SDisplay *display);
 
-/*void drawGame(SWindow *w, SZone zones[28]);
-void drawChecker(SWindow *w,SDL_Rect *position,SColor c);
-SColor checkerColor(EPlayer e);
-void initPartie(SZone *zones);*/
+/* Affiche les pions */
+void display_checkers(SDisplay *display, SGameState *game);
+
+/* Raffraichit l'affichage */
+void display_refresh(SDisplay *display, SGameState *game);
+
+/* Dessine un pion d'un joueur, à une position donnée */
+void draw_checker(SDisplay *display, SDL_Rect position, int player);
+
+/* Initialise la partie */
+SGameState* initPartie();
 
 #endif
 
