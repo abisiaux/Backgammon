@@ -1,4 +1,6 @@
-/////////// Strutures à utiliser
+#ifndef BACKGAMMON_H
+	#define BACKGAMMON_H
+
 
 // Représente un joueur
 typedef enum
@@ -132,3 +134,5 @@ typedef int (*pfTakeDouble)(const SGameState * const);
  */
 //void MakeDecision(const SGameState * const gameState, SMove moves[4], unsigned int lastTimeError);
 typedef void (*pfMakeDecision)(const SGameState * const, SMove[4], unsigned int);
+
+#endif
