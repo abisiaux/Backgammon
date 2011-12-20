@@ -16,10 +16,11 @@ int main(int argc, char **argv)
 	SDL_Event event;
 	
 	display_init(&display);
-		display_refresh(&display, game);
-		SDL_Flip(display.screen);
+	
 	while (!quit) // Boucle principale
 	{
+		display_refresh(&display, game);
+		
 		SDL_WaitEvent(&event);
 		switch(event.type)
 		{
@@ -27,8 +28,7 @@ int main(int argc, char **argv)
 				quit=1;
 				break;
 		}
-	
-		
+		SDL_Flip(display.screen);
 	}
 	
 	display_exit(&display);

@@ -41,8 +41,8 @@ void display_init(SDisplay *display)
 	
 	// Chargement de l'image de pion noir
 	strcpy(temp_path, display->img_path);
-	strcat(temp_path, "black_checker.png");
-	display->black_checker = IMG_Load(temp_path);
+	strcat(temp_path, "green_checker.png");
+	display->green_checker = IMG_Load(temp_path);
 	free(temp_path);
 	
 	// Initialisation de la taille de la fenêtre
@@ -77,7 +77,7 @@ void display_init(SDisplay *display)
 	}
 	
 	// Initialisation de la fenêtre
-	display->screen = SDL_SetVideoMode(800, 600, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
+	display->screen = SDL_SetVideoMode(display->window_width, display->window_height, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
 	
 	if (display->screen == NULL) // Si l'ouverture a échoué, on écrit l'erreur et on arrête
 	{
@@ -94,7 +94,7 @@ void display_exit(SDisplay *display)
 	// Libération de toutes les surfaces utilisées
 	SDL_FreeSurface(display->background);
 	SDL_FreeSurface(display->white_checker);
-	SDL_FreeSurface(display->black_checker);
+	SDL_FreeSurface(display->green_checker);
 	SDL_FreeSurface(display->screen);
 	
 	SDL_Quit();
@@ -124,7 +124,7 @@ void draw_checker(SDisplay *display, SDL_Rect position, int player)
 {
 	if( player==0 )
 	{
-		SDL_BlitSurface(display->black_checker, NULL,display->screen, &position);
+		SDL_BlitSurface(display->green_checker, NULL,display->screen, &position);
 	}
 	else
 	{
@@ -134,7 +134,7 @@ void draw_checker(SDisplay *display, SDL_Rect position, int player)
 
 void display_checkers(SDisplay *display, SGameState *game)
 {
-	int i,j;
+	unsigned int i,j;
 	SDL_Rect new_pos;
 	
 	for( i=0 ; i<28; i++ )
@@ -155,7 +155,7 @@ void display_checkers(SDisplay *display, SGameState *game)
 SGameState* initPartie()
 {
 	SGameState *game = (SGameState*)malloc(sizeof(SGameState));
-	int i,j;
+	int i;
 	for(i=0;i<28;i++) game->zones[i].nb_checkers=0;
 	
 	game->zones[0].player=EPlayer1;

@@ -14,7 +14,7 @@ struct Display
 	SDL_Surface *background; 
 	SDL_Rect background_position; // Sa position
 	
-	SDL_Surface *black_checker; // Les pions noirs
+	SDL_Surface *green_checker; // Les pions verts
 	
 	SDL_Surface *white_checker; // Les pions blancs
 	
