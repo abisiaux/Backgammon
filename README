@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 BACKGAMMON --- README
 ****************************************
 	
@@ -26,3 +27,33 @@ Pour supprimer les liens (*.o) générés lors de la compilation :
 	
 Pour supprimer les liens et l'exécutable :
 	- Taper la commande : make mrproper
+=======
+BACKGAMMON --- README
+****************************************
+	
+STRUCTURATION DU PROJET
+****************************************
+	/bin : contient l'exécutable créé par le Makefile
+	/include : contient les fichiers ".h"
+	/lib : contient la librairie développée par le binôme AI
+	/obj : contient les fichiers ".o" générés lors de la compilation
+	/ressources : contient les ressources du programme, à savoir les images
+	/src : contient les fichiers sources ".c"
+
+INSTRUCTION DE COMPILATION
+****************************************
+
+Pour compiler :
+	- Se placer à la racine du projet
+	- Taper la commande : make all
+	
+Pour l'exécution :
+	cd bin/
+	./backgammon
+	
+Pour supprimer les liens (*.o) générés lors de la compilation :
+	- Taper la commande : make clean
+	
+Pour supprimer les liens et l'exécutable :
+	- Taper la commande : make mrproper
+>>>>>>> f1f2c610567640076de260619ab698c95a0794c1

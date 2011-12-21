@@ -69,7 +69,6 @@ void display_init(SDisplay *display)
 	display->die2_position.x = 450;
 	display->die2_position.y = 340;
 	
-	
 	// Initialisation de la taille de la fenêtre
 	display->window_width = 800;
 	display->window_height = 600;

@@ -18,6 +18,7 @@ int main(int argc, char **argv)
 	display_init(&display);
 	
 	launch_die(gameState);
+		
 	while (!quit) // Boucle principale
 	{
 		display_refresh(&display, gameState);
