@@ -15,8 +15,13 @@ int main(int argc, char **argv)
 	int quit = 0;
 	SDL_Event event;
 	
+	SMove move;
+	move.dest_point = 13;
+	move.src_point = 6;
+	
 	display_init(&display);
 	
+	checker_move(&display,gameState,&move);
 	launch_die(gameState);
 		
 	while (!quit) // Boucle principale

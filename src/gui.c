@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
+#include <unistd.h>
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h> // Pour utiliser des formats d'image autre que bmp
@@ -243,4 +244,35 @@ SGameState* initPartie()
 	return game;
 }
 
-
+void checker_move(SDisplay *display, SGameState* game, SMove *move)
+{
+	/* Calcul de la droite passant par les deux zones */
+	int pos_dest_y = display->positions[move->dest_point-1].y + 20*(game->zones[move->dest_point-1].nb_checkers);
+	int pos_dest_x = display->positions[move->dest_point-1].x;
+	int pos_src_y =  display->positions[move->src_point-1].y - 20*(game->zones[move->src_point-1].nb_checkers);
+	int pos_src_x = display->positions[move->src_point-1].x;
+	
+	double a = (double)(pos_dest_y-pos_src_y)/(pos_dest_x - pos_src_x);
+	
+	double b = pos_dest_y - a*pos_dest_x;
+	int pas;
+	if(a>=0)
+		pas = -5;
+	else
+		pas = 5;
+	SDL_Rect new_pos;
+	new_pos.x = pos_src_x;
+	new_pos.y = pos_src_y;
+	
+	game->zones[move->src_point-1].nb_checkers--;
+	while( new_pos.x>=display->positions[move->dest_point-1].x && new_pos.y>=display->positions[move->dest_point-1].y )
+	{
+		new_pos.x = new_pos.x + pas;
+		new_pos.y = (int)(a*new_pos.x + b);
+		display_refresh(display,game);
+		draw_checker(display,new_pos,game->zones[move->src_point-1].player);
+		SDL_Flip(display->screen);
+	}
+	game->zones[move->dest_point-1].nb_checkers++;
+	game->zones[move->dest_point-1].player = game->zones[move->src_point-1].player;
+}

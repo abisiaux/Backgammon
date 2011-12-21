@@ -63,6 +63,9 @@ void draw_checker(SDisplay *display, SDL_Rect position, int player);
 /* Initialise la partie */
 SGameState* initPartie();
 
+/* Effectue le déplacement d'un pion */
+void checker_move(SDisplay *display, SGameState* game, SMove *move);
+
 #endif
 
 
