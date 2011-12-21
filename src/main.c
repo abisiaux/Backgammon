@@ -10,25 +10,26 @@ int main(int argc, char **argv)
 {
 	SDisplay display;
 	
-	SGameState *game = initPartie();
+	SGameState *gameState = initPartie();
 	
 	int quit = 0;
 	SDL_Event event;
 	
 	display_init(&display);
-		display_refresh(&display, game);
-		SDL_Flip(display.screen);
+	
+	launch_die(gameState);
 	while (!quit) // Boucle principale
 	{
+		display_refresh(&display, gameState);
+		
 		SDL_WaitEvent(&event);
 		switch(event.type)
 		{
 			case SDL_QUIT:
-				quit=1;
+				quit = 1;
 				break;
 		}
-	
-		
+		SDL_Flip(display.screen);
 	}
 	
 	display_exit(&display);
