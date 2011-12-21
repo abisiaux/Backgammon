@@ -16,13 +16,49 @@ int main(int argc, char **argv)
 	SDL_Event event;
 	
 	SMove move;
-	move.dest_point = 13;
-	move.src_point = 6;
 	
 	display_init(&display);
 	
+	/*Test Cas1*/
+	move.src_point = 12;
+	move.dest_point = 1;
 	checker_move(&display,gameState,&move);
-	launch_die(gameState);
+	
+	/*Test Cas2*/
+	move.src_point = 6;
+	move.dest_point = 8;
+	checker_move(&display,gameState,&move);
+	
+	/*Test Cas3*/
+	move.src_point = 17;
+	move.dest_point = 24;
+	checker_move(&display,gameState,&move);
+	
+	/*Test Cas4*/
+	move.src_point = 19;
+	move.dest_point = 14;
+	checker_move(&display,gameState,&move);
+	
+	/*Test Cas5*/
+	move.src_point = 13;
+	move.dest_point = 8;
+	checker_move(&display,gameState,&move);
+	
+	/*Test Cas6*/
+	move.src_point = 12;
+	move.dest_point = 19;
+	checker_move(&display,gameState,&move);
+	
+	/*Test Cas7*/
+	move.src_point = 1;
+	move.dest_point = 19;
+	checker_move(&display,gameState,&move);
+	
+	/*Test Cas8*/
+	move.src_point = 24;
+	move.dest_point = 8;
+	checker_move(&display,gameState,&move);
+	//launch_die(gameState);
 		
 	while (!quit) // Boucle principale
 	{

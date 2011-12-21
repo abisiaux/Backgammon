@@ -48,9 +48,9 @@ void display_init(SDisplay *display)
 	display->green_checker = IMG_Load(temp_path);
 	
 	// Chargement de l'image du bouton jouer
-	strcpy(temp_path, display->img_path);
+	/*strcpy(temp_path, display->img_path);
 	strcat(temp_path, "button_play.png");
-	display->button_play = IMG_Load(temp_path);
+	display->button_play = IMG_Load(temp_path);*/
 	
 	// Chargement des images deux dés et initialisation de leur position
 	char *temp_name = (char*)malloc(100*sizeof(char));
@@ -120,7 +120,7 @@ void display_exit(SDisplay *display)
 	SDL_FreeSurface(display->background);
 	SDL_FreeSurface(display->white_checker);
 	SDL_FreeSurface(display->green_checker);
-	SDL_FreeSurface(display->button_play);
+	//SDL_FreeSurface(display->button_play);
 	int i;
 	for( i=0; i<6; i++ )
 	{
@@ -157,7 +157,7 @@ void display_refresh(SDisplay *display, SGameState *game)
 
 void launch_die(SGameState *game)
 {
-	srand( time(NULL) );
+	srand( time(NULL) ); // Initialisation du generateur de nombre aleatoire
 	game->die1 = 1+(rand()/(float)RAND_MAX)*6; // Tirage aléatoire d'un chiffre entre 1 et 6
 	game->die2 = 1+(rand()/(float)RAND_MAX)*6; // Tirage aléatoire d'un chiffre entre 1 et 6
 	printf("Dé 1 : %d Dé 2 : %d\n",game->die1,game->die2);
@@ -177,7 +177,7 @@ void display_die(SDisplay *display,SGameState *game)
 		new_pos.x = (display->die1_position).x + 80;
 		SDL_BlitSurface(display->die1[game->die1-1], NULL,display->screen, &new_pos);
 	}
-	else
+	else // Sinon simple affichage des deux dés
 	{
 		SDL_BlitSurface(display->die1[game->die1-1], NULL,display->screen, &display->die1_position);
 		SDL_BlitSurface(display->die2[game->die2-1], NULL,display->screen, &display->die2_position);
@@ -247,31 +247,126 @@ SGameState* initPartie()
 void checker_move(SDisplay *display, SGameState* game, SMove *move)
 {
 	/* Calcul de la droite passant par les deux zones */
-	int pos_dest_y = display->positions[move->dest_point-1].y + 20*(game->zones[move->dest_point-1].nb_checkers);
-	int pos_dest_x = display->positions[move->dest_point-1].x;
-	int pos_src_y =  display->positions[move->src_point-1].y - 20*(game->zones[move->src_point-1].nb_checkers);
 	int pos_src_x = display->positions[move->src_point-1].x;
-	
-	double a = (double)(pos_dest_y-pos_src_y)/(pos_dest_x - pos_src_x);
-	
-	double b = pos_dest_y - a*pos_dest_x;
-	int pas;
-	if(a>=0)
-		pas = -5;
+	int pos_src_y;
+	if(move->src_point>12)
+	{
+		pos_src_y =  display->positions[move->src_point-1].y + 20*(game->zones[move->src_point-1].nb_checkers);
+	}
 	else
-		pas = 5;
+	{
+		pos_src_y =  display->positions[move->src_point-1].y - 20*(game->zones[move->src_point-1].nb_checkers);
+	}
+	int pos_dest_x = display->positions[move->dest_point-1].x;
+	int pos_dest_y;
+	if(move->dest_point>12)
+	{
+		pos_dest_y = display->positions[move->dest_point-1].y + 20*(game->zones[move->dest_point-1].nb_checkers);
+	}
+	else
+	{
+		pos_dest_y = display->positions[move->dest_point-1].y - 20*(game->zones[move->dest_point-1].nb_checkers);
+	}
+	
+	double a = (double)(pos_src_y-pos_dest_y)/(pos_src_x - pos_dest_x);
+	double b = pos_dest_y - a*pos_dest_x;
+	
+	/*printf("SRC = fleche %d x=%d y=%d\n",move->src_point,pos_src_x,pos_src_y);
+	printf("DEST = fleche %d x=%d y=%d\n",move->dest_point,pos_dest_x,pos_dest_y);
+	printf("a=%f b=%f\n",a,b);*/
+	
+	int pas = 8; // Vitesse de deplacement du pion 1=lentement 8=rapide
+	int numCas;
+	
+	if(move->dest_point<13 && move->src_point<13) // Si les deux pions sont situés sur la barre du bas
+	{
+		if((move->dest_point-1)<=(move->src_point-1)) // Si le déplacement s'effectue vers une flèche à droite
+			numCas=1;
+		else // Sinon le déplacement s'effectue vers une flèche à gauche
+		{
+			numCas=2;
+			pas = -pas;
+		}
+	}
+	else if(move->dest_point>12 && move->src_point>12) // Si les deux pions sont situés sur la barre du haut
+	{
+		if((move->dest_point-1)>=(move->src_point-1)) // Si le déplacement s'effectue vers une flèche à droite
+			numCas=3;
+		else // Sinon le déplacement s'effectue vers une flèche à gauche
+		{
+			numCas=4;
+			pas = -pas;
+		}
+	}
+	else if(a>=0 && (move->dest_point-1)<=(move->src_point-1)) // src : barre du haut / dest : barre du bas / coef>0
+	{
+		numCas=5;
+	}else if(a<=0 && (move->dest_point-1)>=(move->src_point-1)) // src : barre du bas / dest : barre du haut / coef<0
+	{
+		numCas=6;
+	}
+	else if(a>=0 && (move->dest_point-1)>=(move->src_point-1)) // src : barre du bas / dest : barre du haut / coef>0
+	{
+		numCas=7;
+		pas = -pas;
+	}
+	else // src : barre du haut / dest : barre du bas / coef<0
+	{
+		numCas=8;
+		pas = -pas;
+	}
+	printf("Cas n°%d\n",numCas);
+	
 	SDL_Rect new_pos;
 	new_pos.x = pos_src_x;
 	new_pos.y = pos_src_y;
-	
+	int depassement = 0;
 	game->zones[move->src_point-1].nb_checkers--;
-	while( new_pos.x>=display->positions[move->dest_point-1].x && new_pos.y>=display->positions[move->dest_point-1].y )
+	while( !depassement )
 	{
 		new_pos.x = new_pos.x + pas;
 		new_pos.y = (int)(a*new_pos.x + b);
 		display_refresh(display,game);
 		draw_checker(display,new_pos,game->zones[move->src_point-1].player);
 		SDL_Flip(display->screen);
+		switch(numCas) // Suivant le cas de figure, on vérifie si on ne dépasse pas la flèche destinatrice
+		{
+			case 1:
+				if(new_pos.x>(pos_dest_x-(2*pas))) // On s'arrete à chaque fois 2*pas pixel avant par souci d'esthétique
+					depassement = 1;
+				break;
+			case 2:
+				if(new_pos.x<(pos_dest_x-(2*pas)))
+					depassement = 1;
+				break;
+			case 3:
+				if(new_pos.x>(pos_dest_x-(2*pas)))
+					depassement = 1;
+				break;
+			case 4:
+				if(new_pos.x<(pos_dest_x-(2*pas)))
+					depassement = 1;
+				break;
+			case 5:
+				if(new_pos.x>(pos_dest_x-(2*pas)))
+					depassement = 1;
+				break;
+			case 6:
+				if(new_pos.x>(pos_dest_x-(2*pas)))
+					depassement = 1;
+				break;
+			case 7:
+				if(new_pos.x<(pos_dest_x-(2*pas)))
+					depassement = 1;
+				break;
+			case 8:
+				if(new_pos.x<(pos_dest_x-(2*pas)))
+					depassement = 1;
+				break;
+			default:
+				depassement = 1;
+				break;
+		}
 	}
 	game->zones[move->dest_point-1].nb_checkers++;
 	game->zones[move->dest_point-1].player = game->zones[move->src_point-1].player;

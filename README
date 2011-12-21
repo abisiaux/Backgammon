@@ -26,3 +26,4 @@ Pour supprimer les liens (*.o) générés lors de la compilation :
 	
 Pour supprimer les liens et l'exécutable :
 	- Taper la commande : make mrproper
+
