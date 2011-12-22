@@ -28,6 +28,8 @@ struct Display
 	
 	SDL_Rect die2_position; // Position du dé n°2
 	
+	SDL_Surface *possibility; // Cadre autour de la flèche pour indiquer une possibilité de déplacement
+	
 	char *img_path; // Le chemin du dossier contenant les images
 	
 	// Taille par défaut de la fenêtre

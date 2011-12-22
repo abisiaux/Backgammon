@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-
+#include <unistd.h>
 #include <SDL/SDL.h>
 
 #include "../include/gui.h"
@@ -20,49 +20,21 @@ int main(int argc, char **argv)
 	display_init(&display);
 	
 	/*Test Cas1*/
-	move.src_point = 12;
-	move.dest_point = 1;
-	checker_move(&display,gameState,&move);
-	
-	/*Test Cas2*/
-	move.src_point = 6;
-	move.dest_point = 8;
-	checker_move(&display,gameState,&move);
-	
-	/*Test Cas3*/
-	move.src_point = 17;
-	move.dest_point = 24;
-	checker_move(&display,gameState,&move);
-	
-	/*Test Cas4*/
-	move.src_point = 19;
-	move.dest_point = 14;
-	checker_move(&display,gameState,&move);
-	
-	/*Test Cas5*/
-	move.src_point = 13;
-	move.dest_point = 8;
-	checker_move(&display,gameState,&move);
-	
-	/*Test Cas6*/
-	move.src_point = 12;
+	move.src_point = 8;
 	move.dest_point = 19;
 	checker_move(&display,gameState,&move);
 	
-	/*Test Cas7*/
-	move.src_point = 1;
-	move.dest_point = 19;
-	checker_move(&display,gameState,&move);
+	launch_die(gameState);
+	display_refresh(&display, gameState);
+	display_possibilities(&display,gameState, 1);
+	sleep(60); // TEST Juste pour voir les possibilités avant de raffraichir l'écran!!
+	display_refresh(&display, gameState);
 	
-	/*Test Cas8*/
-	move.src_point = 24;
-	move.dest_point = 8;
-	checker_move(&display,gameState,&move);
-	//launch_die(gameState);
-		
+	
 	while (!quit) // Boucle principale
 	{
-		display_refresh(&display, gameState);
+	
+		//display_refresh(&display, gameState);
 		
 		SDL_WaitEvent(&event);
 		switch(event.type)

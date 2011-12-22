@@ -6,6 +6,7 @@
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h> // Pour utiliser des formats d'image autre que bmp
+#include <SDL/SDL_ttf.h> // Pour la gestion des textes sous SDL
 
 #include "../include/gui.h"
 #include "../include/backgammon.h"
@@ -46,6 +47,11 @@ void display_init(SDisplay *display)
 	strcpy(temp_path, display->img_path);
 	strcat(temp_path, "green_checker.png");
 	display->green_checker = IMG_Load(temp_path);
+	
+	// Chargement du cadre de possibilité
+	strcpy(temp_path, display->img_path);
+	strcat(temp_path, "possibility.png");
+	display->possibility = IMG_Load(temp_path);
 	
 	// Chargement de l'image du bouton jouer
 	/*strcpy(temp_path, display->img_path);
@@ -92,9 +98,9 @@ void display_init(SDisplay *display)
 			display->positions[i].x = display->positions[i-1].x ;
 			display->positions[i].y = 145;
 		}
-		else if( i<17 )
+		else if( i<18 )
 			display->positions[i].x = display->positions[i-1].x + 38;
-		else if( i==17 )
+		else if( i==18 )
 			display->positions[i].x=display->positions[i-1].x + 74;
 		else
 			display->positions[i].x=display->positions[i-1].x + 38;
@@ -275,7 +281,7 @@ void checker_move(SDisplay *display, SGameState* game, SMove *move)
 	printf("DEST = fleche %d x=%d y=%d\n",move->dest_point,pos_dest_x,pos_dest_y);
 	printf("a=%f b=%f\n",a,b);*/
 	
-	int pas = 8; // Vitesse de deplacement du pion 1=lentement 8=rapide
+	int pas = 1; // Vitesse de deplacement du pion 1=lentement 8=rapide
 	int numCas;
 	
 	if(move->dest_point<13 && move->src_point<13) // Si les deux pions sont situés sur la barre du bas
@@ -370,4 +376,46 @@ void checker_move(SDisplay *display, SGameState* game, SMove *move)
 	}
 	game->zones[move->dest_point-1].nb_checkers++;
 	game->zones[move->dest_point-1].player = game->zones[move->src_point-1].player;
+}
+
+void draw_possibility(SDisplay *display,EPosition numFleche)
+{
+	SDL_Rect new_pos = display->positions[numFleche-1];
+	new_pos.x = new_pos.x -5;
+	if(numFleche<13)
+		new_pos.y = new_pos.y - 140;
+		
+	SDL_BlitSurface(display->possibility, NULL,display->screen, &new_pos);
+	
+}
+
+void display_possibilities(SDisplay *display, SGameState *game, EPlayer player)
+{
+	int i=0;
+	
+	if(game->die1 != game->die2) // Si dés différents
+	{
+		for( i=0; i<24; i++) // Pour chaque flèche
+		{
+			if(game->zones[i].nb_checkers>0 && game->zones[i].player==player)
+			{
+				if( (i+game->die1)<24 && (game->zones[i+game->die1].nb_checkers==0 || game->zones[i+game->die1].player==player) )
+				{
+					printf("Possibilite sur fleche %d avec de1 et pion sur fleche %d\n",i+1+game->die1,i+1);
+					draw_possibility(display,i+1+game->die1);
+				}
+				if( (i+game->die2)<24 && (game->zones[i+game->die2].nb_checkers==0 || game->zones[i+game->die2].player==player) )
+				{
+					printf("Possibilite sur fleche %d avec de2 et pion sur fleche %d\n",i+1+game->die2,i+1);
+					draw_possibility(display,i+1+game->die2);
+				}
+				if( (i+game->die1+game->die2)<24 && (game->zones[i+game->die1+game->die2].nb_checkers==0 || game->zones[i+game->die1+game->die2].player==player) )
+				{
+					printf("Possibilite sur fleche %d avec de1+de2 et pion sur fleche %d\n",i+1+game->die1+game->die2,i+1);
+					draw_possibility(display,i+1+game->die1+game->die2);
+				}
+			}
+		}
+	}
+	SDL_Flip(display->screen);
 }

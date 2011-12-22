@@ -5,7 +5,7 @@
 # Définition des variables
 CC=gcc
 CFLAGS=-W -Wall -std=c99
-LDFLAGS=-lSDL -lSDL_image
+LDFLAGS=-lSDL -lSDL_image -lSDL_ttf 
 EXEC=backgammon
 
 # Définition des paths
