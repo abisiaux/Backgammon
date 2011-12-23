@@ -10,6 +10,19 @@ STRUCTURATION DU PROJET
 	/ressources : contient les ressources du programme, à savoir les images
 	/src : contient les fichiers sources ".c"
 
+!!!!!! ATTENTION !!!!!!
+******************************************
+EN CAS D'ECRAN NOIR AU PREMIER LANCEMENT DU PROGRAMME
+	Remplacer la ligne 29 du fichier gui.c par
+	
+			display->img_path = "../ressources/pictures/"; SI display->img_path = "ressources/pictures/";
+		
+		ou
+		
+			display->img_path = "ressources/pictures/"; SI display->img_path = "../ressources/pictures/";
+			
+	L'erreur vient du compilateur qui ne va pas chercher les images au même endroit.
+	
 INSTALLATION DE LA LIBRAIRIE SDL SOUS UNIX
 ******************************************
 	sudo apt-get install libsdl1.2-dev

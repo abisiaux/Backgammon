@@ -15,6 +15,9 @@
 void display_init(SDisplay *display)
 {	
 	int i;
+	char *temp_path;
+	char *temp_name;
+	
 	// Initialisation de la SDL
 	if (SDL_Init(SDL_INIT_VIDEO) == -1)
 	{
@@ -24,7 +27,7 @@ void display_init(SDisplay *display)
 	
 	// Enregistrement du path des images
 	display->img_path = "../ressources/pictures/";
-	char *temp_path = (char*)malloc(100*sizeof(char));
+	temp_path = (char*)malloc(100*sizeof(char));
 	
 	// Chargement de l'icone de la fenêtre
 	strcpy(temp_path, display->img_path);
@@ -59,7 +62,7 @@ void display_init(SDisplay *display)
 	display->button_play = IMG_Load(temp_path);*/
 	
 	// Chargement des images deux dés et initialisation de leur position
-	char *temp_name = (char*)malloc(100*sizeof(char));
+	temp_name = (char*)malloc(100*sizeof(char));
 
 	for( i=1; i<=6; i++ )
 	{
@@ -122,12 +125,14 @@ void display_init(SDisplay *display)
 
 void display_exit(SDisplay *display)
 {
+	int i;
+	
 	// Libération de toutes les surfaces utilisées
 	SDL_FreeSurface(display->background);
 	SDL_FreeSurface(display->white_checker);
 	SDL_FreeSurface(display->green_checker);
 	//SDL_FreeSurface(display->button_play);
-	int i;
+
 	for( i=0; i<6; i++ )
 	{
 		SDL_FreeSurface(display->die1[i]);
@@ -141,7 +146,8 @@ void display_exit(SDisplay *display)
 void display_clear(SDisplay *display)
 {
 	// Rechargement du background
-	char *temp_path = (char*)malloc(100*sizeof(char));
+	char *temp_path;
+	temp_path = (char*)malloc(100*sizeof(char));
 	strcpy(temp_path, display->img_path);
 	strcat(temp_path, "background.png");
 	display->background = IMG_Load(temp_path);
@@ -170,9 +176,10 @@ void launch_die(SGameState *game)
 }
 void display_die(SDisplay *display,SGameState *game)
 {
+	SDL_Rect new_pos;
+	
 	if( game->die1 == game->die2 ) // Si c'est un double, on affiche 4 fois le dé
 	{
-		SDL_Rect new_pos;
 		new_pos.x = (display->die1_position).x - 40;
 		new_pos.y = (display->die1_position).y;
 		SDL_BlitSurface(display->die1[game->die1-1], NULL,display->screen, &new_pos);
@@ -223,8 +230,11 @@ void display_checkers(SDisplay *display, SGameState *game)
 
 SGameState* initPartie()
 {
-	SGameState *game = (SGameState*)malloc(sizeof(SGameState));
+	SGameState *game;
 	int i;
+	
+	game = (SGameState*)malloc(sizeof(SGameState));
+	
 	for(i=0;i<28;i++) game->zones[i].nb_checkers=0;
 	
 	game->zones[0].player=EPlayer1;
@@ -253,8 +263,13 @@ SGameState* initPartie()
 void checker_move(SDisplay *display, SGameState* game, SMove *move)
 {
 	/* Calcul de la droite passant par les deux zones */
-	int pos_src_x = display->positions[move->src_point-1].x;
+	int pos_src_x;
 	int pos_src_y;
+	int pos_dest_x;
+	int pos_dest_y;
+	
+	pos_src_x = display->positions[move->src_point-1].x;
+	
 	if(move->src_point>12)
 	{
 		pos_src_y =  display->positions[move->src_point-1].y + 20*(game->zones[move->src_point-1].nb_checkers);
@@ -263,8 +278,9 @@ void checker_move(SDisplay *display, SGameState* game, SMove *move)
 	{
 		pos_src_y =  display->positions[move->src_point-1].y - 20*(game->zones[move->src_point-1].nb_checkers);
 	}
-	int pos_dest_x = display->positions[move->dest_point-1].x;
-	int pos_dest_y;
+	
+	pos_dest_x = display->positions[move->dest_point-1].x;
+	
 	if(move->dest_point>12)
 	{
 		pos_dest_y = display->positions[move->dest_point-1].y + 20*(game->zones[move->dest_point-1].nb_checkers);

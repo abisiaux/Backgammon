@@ -28,6 +28,7 @@ int main(int argc, char **argv)
 	display_refresh(&display, gameState);
 	display_possibilities(&display,gameState, 1);
 	sleep(60); // TEST Juste pour voir les possibilités avant de raffraichir l'écran!!
+	
 	display_refresh(&display, gameState);
 	
 	
