@@ -5,6 +5,7 @@
 
 #include "../include/gui.h"
 #include "../include/backgammon.h"
+#include "../include/arbitrator.h"
 
 int main(int argc, char **argv)
 {
@@ -18,18 +19,27 @@ int main(int argc, char **argv)
 	SMove move;
 	
 	display_init(&display);
-	
+	launch_die(gameState);
 	/*Test Cas1*/
 	move.src_point = 8;
-	move.dest_point = 19;
-	checker_move(&display,gameState,&move);
+	move.dest_point = 6;
+	if(authorized_deplacement(gameState, &move, EPlayer2))// JOUEUR 1 = VERT
+	{
+		printf("DEPLACEMENT AUTORISE\n");
+		checker_move(&display,gameState,&move);
+		
+	}
+	else
+		printf("EPLACEMENT NON AUTORISE\n");
 	
-	launch_die(gameState);
-	display_refresh(&display, gameState);
-	display_possibilities(&display,gameState, 1);
-	sleep(60); // TEST Juste pour voir les possibilités avant de raffraichir l'écran!!
 	
 	display_refresh(&display, gameState);
+	display_possibilities(&display,gameState, 0);
+	sleep(6); // TEST Juste pour voir les possibilités avant de raffraichir l'écran!!
+	//display_refresh(&display, gameState);
+	
+
+	
 	
 	
 	while (!quit) // Boucle principale

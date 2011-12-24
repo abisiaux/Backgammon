@@ -17,7 +17,7 @@ OBJ=obj/
 
 all: ${EXEC}
 
-${EXEC}: ${OBJ}main.o ${OBJ}gui.o
+${EXEC}: ${OBJ}main.o ${OBJ}gui.o ${OBJ}arbitrator.o
 			${CC} -o ${BIN}$@ $^ ${LDFLAGS}
 
 #Règle pour compiler l'interface graphique 
@@ -26,6 +26,10 @@ ${OBJ}gui.o:  	${SRC}gui.c
 					
 # Règle pour compiler le programme
 ${OBJ}main.o: ${SRC}main.c
+					${CC} -o $@ -c $^ ${CFLAGS}
+
+# Règle pour compiler l'arbitre
+${OBJ}arbitrator.o: ${SRC}arbitrator.c
 					${CC} -o $@ -c $^ ${CFLAGS}
 
 clean:

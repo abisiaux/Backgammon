@@ -26,7 +26,7 @@ void display_init(SDisplay *display)
 	}
 	
 	// Enregistrement du path des images
-	display->img_path = "../ressources/pictures/";
+	display->img_path = "ressources/pictures/";
 	temp_path = (char*)malloc(100*sizeof(char));
 	
 	// Chargement de l'icone de la fenêtre
