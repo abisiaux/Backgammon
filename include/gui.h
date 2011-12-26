@@ -68,6 +68,8 @@ SGameState* initPartie();
 /* Effectue le déplacement d'un pion */
 void checker_move(SDisplay *display, SGameState* game, SMove *move);
 
+/*Determine si la souris est sur le bouton quitter*/
+int zoneQuit(int x, int y);
 #endif
 
 

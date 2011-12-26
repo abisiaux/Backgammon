@@ -435,3 +435,13 @@ void display_possibilities(SDisplay *display, SGameState *game, EPlayer player)
 	}
 	SDL_Flip(display->screen);
 }
+
+int zoneQuit(int x, int y)
+{
+
+	if( (x >= 635 && x <= 795) && (y >=244 && y <= 325) )
+	{
+		return 1;
+	}
+	return 0;
+}

@@ -9,7 +9,7 @@ int authorized_deplacement(SGameState* game, SMove *move, EPlayer player)
 	//1- position de départ lui appartient bien ?
 	//2- mouvement(nombre de case à parcourir) correspond au nombre indiqué par un des dés ?
 	//4- Sens du mouvement autorisé? 
-	//3- position d'arrivé est vide ou lui appartenant ou avec un seul pion adverse ?
+	//3- position d'arrivée est vide ou lui appartenant ou avec un seul pion adverse ?
 
  	SZone zoneDepart = (game->zones)[(move->src_point)-1]; // zone de départ
 	SZone zoneArrivee = (game->zones)[(move->dest_point)-1]; // zone de départ

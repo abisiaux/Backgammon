@@ -35,7 +35,7 @@ int main(int argc, char **argv)
 	
 	display_refresh(&display, gameState);
 	display_possibilities(&display,gameState, 0);
-	sleep(6); // TEST Juste pour voir les possibilités avant de raffraichir l'écran!!
+	//sleep(6); // TEST Juste pour voir les possibilités avant de raffraichir l'écran!!
 	//display_refresh(&display, gameState);
 	
 
@@ -53,6 +53,13 @@ int main(int argc, char **argv)
 			case SDL_QUIT:
 				quit = 1;
 				break;
+			case SDL_MOUSEBUTTONUP:
+				if (event.button.button == SDL_BUTTON_LEFT && zoneQuit(event.button.x,event.button.y))
+				{
+					quit = 1;
+				}
+        			break;
+
 		}
 		SDL_Flip(display.screen);
 	}
