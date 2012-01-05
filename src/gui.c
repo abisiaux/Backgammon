@@ -210,6 +210,7 @@ int display_menu(SDisplay *display, int nbPlayer, int *color_checker, int *withD
 								display->background_menu = IMG_Load(temp_path);
 								SDL_BlitSurface(display->background_menu, NULL, display->screen, &menu_position);
 								display_message(display,player1_name,player1_name_position,c);
+								if(*withDouble==1 || *withDouble==0) SDL_BlitSurface(display->checked, NULL, display->screen, &double_check_position);
 								checker_check_position.x = 255;
 								checker_check_position.y = 275;
 								SDL_BlitSurface(display->checked, NULL, display->screen, &checker_check_position);
@@ -224,6 +225,7 @@ int display_menu(SDisplay *display, int nbPlayer, int *color_checker, int *withD
 								display->background_menu = IMG_Load(temp_path);
 								SDL_BlitSurface(display->background_menu, NULL, display->screen, &menu_position);
 								display_message(display,player1_name,player1_name_position,c);
+								if(*withDouble==1 || *withDouble==0) SDL_BlitSurface(display->checked, NULL, display->screen, &double_check_position);
 								checker_check_position.x = 400;
 								checker_check_position.y = 275;
 								SDL_BlitSurface(display->checked, NULL, display->screen, &checker_check_position);
