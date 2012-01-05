@@ -1,5 +1,6 @@
 #include "backgammon.h"
 #include <SDL/SDL.h>
+#include <SDL/SDL_ttf.h>
 
 #ifndef GUI_H
 	#define GUI_H
@@ -9,10 +10,16 @@ struct Display
 	// Contient le contenu de la fenêtre
 	
 	SDL_Surface *screen; // Fenêtre principale
+
+	/********************* MENU **************************/
+	SDL_Surface *background_menu; // Image de fond du menu
+	SDL_Surface *checked; // option cochée
 	
 	// Arriere plan
 	SDL_Surface *background; 
 	SDL_Rect background_position; // Sa position
+	
+	TTF_Font *font;
 	
 	SDL_Surface *green_checker; // Les pions verts
 	
@@ -20,15 +27,15 @@ struct Display
 	
 	SDL_Surface *button_play; // Bouton jouer
 	
-	SDL_Surface *die1[6]; // Dé n°1  !! Attention : la dé de valeur i est stocké dans la case i-1 !!
-	
-	SDL_Surface *die2[6]; // Dé n°2 !! Attention : la dé de valeur i est stocké dans la case i-1 !!
+	SDL_Surface *die[6]; // Image du dé !! Attention : le dé de valeur i est stocké dans la case i-1 !!
 	
 	SDL_Rect die1_position; // Position du dé n°1
 	
 	SDL_Rect die2_position; // Position du dé n°2
 	
 	SDL_Surface *possibility; // Cadre autour de la flèche pour indiquer une possibilité de déplacement
+	
+	char *font_path; // Le chemin du dossier contenant les polices
 	
 	char *img_path; // Le chemin du dossier contenant les images
 	
@@ -68,8 +75,16 @@ SGameState* initPartie();
 /* Effectue le déplacement d'un pion */
 void checker_move(SDisplay *display, SGameState* game, SMove *move);
 
-/*Determine si la souris est sur le bouton quitter*/
+/* Determine si la souris est sur le bouton quitter */
 int zoneQuit(int x, int y);
+
+/* Affiche le menu / Retourne -1 si événement quitter sinon retourne le nombre de joueur si évenement jouer */
+int display_menu(SDisplay *display, int nbPlayer, int *color_checker, int *withDouble,char *player1_name, char *player2_name);
+
+/* Retourne un entier correspondant à un événement clic sur le menu */
+int click_menu(int x, int y);
+
+void display_message(SDisplay	*display, char	*message, SDL_Rect position, SDL_Color color);
 #endif
 
 

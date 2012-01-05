@@ -26,7 +26,10 @@ void display_init(SDisplay *display)
 	}
 	
 	// Enregistrement du path des images
-	display->img_path = "ressources/pictures/";
+	display->img_path = "../ressources/pictures/";
+	
+	// Enregistrement du path des polices
+	display->font_path = "../ressources/fonts/";
 	temp_path = (char*)malloc(100*sizeof(char));
 	
 	// Chargement de l'icone de la fenêtre
@@ -61,7 +64,7 @@ void display_init(SDisplay *display)
 	strcat(temp_path, "button_play.png");
 	display->button_play = IMG_Load(temp_path);*/
 	
-	// Chargement des images deux dés et initialisation de leur position
+	// Chargement des images des dés et initialisation de leur position
 	temp_name = (char*)malloc(100*sizeof(char));
 
 	for( i=1; i<=6; i++ )
@@ -69,8 +72,7 @@ void display_init(SDisplay *display)
 		strcpy(temp_path, display->img_path);
 		sprintf(temp_name,"die/die[%d].png",i);
 		strcat(temp_path,temp_name);
-		display->die1[i-1] = IMG_Load(temp_path);
-		display->die2[i-1] = IMG_Load(temp_path);
+		display->die[i-1] = IMG_Load(temp_path);
 	}
 	// Position du dé 1
 	display->die1_position.x = 410;
@@ -117,29 +119,238 @@ void display_init(SDisplay *display)
 		fprintf(stderr, "Impossible de charger le mode vidéo : %s\n", SDL_GetError());
 		exit(EXIT_FAILURE);
 	}
-    
+	
 	SDL_WM_SetCaption("Backgammon",NULL);
+	
+	// Chargement de SDL_ttf
+	if(TTF_Init() == -1)
+	{
+		fprintf(stderr, "Erreur d'initialisation de TTF_Init : %s\n", TTF_GetError());
+		exit(EXIT_FAILURE);
+	}
+   
+   // Chargement de la police
+   strcpy(temp_path, display->font_path);
+	strcat(temp_path, "comic.ttf");
+   display->font = TTF_OpenFont(temp_path,22);
+	
 	free(temp_path); // On libère temp_path car on ne l'utilise plus
 }
 
+int display_menu(SDisplay *display, int nbPlayer, int *color_checker, int *withDouble,char *player1_name, char *player2_name)
+{
+	SDL_Rect menu_position;
+	SDL_Rect checker_check_position;
+	SDL_Rect double_check_position;
+	SDL_Color c = {255, 255, 255, 0};
+	SDL_Rect player1_name_position;
+	SDL_Rect player2_name_position;
+	
+	SDL_Event event;
+	char *temp_path;
+	char* background;
+	
+	temp_path = (char*)malloc(100*sizeof(char));
+	background = (char*)malloc(100*sizeof(char));
+	*color_checker=-1;
+	*withDouble=-1;
 
+	menu_position.x = 0;
+	menu_position.y = 0;
+	
+	player1_name_position.x = 260;
+	player1_name_position.y = 205;
+	player2_name_position.x = 265;
+	player2_name_position.y = 245;
+	
+	if(nbPlayer == 1)
+	{
+		background = "background_menu1P.png";
+	}
+	else
+	{
+		background = "background_menu2P.png";
+	}
+	// Chargement du menu
+	strcpy(temp_path, display->img_path);
+	strcat(temp_path, background);
+	display->background_menu = IMG_Load(temp_path);
+
+	strcpy(temp_path, display->img_path);
+	strcat(temp_path, "check.png");
+	display->checked = IMG_Load(temp_path);
+	
+	SDL_BlitSurface(display->background_menu, NULL, display->screen, &menu_position);
+	if(nbPlayer == 1) display_message(display,player1_name,player1_name_position,c);
+	else
+	{
+		display_message(display,player1_name,player1_name_position,c);
+		display_message(display,player2_name,player2_name_position,c);
+	}
+	SDL_Flip(display->screen);
+	while(1)
+	{
+		SDL_WaitEvent(&event);
+	
+		switch(event.type)
+		{
+			case SDL_QUIT:
+				free(temp_path);
+				return -1;
+			case SDL_MOUSEBUTTONUP:
+				if (event.button.button == SDL_BUTTON_LEFT)
+				{
+					switch( click_menu(event.button.x, event.button.y) )
+					{
+						case 1 :
+							if(nbPlayer==1)
+							{
+								strcpy(temp_path, display->img_path);
+								strcat(temp_path, background);
+								display->background_menu = IMG_Load(temp_path);
+								SDL_BlitSurface(display->background_menu, NULL, display->screen, &menu_position);
+								display_message(display,player1_name,player1_name_position,c);
+								checker_check_position.x = 255;
+								checker_check_position.y = 275;
+								SDL_BlitSurface(display->checked, NULL, display->screen, &checker_check_position);
+								*color_checker=1;
+							}
+							break;
+						case 2 :
+							if(nbPlayer==1)
+							{
+								strcpy(temp_path, display->img_path);
+								strcat(temp_path, background);
+								display->background_menu = IMG_Load(temp_path);
+								SDL_BlitSurface(display->background_menu, NULL, display->screen, &menu_position);
+								display_message(display,player1_name,player1_name_position,c);
+								checker_check_position.x = 400;
+								checker_check_position.y = 275;
+								SDL_BlitSurface(display->checked, NULL, display->screen, &checker_check_position);
+								*color_checker=0;
+							}
+							break;
+						case 3 :
+							strcpy(temp_path, display->img_path);
+							strcat(temp_path, background);
+							display->background_menu = IMG_Load(temp_path);
+							SDL_BlitSurface(display->background_menu, NULL, display->screen, &menu_position);
+							if(nbPlayer == 1) display_message(display,player1_name,player1_name_position,c);
+							else { display_message(display,player1_name,player1_name_position,c); display_message(display,player2_name,player2_name_position,c);}
+							if(*color_checker==1 || *color_checker==0) SDL_BlitSurface(display->checked, NULL, display->screen, &checker_check_position);
+							double_check_position.x = 255;
+							double_check_position.y = 320;
+							SDL_BlitSurface(display->checked, NULL, display->screen, &double_check_position);
+							*withDouble=1;
+							break;
+						case 4 :
+							strcpy(temp_path, display->img_path);
+							strcat(temp_path, background);
+							display->background_menu = IMG_Load(temp_path);
+							SDL_BlitSurface(display->background_menu, NULL, display->screen, &menu_position);
+							if(nbPlayer == 1) display_message(display,player1_name,player1_name_position,c);
+							else { display_message(display,player1_name,player1_name_position,c); display_message(display,player2_name,player2_name_position,c);}
+							if(*color_checker==1 || *color_checker==0) SDL_BlitSurface(display->checked, NULL, display->screen, &checker_check_position);
+							double_check_position.x = 400;
+							double_check_position.y = 320;
+							SDL_BlitSurface(display->checked, NULL, display->screen, &double_check_position);
+							*withDouble=0;
+							break;
+						case 5 :
+							free(temp_path);
+							return -1; // Cas où on quitte le jeu
+						case 6 :
+							if( nbPlayer==1)
+							{
+								if( *color_checker!=-1 && *withDouble!=-1 )
+								{
+									free(temp_path);
+									return 1;
+								}
+							}
+							else
+							{
+								if( *withDouble!=-1 )
+								{
+									free(temp_path);
+									return 1;
+								}
+							}
+							break;
+						default :
+							break;
+					}
+				}
+				break;
+		}
+		SDL_Flip(display->screen);
+	}
+}
+
+void display_message(SDisplay	*display, char	*message, SDL_Rect position, SDL_Color color)
+{
+	SDL_Surface *msg = TTF_RenderText_Blended(display->font,message,color);
+	SDL_BlitSurface(msg, NULL, display->screen, &position);
+	SDL_FreeSurface(msg);
+	SDL_Flip(display->screen);
+}
+
+int click_menu(int x, int y)
+{
+	if ( x>=260 && x<=300 && y>=284 && y<=315 ) // Jeton vert choisi
+	{
+		printf("Clic sur jeton vert!\n");
+		return 1;
+	}
+	if ( x>=402 && x<=444 && y>=284 && y<=315 ) // Jeton blanc choisi
+	{
+		printf("Clic sur jeton blanc!\n");
+		return 2;
+	}
+	if ( x>=260 && x<=300 && y>=330 && y<=360 ) // Jouer avec le double
+	{
+		printf("Clic sur oui!\n");
+		return 3;
+	}
+	if ( x>=402 && x<=444 && y>=330 && y<=360 ) // Jouer sans le double
+	{
+		printf("Clic sur non!\n");
+		return 4;
+	}
+	if ( x>=64 && x<=210 && y>=442 && y<=480 ) // Quitter la partie
+	{
+		printf("Clic sur quitter!\n");
+		return 5;
+	}
+	if ( x>=295 && x<=412 && y>=442 && y<=480 ) // Jouer
+	{
+		printf("Clic sur jouer!\n");
+		return 6;
+	}
+	
+	return -1; // Clic ailleur
+}
+	
 void display_exit(SDisplay *display)
 {
 	int i;
 	
 	// Libération de toutes les surfaces utilisées
 	SDL_FreeSurface(display->background);
+	SDL_FreeSurface(display->background_menu);
+	SDL_FreeSurface(display->checked);
 	SDL_FreeSurface(display->white_checker);
 	SDL_FreeSurface(display->green_checker);
 	//SDL_FreeSurface(display->button_play);
 
 	for( i=0; i<6; i++ )
 	{
-		SDL_FreeSurface(display->die1[i]);
-		SDL_FreeSurface(display->die2[i]);
+		SDL_FreeSurface(display->die[i]);
 	}
 	SDL_FreeSurface(display->screen);
 	
+	TTF_CloseFont(display->font);
+	TTF_Quit();
 	SDL_Quit();
 }
 
@@ -182,18 +393,18 @@ void display_die(SDisplay *display,SGameState *game)
 	{
 		new_pos.x = (display->die1_position).x - 40;
 		new_pos.y = (display->die1_position).y;
-		SDL_BlitSurface(display->die1[game->die1-1], NULL,display->screen, &new_pos);
+		SDL_BlitSurface(display->die[game->die1-1], NULL,display->screen, &new_pos);
 		new_pos.x = (display->die1_position).x;
-		SDL_BlitSurface(display->die1[game->die1-1], NULL,display->screen, &new_pos);
+		SDL_BlitSurface(display->die[game->die1-1], NULL,display->screen, &new_pos);
 		new_pos.x = (display->die1_position).x + 40;
-		SDL_BlitSurface(display->die1[game->die1-1], NULL,display->screen, &new_pos);
+		SDL_BlitSurface(display->die[game->die1-1], NULL,display->screen, &new_pos);
 		new_pos.x = (display->die1_position).x + 80;
-		SDL_BlitSurface(display->die1[game->die1-1], NULL,display->screen, &new_pos);
+		SDL_BlitSurface(display->die[game->die1-1], NULL,display->screen, &new_pos);
 	}
 	else // Sinon simple affichage des deux dés
 	{
-		SDL_BlitSurface(display->die1[game->die1-1], NULL,display->screen, &display->die1_position);
-		SDL_BlitSurface(display->die2[game->die2-1], NULL,display->screen, &display->die2_position);
+		SDL_BlitSurface(display->die[game->die1-1], NULL,display->screen, &display->die1_position);
+		SDL_BlitSurface(display->die[game->die2-1], NULL,display->screen, &display->die2_position);
 	}
 }
 void draw_checker(SDisplay *display, SDL_Rect position, int player)
