@@ -3,11 +3,11 @@ BACKGAMMON --- README
 	
 STRUCTURATION DU PROJET
 ****************************************
-	/bin : contient l'ex�cutable cr�� par le Makefile
+	/bin : contient l'executable cree par le Makefile
 	/include : contient les fichiers ".h"
-	/lib : contient la librairie d�velopp�e par le bin�me AI
-	/obj : contient les fichiers ".o" g�n�r�s lors de la compilation
-	/ressources : contient les ressources du programme, � savoir les images
+	/lib : contient la librairie developpee par le binome AI
+	/obj : contient les fichiers ".o" generes lors de la compilation
+	/ressources : contient les ressources du programme, a savoir les images
 	/src : contient les fichiers sources ".c"
 
 !!!!!! ATTENTION !!!!!!
@@ -21,7 +21,7 @@ EN CAS D'ECRAN NOIR AU PREMIER LANCEMENT DU PROGRAMME
 		
 			display->img_path = "ressources/pictures/"; SI display->img_path = "../ressources/pictures/";
 			
-	L'erreur vient du compilateur qui ne va pas chercher les images au m�me endroit.
+	L'erreur vient du compilateur qui ne va pas chercher les images au meme endroit.
 
 Idem pour le path des polices !!!
 	
@@ -37,16 +37,16 @@ INSTRUCTIONS DE COMPILATION
 ****************************************
 
 Pour compiler :
-	- Se placer � la racine du projet
+	- Se placer a la racine du projet
 	- Taper la commande : make all
 	
-Pour l'ex�cution :
+Pour l'execution :
 	cd bin/
 	./backgammon
 	
-Pour supprimer les liens (*.o) g�n�r�s lors de la compilation :
+Pour supprimer les liens (*.o) generes lors de la compilation :
 	- Taper la commande : make clean
 	
-Pour supprimer les liens et l'ex�cutable :
+Pour supprimer les liens et l'executable :
 	- Taper la commande : make mrproper
 
