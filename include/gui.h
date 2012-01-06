@@ -1,9 +1,29 @@
 #include "backgammon.h"
+#include "library.h"
+
 #include <SDL/SDL.h>
 #include <SDL/SDL_ttf.h>
 
 #ifndef GUI_H
 	#define GUI_H
+
+	#define WHITE 1
+	#define GREEN 0
+
+struct Game
+{
+	char *player1_name; // Nom du Joueur 1
+	char *player2_name; // Nom du Joueur 2
+	
+	int player1_checker; // Couleur des pions du Joueur 1
+	int player2_checker; // Couleur des pions du Joueur 2
+	
+	int withDouble; // Présence du double ou non
+	
+	int scoreLimit; // Limite de score
+};
+
+typedef struct Game SGame;
 
 struct Display
 {
@@ -21,11 +41,11 @@ struct Display
 	
 	TTF_Font *font;
 	
+	SDL_Surface *msg_box; // Fond message
+	
 	SDL_Surface *green_checker; // Les pions verts
 	
 	SDL_Surface *white_checker; // Les pions blancs
-	
-	SDL_Surface *button_play; // Bouton jouer
 	
 	SDL_Surface *die[6]; // Image du dé !! Attention : le dé de valeur i est stocké dans la case i-1 !!
 	
@@ -43,51 +63,60 @@ struct Display
 	int window_width;
 	int window_height;
 	
-	SDL_Rect positions[28]; // Tableau contenant la position de chaque flèche et des bars
+	SDL_Rect positions[28]; // Tableau contenant la position de chaque flèche et des bars	
 	
-	char *player1_name;
-	char *player2_name;
+	SGame *game;
 };
+
+
 
 typedef struct Display SDisplay;
 
 /* Initialisation de la SDL et de l'affichage */
-void display_init(SDisplay *display);
+void Display_Init(SDisplay *display);
 
 /* Libère les surfaces utilisées et quitte la SDL */
-void display_exit(SDisplay *display);
+void Display_Exit(SDisplay *display);
 
 /* Affiche les pions */
-void display_checkers(SDisplay *display, SGameState *game);
+void Display_Checkers(SDisplay *display, SGameState *game);
 
 /* Affiche les deux dés */
-void display_die(SDisplay *display,SGameState *game);
+void Display_Die(SDisplay *display,SGameState *game);
+
+/* Affiche les scores */
+void Display_Score(SDisplay *display, SGameState *game);
 
 /* Lancer les dés */
-void launch_die(SGameState *game);
+void Launch_Die(SGameState *game);
 
 /* Raffraichit l'affichage */
-void display_refresh(SDisplay *display, SGameState *game);
+void Display_Refresh(SDisplay *display, SGameState *game);
+
+/* Réinitialise l'affichage */
+void Display_Clear(SDisplay *display);
 
 /* Dessine un pion d'un joueur, à une position donnée */
-void draw_checker(SDisplay *display, SDL_Rect position, int player);
+void Checker_Draw(SDisplay *display, SDL_Rect position, int player);
 
 /* Initialise la partie */
-SGameState* initPartie();
+SGameState* Game_Init();
 
 /* Effectue le déplacement d'un pion */
-void checker_move(SDisplay *display, SGameState* game, SMove *move);
+void Checker_Move(SDisplay *display, SGameState* game, SMove *move);
 
 /* Determine si la souris est sur le bouton quitter */
-int zoneQuit(int x, int y);
+int Quit_Zone(int x, int y);
 
-/* Affiche le menu / Retourne -1 si événement quitter sinon retourne le nombre de joueur si évenement jouer */
-int display_menu(SDisplay *display, int nbPlayer, int *color_checker, int *withDouble);
+/* Affiche le menu / Retourne 0 si commencer Match | 1 si quitter */
+int Display_Menu(SDisplay *display, E_GameMode gameMode);
 
 /* Retourne un entier correspondant à un événement clic sur le menu */
-int click_menu(int x, int y);
+int Menu_Click(int x, int y);
 
-void display_message(SDisplay	*display, char	*message, SDL_Rect position, SDL_Color color);
+void Display_Message(SDisplay	*display, char	*message, SDL_Rect position, SDL_Color color, int box);
+
+void Display_Possibilities(SDisplay *display, SGameState *game, EPlayer player); // A MODIFIER
 #endif
 
 

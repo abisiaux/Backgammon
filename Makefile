@@ -5,7 +5,7 @@
 # Définition des variables
 CC=gcc
 CFLAGS=-W -Wall -std=c99
-LDFLAGS=-lSDL -lSDL_image -lSDL_ttf 
+LDFLAGS=-lSDL -lSDL_image -lSDL_ttf -ldl 
 EXEC=backgammon
 
 # Définition des paths
@@ -17,7 +17,7 @@ OBJ=obj/
 
 all: ${EXEC}
 
-${EXEC}: ${OBJ}main.o ${OBJ}gui.o ${OBJ}arbitrator.o
+${EXEC}: ${OBJ}main.o ${OBJ}gui.o ${OBJ}arbitrator.o ${OBJ}library.o
 			${CC} -o ${BIN}$@ $^ ${LDFLAGS}
 
 #Règle pour compiler l'interface graphique 
@@ -32,6 +32,10 @@ ${OBJ}main.o: ${SRC}main.c
 ${OBJ}arbitrator.o: ${SRC}arbitrator.c
 					${CC} -o $@ -c $^ ${CFLAGS}
 
+# Règle pour compiler la librairie
+${OBJ}library.o: ${SRC}library.c
+					${CC} -o $@ -c $^ ${CFLAGS}
+					
 clean:
 			rm ${OBJ}*.o
 			#rm ${LIB}*.o

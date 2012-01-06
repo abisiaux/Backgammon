@@ -12,7 +12,7 @@
 #include "../include/backgammon.h"
 
 
-void display_init(SDisplay *display)
+void Display_Init(SDisplay *display)
 {	
 	int i;
 	char *temp_path;
@@ -59,10 +59,10 @@ void display_init(SDisplay *display)
 	strcat(temp_path, "possibility.png");
 	display->possibility = IMG_Load(temp_path);
 	
-	// Chargement de l'image du bouton jouer
-	/*strcpy(temp_path, display->img_path);
-	strcat(temp_path, "button_play.png");
-	display->button_play = IMG_Load(temp_path);*/
+	// Chargement de l'image du cadre d'un message
+	strcpy(temp_path, display->img_path);
+	strcat(temp_path, "msgBox.png");
+	display->msg_box = IMG_Load(temp_path);
 	
 	// Chargement des images des dés et initialisation de leur position
 	temp_name = (char*)malloc(100*sizeof(char));
@@ -134,16 +134,19 @@ void display_init(SDisplay *display)
 	strcat(temp_path, "comic.ttf");
    display->font = TTF_OpenFont(temp_path,22);
 	
-	// Allocation pour les noms des joueurs
-	display->player1_name = (char*)malloc(50*sizeof(char));
-	display->player2_name = (char*)malloc(50*sizeof(char));
-	display->player1_name = "";
-	display->player2_name = "";
+	// Allocation de la structure de jeu et initialisation
+	display->game = (SGame*)malloc(sizeof(SGame));
+	display->game->player1_name = (char*)malloc(50*sizeof(char));
+	display->game->player2_name = (char*)malloc(50*sizeof(char));
+	display->game->player1_checker = GREEN;
+	display->game->player2_checker = WHITE;
+	display->game->withDouble = 1; // Par défaut, on joue avec le double
+	display->game->scoreLimit = 5; // Par défaut, limite de score est de 
 	
 	free(temp_path); // On libère temp_path car on ne l'utilise plus
 }
 
-int display_menu(SDisplay *display, int nbPlayer, int *color_checker, int *withDouble)
+int Display_Menu(SDisplay *display, E_GameMode gameMode)
 {
 	SDL_Rect menu_position;
 	SDL_Rect checker_check_position;
@@ -158,8 +161,6 @@ int display_menu(SDisplay *display, int nbPlayer, int *color_checker, int *withD
 	
 	temp_path = (char*)malloc(100*sizeof(char));
 	background = (char*)malloc(100*sizeof(char));
-	*color_checker=-1;
-	*withDouble=-1;
 
 	menu_position.x = 0;
 	menu_position.y = 0;
@@ -169,7 +170,7 @@ int display_menu(SDisplay *display, int nbPlayer, int *color_checker, int *withD
 	player2_name_position.x = 265;
 	player2_name_position.y = 245;
 	
-	if(nbPlayer == 1)
+	if(gameMode == HUMAN_AI)
 	{
 		background = "background_menu1P.png";
 	}
@@ -177,6 +178,7 @@ int display_menu(SDisplay *display, int nbPlayer, int *color_checker, int *withD
 	{
 		background = "background_menu2P.png";
 	}
+	
 	// Chargement du menu
 	strcpy(temp_path, display->img_path);
 	strcat(temp_path, background);
@@ -187,13 +189,31 @@ int display_menu(SDisplay *display, int nbPlayer, int *color_checker, int *withD
 	display->checked = IMG_Load(temp_path);
 	
 	SDL_BlitSurface(display->background_menu, NULL, display->screen, &menu_position);
-	if(nbPlayer == 1) display_message(display,display->player1_name,player1_name_position,c);
+	
+	if(gameMode == HUMAN_AI)
+	{
+		Display_Message(display,display->game->player1_name,player1_name_position,c,0);
+		
+		checker_check_position.x = 255;
+		checker_check_position.y = 275;
+		SDL_BlitSurface(display->checked, NULL, display->screen, &checker_check_position);
+		
+		double_check_position.x = 255;
+		double_check_position.y = 320;
+		SDL_BlitSurface(display->checked, NULL, display->screen, &double_check_position);
+	}
 	else
 	{
-		display_message(display,display->player1_name,player1_name_position,c);
-		display_message(display,display->player2_name,player2_name_position,c);
+		Display_Message(display,display->game->player1_name,player1_name_position,c,0);
+		Display_Message(display,display->game->player2_name,player2_name_position,c,0);
+		
+		double_check_position.x = 255;
+		double_check_position.y = 320;
+		SDL_BlitSurface(display->checked, NULL, display->screen, &double_check_position);
 	}
+	
 	SDL_Flip(display->screen);
+	
 	while(1)
 	{
 		SDL_WaitEvent(&event);
@@ -206,85 +226,120 @@ int display_menu(SDisplay *display, int nbPlayer, int *color_checker, int *withD
 			case SDL_MOUSEBUTTONUP:
 				if (event.button.button == SDL_BUTTON_LEFT)
 				{
-					switch( click_menu(event.button.x, event.button.y) )
+					switch( Menu_Click(event.button.x, event.button.y) )
 					{
-						case 1 :
-							if(nbPlayer==1)
+						case 1 : // Clic sur le jeton vert
+							if(gameMode == HUMAN_AI)
 							{
+								/* Rechargement du menu */
 								strcpy(temp_path, display->img_path);
 								strcat(temp_path, background);
 								display->background_menu = IMG_Load(temp_path);
 								SDL_BlitSurface(display->background_menu, NULL, display->screen, &menu_position);
-								display_message(display,display->player1_name,player1_name_position,c);
-								if(*withDouble==1 || *withDouble==0) SDL_BlitSurface(display->checked, NULL, display->screen, &double_check_position);
+								
+								/* Affichage du nom du joueur */
+								Display_Message(display,display->game->player1_name,player1_name_position,c,0);
+								
+								/* Affichage de l'option double */
+								SDL_BlitSurface(display->checked, NULL, display->screen, &double_check_position);
+									
 								checker_check_position.x = 255;
 								checker_check_position.y = 275;
+								
 								SDL_BlitSurface(display->checked, NULL, display->screen, &checker_check_position);
-								*color_checker=1;
+								
+								display->game->player1_checker = GREEN;
+								display->game->player2_checker = WHITE;
 							}
 							break;
-						case 2 :
-							if(nbPlayer==1)
+							
+						case 2 : // Clic sur jeton blanc
+							if(gameMode == HUMAN_AI)
 							{
+								/* Rechargement du menu */
 								strcpy(temp_path, display->img_path);
 								strcat(temp_path, background);
 								display->background_menu = IMG_Load(temp_path);
 								SDL_BlitSurface(display->background_menu, NULL, display->screen, &menu_position);
-								display_message(display,display->player1_name,player1_name_position,c);
-								if(*withDouble==1 || *withDouble==0) SDL_BlitSurface(display->checked, NULL, display->screen, &double_check_position);
+								
+								/* Affichage du nom du joueur */
+								Display_Message(display,display->game->player1_name,player1_name_position,c,0);
+								
+								/* Affichage de l'option double */
+								SDL_BlitSurface(display->checked, NULL, display->screen, &double_check_position);
+									
+								/* Affichage de l'option couleur du pion */
 								checker_check_position.x = 400;
 								checker_check_position.y = 275;
 								SDL_BlitSurface(display->checked, NULL, display->screen, &checker_check_position);
-								*color_checker=0;
+								
+								display->game->player1_checker = WHITE;
+								display->game->player2_checker = GREEN;
 							}
 							break;
-						case 3 :
+							
+						case 3 : // Clic sur oui
+						
+							/* Rechargement du menu */
 							strcpy(temp_path, display->img_path);
 							strcat(temp_path, background);
 							display->background_menu = IMG_Load(temp_path);
 							SDL_BlitSurface(display->background_menu, NULL, display->screen, &menu_position);
-							if(nbPlayer == 1) display_message(display,display->player1_name,player1_name_position,c);
-							else { display_message(display,display->player1_name,player1_name_position,c); display_message(display,display->player2_name,player2_name_position,c);}
-							if(*color_checker==1 || *color_checker==0) SDL_BlitSurface(display->checked, NULL, display->screen, &checker_check_position);
-							double_check_position.x = 255;
-							double_check_position.y = 320;
-							SDL_BlitSurface(display->checked, NULL, display->screen, &double_check_position);
-							*withDouble=1;
-							break;
-						case 4 :
-							strcpy(temp_path, display->img_path);
-							strcat(temp_path, background);
-							display->background_menu = IMG_Load(temp_path);
-							SDL_BlitSurface(display->background_menu, NULL, display->screen, &menu_position);
-							if(nbPlayer == 1) display_message(display,display->player1_name,player1_name_position,c);
-							else { display_message(display,display->player1_name,player1_name_position,c); display_message(display,display->player2_name,player2_name_position,c);}
-							if(*color_checker==1 || *color_checker==0) SDL_BlitSurface(display->checked, NULL, display->screen, &checker_check_position);
-							double_check_position.x = 400;
-							double_check_position.y = 320;
-							SDL_BlitSurface(display->checked, NULL, display->screen, &double_check_position);
-							*withDouble=0;
-							break;
-						case 5 :
-							free(temp_path);
-							return -1; // Cas où on quitte le jeu
-						case 6 :
-							if( nbPlayer==1)
+							
+							/* Affichage du nom du joueur */	
+							if(gameMode == HUMAN_AI)
 							{
-								if( *color_checker!=-1 && *withDouble!=-1 )
-								{
-									free(temp_path);
-									return 1;
-								}
+								Display_Message(display,display->game->player1_name,player1_name_position,c,0);
+								SDL_BlitSurface(display->checked, NULL, display->screen, &checker_check_position);
 							}
 							else
-							{
-								if( *withDouble!=-1 )
-								{
-									free(temp_path);
-									return 1;
-								}
+							{ 
+								Display_Message(display,display->game->player1_name,player1_name_position,c,0);
+								Display_Message(display,display->game->player2_name,player2_name_position,c,0);
 							}
+								
+							/* Affichage de l'option double */
+							double_check_position.x = 255;
+							double_check_position.y = 320;
+							SDL_BlitSurface(display->checked, NULL, display->screen, &double_check_position);	
+							display->game->withDouble = 1;
 							break;
+						
+						case 4 : // Clic sur non
+						
+							/* Rechargement du menu */
+							strcpy(temp_path, display->img_path);
+							strcat(temp_path, background);
+							display->background_menu = IMG_Load(temp_path);
+							SDL_BlitSurface(display->background_menu, NULL, display->screen, &menu_position);
+							
+							/* Affichage du nom du joueur */	
+							if(gameMode == HUMAN_AI)
+							{
+								Display_Message(display,display->game->player1_name,player1_name_position,c,0);
+								SDL_BlitSurface(display->checked, NULL, display->screen, &checker_check_position);
+							}
+							else
+							{ 
+								Display_Message(display,display->game->player1_name,player1_name_position,c,0);
+								Display_Message(display,display->game->player2_name,player2_name_position,c,0);
+							}
+								
+							/* Affichage de l'option double */
+							double_check_position.x = 400;
+							double_check_position.y = 320;
+							SDL_BlitSurface(display->checked, NULL, display->screen, &double_check_position);	
+							display->game->withDouble = 0;
+							break;
+						
+						case 5 : // Clic sur quitter
+							free(temp_path);
+							return 1;
+							
+						case 6 : // Clic sur jouer
+							free(temp_path);
+							return 0;
+							
 						default :
 							break;
 					}
@@ -295,50 +350,51 @@ int display_menu(SDisplay *display, int nbPlayer, int *color_checker, int *withD
 	}
 }
 
-void display_message(SDisplay	*display, char	*message, SDL_Rect position, SDL_Color color)
+void Display_Message(SDisplay	*display, char	*message, SDL_Rect position, SDL_Color color, int box)
 {
+	if(box)
+	{
+		SDL_BlitSurface(display->msg_box, NULL, display->screen, &position);
+		position.x= position.x + 30;
+		position.y = position.y + 10;
+	}
 	SDL_Surface *msg = TTF_RenderText_Blended(display->font,message,color);
 	SDL_BlitSurface(msg, NULL, display->screen, &position);
 	SDL_FreeSurface(msg);
+	SDL_Flip(display->screen);
 }
 
-int click_menu(int x, int y)
+int Menu_Click(int x, int y)
 {
 	if ( x>=260 && x<=300 && y>=284 && y<=315 ) // Jeton vert choisi
 	{
-		printf("Clic sur jeton vert!\n");
 		return 1;
 	}
 	if ( x>=402 && x<=444 && y>=284 && y<=315 ) // Jeton blanc choisi
 	{
-		printf("Clic sur jeton blanc!\n");
 		return 2;
 	}
 	if ( x>=260 && x<=300 && y>=330 && y<=360 ) // Jouer avec le double
 	{
-		printf("Clic sur oui!\n");
 		return 3;
 	}
 	if ( x>=402 && x<=444 && y>=330 && y<=360 ) // Jouer sans le double
 	{
-		printf("Clic sur non!\n");
 		return 4;
 	}
 	if ( x>=64 && x<=210 && y>=442 && y<=480 ) // Quitter la partie
 	{
-		printf("Clic sur quitter!\n");
 		return 5;
 	}
 	if ( x>=295 && x<=412 && y>=442 && y<=480 ) // Jouer
 	{
-		printf("Clic sur jouer!\n");
 		return 6;
 	}
 	
 	return -1; // Clic ailleur
 }
 	
-void display_exit(SDisplay *display)
+void Display_Exit(SDisplay *display)
 {
 	int i;
 	
@@ -348,7 +404,6 @@ void display_exit(SDisplay *display)
 	SDL_FreeSurface(display->checked);
 	SDL_FreeSurface(display->white_checker);
 	SDL_FreeSurface(display->green_checker);
-	//SDL_FreeSurface(display->button_play);
 
 	for( i=0; i<6; i++ )
 	{
@@ -356,12 +411,16 @@ void display_exit(SDisplay *display)
 	}
 	SDL_FreeSurface(display->screen);
 	
+	free(display->game->player1_name);
+	free(display->game->player2_name);
+	free(display->game);
+	
 	TTF_CloseFont(display->font);
 	TTF_Quit();
 	SDL_Quit();
 }
 
-void display_clear(SDisplay *display)
+void Display_Clear(SDisplay *display)
 {
 	// Rechargement du background
 	char *temp_path;
@@ -374,7 +433,7 @@ void display_clear(SDisplay *display)
 	SDL_BlitSurface(display->background, NULL, display->screen, &(display->background_position));
 }
 
-void display_score(SDisplay *display, SGameState *game)
+void Display_Score(SDisplay *display, SGameState *game)
 {
 	SDL_Rect pos;
 	char *scoreP1 = (char*)malloc(3*(sizeof(char)));
@@ -386,37 +445,38 @@ void display_score(SDisplay *display, SGameState *game)
 	
 	pos.x = 108;
 	pos.y = 40;
-	display_message(display, display->player1_name, pos, c);
+	Display_Message(display, display->game->player1_name, pos, c, 0);
 	pos.x = 295;
-	display_message(display, scoreP1, pos, c);
+	Display_Message(display, scoreP1, pos, c, 0);
 	pos.y = 85;
-	display_message(display, scoreP2, pos, c);
+	Display_Message(display, scoreP2, pos, c, 0);
 	pos.x = 108;
-	display_message(display, display->player2_name, pos, c);
+	Display_Message(display, display->game->player2_name, pos, c, 0);
 }
 
-void display_refresh(SDisplay *display, SGameState *game)
+void Display_Refresh(SDisplay *display, SGameState *game)
 {
-	display_clear(display);
+	Display_Clear(display);
 	
 	// Affichage du score
-	display_score(display, game);
+	Display_Score(display, game);
 	
 	// Affichage des pions
-	display_checkers(display, game);
+	Display_Checkers(display, game);
 	
 	// Affichage des dés
-	display_die(display,game);
+	//Display_Die(display,game);
 }
 
-void launch_die(SGameState *game)
+void Launch_Die(SGameState *game)
 {
 	srand( time(NULL) ); // Initialisation du generateur de nombre aleatoire
 	game->die1 = 1+(rand()/(float)RAND_MAX)*6; // Tirage aléatoire d'un chiffre entre 1 et 6
 	game->die2 = 1+(rand()/(float)RAND_MAX)*6; // Tirage aléatoire d'un chiffre entre 1 et 6
 	printf("Dé 1 : %d Dé 2 : %d\n",game->die1,game->die2);
 }
-void display_die(SDisplay *display,SGameState *game)
+
+void Display_Die(SDisplay *display,SGameState *game)
 {
 	SDL_Rect new_pos;
 	
@@ -438,7 +498,7 @@ void display_die(SDisplay *display,SGameState *game)
 		SDL_BlitSurface(display->die[game->die2-1], NULL,display->screen, &display->die2_position);
 	}
 }
-void draw_checker(SDisplay *display, SDL_Rect position, int player)
+void Checker_Draw(SDisplay *display, SDL_Rect position, int player)
 {
 	if( player==0 )
 	{
@@ -450,7 +510,7 @@ void draw_checker(SDisplay *display, SDL_Rect position, int player)
 	}
 }
 
-void display_checkers(SDisplay *display, SGameState *game)
+void Display_Checkers(SDisplay *display, SGameState *game)
 {
 	unsigned int i,j;
 	SDL_Rect new_pos;
@@ -465,12 +525,12 @@ void display_checkers(SDisplay *display, SGameState *game)
 			else
 				new_pos.y = display->positions[i].y + j*20;
 				
-			draw_checker(display,new_pos,game->zones[i].player);
+			Checker_Draw(display,new_pos,game->zones[i].player);
 		}
 	}
 }
 
-SGameState* initPartie()
+SGameState* Game_Init()
 {
 	SGameState *game;
 	int i;
@@ -505,7 +565,7 @@ SGameState* initPartie()
 	return game;
 }
 
-void checker_move(SDisplay *display, SGameState* game, SMove *move)
+void Checker_Move(SDisplay *display, SGameState* game, SMove *move)
 {
 	/* Calcul de la droite passant par les deux zones */
 	int pos_src_x;
@@ -593,8 +653,8 @@ void checker_move(SDisplay *display, SGameState* game, SMove *move)
 	{
 		new_pos.x = new_pos.x + pas;
 		new_pos.y = (int)(a*new_pos.x + b);
-		display_refresh(display,game);
-		draw_checker(display,new_pos,game->zones[move->src_point-1].player);
+		Display_Refresh(display,game);
+		Checker_Draw(display,new_pos,game->zones[move->src_point-1].player);
 		SDL_Flip(display->screen);
 		switch(numCas) // Suivant le cas de figure, on vérifie si on ne dépasse pas la flèche destinatrice
 		{
@@ -650,7 +710,7 @@ void draw_possibility(SDisplay *display,EPosition numFleche)
 	
 }
 
-void display_possibilities(SDisplay *display, SGameState *game, EPlayer player)
+void Display_Possibilities(SDisplay *display, SGameState *game, EPlayer player)
 {
 	int i=0;
 	
@@ -681,7 +741,7 @@ void display_possibilities(SDisplay *display, SGameState *game, EPlayer player)
 	SDL_Flip(display->screen);
 }
 
-int zoneQuit(int x, int y)
+int Quit_Zone(int x, int y)
 {
 
 	if( (x >= 635 && x <= 795) && (y >=244 && y <= 325) )

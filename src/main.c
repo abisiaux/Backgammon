@@ -6,88 +6,133 @@
 #include "../include/gui.h"
 #include "../include/backgammon.h"
 #include "../include/arbitrator.h"
+#include "../include/library.h"
 
 int main(int argc, char **argv)
 {
+	S_AI_Functions* ai_struct = Init_S_AI();
+	
+	E_GameMode gameMode = Check_Args( argc, argv, ai_struct);
+	
+	char* player1_name = (char*)malloc(30*sizeof(char));
+	char* player2_name = (char*)malloc(30*sizeof(char));
+	
+	switch(gameMode)
+	{
+		case HUMAN_HUMAN :
+			printf("Entrer le nom du joueur 1 :\n");
+			scanf("%s",player1_name);
+			printf("Entrer le nom du joueur 2 :\n");
+			scanf("%s",player2_name);
+			break;
+		case HUMAN_AI :
+			printf("Entrer le nom du joueur :\n");
+			scanf("%s",player1_name);
+			player2_name = "Ordinateur";
+			break;
+		case AI_AI :
+			player1_name = "Ordinateur 1";
+			player2_name = "Ordinateur 2";
+			break;
+		default :
+			fprintf(stderr, "Les consignes d'utilisations du jeu sont definies dans le README.\n");
+			exit(EXIT_FAILURE);
+			break;
+	}
+	
 	SDisplay display;
-	int quit;
-	int nbPlayer;
+	
+	Display_Init(&display); /* Initialisation de l'interface graphique */
+	
+	/* Recopie des noms des joueurs dans la structure game*/
+	strcpy(display.game->player1_name, player1_name);
+	strcpy(display.game->player2_name, player2_name);
+	free(player1_name);
+	free(player2_name);
 	
 	SGameState *gameState;
+	
+	gameState = Game_Init(); /* Initialisation de la partie */
+	
 	SDL_Event event;
-	//SMove move;
+	SMove move;
+	EPlayer curentPlayer = EPlayer2;
 	
-	if( argc != 2 && argc != 3 )
-	{
-		fprintf(stderr, "Utilisation du jeu :\n\t 1 Joueur : ./backgammon player_name\n\t2 Joueur : ./backgammon player1_name player2_name\n");
-		exit(1);
-	}
-	
-	display_init(&display); /* Initialisation de l'interface graphique */
-	
-	gameState = initPartie(); /* Initialisation de la partie */
-	
-	if(argc == 2) // Un joueur
-	{
-		nbPlayer=1;
-		display.player1_name = argv[1];
-		display.player2_name = "Ordinateur";
-	}
-	else // Deux joueurs
-	{
-		nbPlayer=2;
-		display.player1_name = argv[1];
-		display.player2_name = argv[2];
-	}
-	
-	quit = 0;
+	int quit = 0;
 
-	int withDouble=-1,colorChecker=-1;
-	/* Affichage du menu et traitement du codeRetour */
-	quit = display_menu(&display,nbPlayer,&colorChecker,&withDouble);
-
+	char tmp[100];
+	SDL_Rect msg_position;
 	
-	while (quit != -1) // Boucle principale
+	msg_position.x = 115;
+	msg_position.y = 325;
+	
+	SDL_Color msg_color = {255, 255, 255, 0};
+	
+	/* Affichage du menu */
+	quit =Display_Menu(&display,gameMode);
+	Display_Refresh(&display, gameState);
+	
+	while (!quit) // Boucle principale
 	{
-	
-		display_refresh(&display, gameState);
 		
-		SDL_WaitEvent(&event);
-		switch(event.type)
-		{
-			case SDL_QUIT:
-				quit = -1;
-				break;
-			case SDL_MOUSEBUTTONUP:
-				if (event.button.button == SDL_BUTTON_LEFT && zoneQuit(event.button.x,event.button.y))
-				{
-					quit = -1;
-				}
-        			break;
-
-		}
-		SDL_Flip(display.screen);
-	}
-	
-	/*
-	launch_die(gameState);
-	move.src_point = 8;
-	move.dest_point = 6;
-	if(authorized_deplacement(gameState, &move, EPlayer2))// JOUEUR 1 = VERT
-	{
-		printf("DEPLACEMENT AUTORISE\n");
-		checker_move(&display,gameState,&move);
 		
+		/*while(!quit) // Boucle de Match
+		{*/
+			
+			if(curentPlayer == EPlayer1)
+			{
+				curentPlayer = EPlayer2;
+				sprintf(tmp,"%s, c'est a toi de jouer.",display.game->player2_name);
+				Display_Message(&display, tmp, msg_position, msg_color,1);
+				SDL_Delay(2000);
+			}
+			else
+			{
+				curentPlayer = EPlayer1;
+				sprintf(tmp,"%s, c'est a toi de jouer.",display.game->player1_name);
+				Display_Message(&display, tmp, msg_position, msg_color,1);
+				SDL_Delay(2000);
+			}
+			Display_Refresh(&display, gameState);
+			
+			Launch_Die(gameState);
+			Display_Die(&display,gameState);
+			SDL_Delay(2000);
+			
+			/*Display_Possibilities(&display,gameState, 0);
+			
+			
+			move.src_point = 8;
+			move.dest_point = 6;
+			if(authorized_deplacement(gameState, &move, EPlayer2))// JOUEUR 1 = VERT
+			{
+				printf("DEPLACEMENT AUTORISE\n");
+				Checker_Move(&display,gameState,&move);
+		
+			}
+			else
+				printf("EPLACEMENT NON AUTORISE\n");
+	
+			*/
+			SDL_WaitEvent(&event);
+			switch(event.type)
+			{
+				case SDL_QUIT:
+					quit = 1;
+					break;
+				case SDL_MOUSEBUTTONUP:
+					if (event.button.button == SDL_BUTTON_LEFT && Quit_Zone(event.button.x,event.button.y))
+					{
+						quit = 1;
+					}
+			  			break;
+
+			}
+			Display_Refresh(&display, gameState);
+		//}
 	}
-	else
-		printf("EPLACEMENT NON AUTORISE\n");
 	
+	Display_Exit(&display);
 	
-	display_refresh(&display, gameState);
-	display_possibilities(&display,gameState, 0);*/
-	//sleep(6); // TEST Juste pour voir les possibilités avant de raffraichir l'écran!!
-	//display_refresh(&display, gameState);
-	
-	display_exit(&display);
 	return EXIT_SUCCESS;
 }
