@@ -24,7 +24,8 @@ int main(int argc, char **argv)
 	}
 	
 	display_init(&display); /* Initialisation de l'interface graphique */
-	gameState = initPartie();
+	
+	gameState = initPartie(); /* Initialisation de la partie */
 	
 	if(argc == 2) // Un joueur
 	{
