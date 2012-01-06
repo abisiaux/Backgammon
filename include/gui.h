@@ -44,6 +44,9 @@ struct Display
 	int window_height;
 	
 	SDL_Rect positions[28]; // Tableau contenant la position de chaque flèche et des bars
+	
+	char *player1_name;
+	char *player2_name;
 };
 
 typedef struct Display SDisplay;
@@ -79,7 +82,7 @@ void checker_move(SDisplay *display, SGameState* game, SMove *move);
 int zoneQuit(int x, int y);
 
 /* Affiche le menu / Retourne -1 si événement quitter sinon retourne le nombre de joueur si évenement jouer */
-int display_menu(SDisplay *display, int nbPlayer, int *color_checker, int *withDouble,char *player1_name, char *player2_name);
+int display_menu(SDisplay *display, int nbPlayer, int *color_checker, int *withDouble);
 
 /* Retourne un entier correspondant à un événement clic sur le menu */
 int click_menu(int x, int y);

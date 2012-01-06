@@ -134,10 +134,16 @@ void display_init(SDisplay *display)
 	strcat(temp_path, "comic.ttf");
    display->font = TTF_OpenFont(temp_path,22);
 	
+	// Allocation pour les noms des joueurs
+	display->player1_name = (char*)malloc(50*sizeof(char));
+	display->player2_name = (char*)malloc(50*sizeof(char));
+	display->player1_name = "";
+	display->player2_name = "";
+	
 	free(temp_path); // On libère temp_path car on ne l'utilise plus
 }
 
-int display_menu(SDisplay *display, int nbPlayer, int *color_checker, int *withDouble,char *player1_name, char *player2_name)
+int display_menu(SDisplay *display, int nbPlayer, int *color_checker, int *withDouble)
 {
 	SDL_Rect menu_position;
 	SDL_Rect checker_check_position;
@@ -181,11 +187,11 @@ int display_menu(SDisplay *display, int nbPlayer, int *color_checker, int *withD
 	display->checked = IMG_Load(temp_path);
 	
 	SDL_BlitSurface(display->background_menu, NULL, display->screen, &menu_position);
-	if(nbPlayer == 1) display_message(display,player1_name,player1_name_position,c);
+	if(nbPlayer == 1) display_message(display,display->player1_name,player1_name_position,c);
 	else
 	{
-		display_message(display,player1_name,player1_name_position,c);
-		display_message(display,player2_name,player2_name_position,c);
+		display_message(display,display->player1_name,player1_name_position,c);
+		display_message(display,display->player2_name,player2_name_position,c);
 	}
 	SDL_Flip(display->screen);
 	while(1)
@@ -209,7 +215,7 @@ int display_menu(SDisplay *display, int nbPlayer, int *color_checker, int *withD
 								strcat(temp_path, background);
 								display->background_menu = IMG_Load(temp_path);
 								SDL_BlitSurface(display->background_menu, NULL, display->screen, &menu_position);
-								display_message(display,player1_name,player1_name_position,c);
+								display_message(display,display->player1_name,player1_name_position,c);
 								if(*withDouble==1 || *withDouble==0) SDL_BlitSurface(display->checked, NULL, display->screen, &double_check_position);
 								checker_check_position.x = 255;
 								checker_check_position.y = 275;
@@ -224,7 +230,7 @@ int display_menu(SDisplay *display, int nbPlayer, int *color_checker, int *withD
 								strcat(temp_path, background);
 								display->background_menu = IMG_Load(temp_path);
 								SDL_BlitSurface(display->background_menu, NULL, display->screen, &menu_position);
-								display_message(display,player1_name,player1_name_position,c);
+								display_message(display,display->player1_name,player1_name_position,c);
 								if(*withDouble==1 || *withDouble==0) SDL_BlitSurface(display->checked, NULL, display->screen, &double_check_position);
 								checker_check_position.x = 400;
 								checker_check_position.y = 275;
@@ -237,8 +243,8 @@ int display_menu(SDisplay *display, int nbPlayer, int *color_checker, int *withD
 							strcat(temp_path, background);
 							display->background_menu = IMG_Load(temp_path);
 							SDL_BlitSurface(display->background_menu, NULL, display->screen, &menu_position);
-							if(nbPlayer == 1) display_message(display,player1_name,player1_name_position,c);
-							else { display_message(display,player1_name,player1_name_position,c); display_message(display,player2_name,player2_name_position,c);}
+							if(nbPlayer == 1) display_message(display,display->player1_name,player1_name_position,c);
+							else { display_message(display,display->player1_name,player1_name_position,c); display_message(display,display->player2_name,player2_name_position,c);}
 							if(*color_checker==1 || *color_checker==0) SDL_BlitSurface(display->checked, NULL, display->screen, &checker_check_position);
 							double_check_position.x = 255;
 							double_check_position.y = 320;
@@ -250,8 +256,8 @@ int display_menu(SDisplay *display, int nbPlayer, int *color_checker, int *withD
 							strcat(temp_path, background);
 							display->background_menu = IMG_Load(temp_path);
 							SDL_BlitSurface(display->background_menu, NULL, display->screen, &menu_position);
-							if(nbPlayer == 1) display_message(display,player1_name,player1_name_position,c);
-							else { display_message(display,player1_name,player1_name_position,c); display_message(display,player2_name,player2_name_position,c);}
+							if(nbPlayer == 1) display_message(display,display->player1_name,player1_name_position,c);
+							else { display_message(display,display->player1_name,player1_name_position,c); display_message(display,display->player2_name,player2_name_position,c);}
 							if(*color_checker==1 || *color_checker==0) SDL_BlitSurface(display->checked, NULL, display->screen, &checker_check_position);
 							double_check_position.x = 400;
 							double_check_position.y = 320;
@@ -294,7 +300,6 @@ void display_message(SDisplay	*display, char	*message, SDL_Rect position, SDL_Co
 	SDL_Surface *msg = TTF_RenderText_Blended(display->font,message,color);
 	SDL_BlitSurface(msg, NULL, display->screen, &position);
 	SDL_FreeSurface(msg);
-	SDL_Flip(display->screen);
 }
 
 int click_menu(int x, int y)
@@ -368,10 +373,34 @@ void display_clear(SDisplay *display)
 	
 	SDL_BlitSurface(display->background, NULL, display->screen, &(display->background_position));
 }
+
+void display_score(SDisplay *display, SGameState *game)
+{
+	SDL_Rect pos;
+	char *scoreP1 = (char*)malloc(3*(sizeof(char)));
+	char *scoreP2 = (char*)malloc(3*(sizeof(char)));
+	SDL_Color c = {255, 255, 255, 0};
 	
+	sprintf(scoreP1, "%d", game->score);
+	sprintf(scoreP2, "%d", game->scoreP2);
+	
+	pos.x = 108;
+	pos.y = 40;
+	display_message(display, display->player1_name, pos, c);
+	pos.x = 295;
+	display_message(display, scoreP1, pos, c);
+	pos.y = 85;
+	display_message(display, scoreP2, pos, c);
+	pos.x = 108;
+	display_message(display, display->player2_name, pos, c);
+}
+
 void display_refresh(SDisplay *display, SGameState *game)
 {
 	display_clear(display);
+	
+	// Affichage du score
+	display_score(display, game);
 	
 	// Affichage des pions
 	display_checkers(display, game);
@@ -447,6 +476,9 @@ SGameState* initPartie()
 	int i;
 	
 	game = (SGameState*)malloc(sizeof(SGameState));
+	
+	game->score = 0;
+	game->scoreP2 = 0;
 	
 	for(i=0;i<28;i++) game->zones[i].nb_checkers=0;
 	

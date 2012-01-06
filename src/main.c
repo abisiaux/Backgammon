@@ -12,8 +12,6 @@ int main(int argc, char **argv)
 	SDisplay display;
 	int quit;
 	int nbPlayer;
-	char player1_name[30]="";
-	char player2_name[30]="";
 	
 	SGameState *gameState;
 	SDL_Event event;
@@ -24,27 +22,28 @@ int main(int argc, char **argv)
 		fprintf(stderr, "Utilisation du jeu :\n\t 1 Joueur : ./backgammon player_name\n\t2 Joueur : ./backgammon player1_name player2_name\n");
 		exit(1);
 	}
+	
+	display_init(&display); /* Initialisation de l'interface graphique */
+	gameState = initPartie();
+	
 	if(argc == 2) // Un joueur
 	{
 		nbPlayer=1;
-		strcpy(player1_name,argv[1]);
-		strcat(player2_name,"Ordinateur");
+		display.player1_name = argv[1];
+		display.player2_name = "Ordinateur";
 	}
 	else // Deux joueurs
 	{
 		nbPlayer=2;
-		strcpy(player1_name,argv[1]);
-		strcpy(player2_name,argv[2]);
+		display.player1_name = argv[1];
+		display.player2_name = argv[2];
 	}
-	
-	gameState = initPartie();
 	
 	quit = 0;
 
-	display_init(&display); /* Initialisation de l'interface graphique */
 	int withDouble=-1,colorChecker=-1;
 	/* Affichage du menu et traitement du codeRetour */
-	quit = display_menu(&display,nbPlayer,&colorChecker,&withDouble,player1_name,player2_name);
+	quit = display_menu(&display,nbPlayer,&colorChecker,&withDouble);
 
 	
 	while (quit != -1) // Boucle principale
