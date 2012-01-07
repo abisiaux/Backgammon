@@ -101,7 +101,7 @@ int main(int argc, char **argv)
 			int nonJoue=1;
 			while(nonJoue)/*Tant que le joueur n'a pas joué tous ses coups*/
 			{
-				printf("NON JOUE");
+				
 				SDL_WaitEvent(&event);
 				switch(event.type)
 				{
@@ -109,12 +109,12 @@ int main(int argc, char **argv)
 						quit = 1;
 						break;
 					case SDL_MOUSEBUTTONUP:
-						if (event.button.button == SDL_BUTTON_LEFT /*&& Possibility_Starting_Checker_Zone(event.button.x,event.button.y)*/) 
+						if (event.button.button == SDL_BUTTON_LEFT /*&& Pion_Depart_Autorise(event.button.x,event.button.y)*/) 
 						{// si le joueur clic sur un des pions correspondant aux pions qui peuvent être déplacés sur ce tour
 							printf("CLIC\n");
 							EPosition pos=0;
 							printf("posSx=%d\tposSy=%d\n",event.button.x,event.button.y);
-							if(CheckerWithScreenPosition(event.button.x,event.button.y,&display, &pos))
+							if(CheckerWithScreenPosition(event.button.x,event.button.y, &pos))
 							{
 								printf("Position trouvée, POS =%d\n",pos);
 							}

@@ -751,7 +751,7 @@ int Quit_Zone(int x, int y)
 	return 0;
 }
 
-int CheckerWithScreenPosition(int x, int y,SDisplay *display, EPosition *pos)
+int CheckerWithScreenPosition(int x, int y, EPosition *pos)
 {
 	int i=0;
 	
@@ -760,11 +760,11 @@ int CheckerWithScreenPosition(int x, int y,SDisplay *display, EPosition *pos)
 		
 		if(y>=423 && y<=590)// Barre de 1 à 6
 		{
-			printf("POS 1 A 6\n");
+			
 			EPosition tmpPos=6;
 			for(i=1; i<=6; i++)
 			{
-				//printf("VAR=%d\ti->%d\n",(323+(i*40)),);
+				
 				if(x<=(323+(i*40)))
 				{	
 					*pos=tmpPos;
@@ -775,7 +775,7 @@ int CheckerWithScreenPosition(int x, int y,SDisplay *display, EPosition *pos)
 		}
 		else if(y>=142 && y<=303)//Barre de 19 à 24
 		{
-			printf("POS 19 A 24\n");
+			
 			EPosition tmpPos=19;
 			for(i=1; i<=6; i++)
 			{
@@ -793,7 +793,7 @@ int CheckerWithScreenPosition(int x, int y,SDisplay *display, EPosition *pos)
 	{
 		if(y>=423 && y<=590)// Barre de 7 à 12
 		{
-			printf("POS 7 A 12\n");
+			
 			EPosition tmpPos=12;
 			for(i=1; i<=6; i++)
 			{
@@ -807,7 +807,7 @@ int CheckerWithScreenPosition(int x, int y,SDisplay *display, EPosition *pos)
 		}
 		else if(y>=142 && y<=303)//Barre de 13 à 18 --
 		{
-			printf("POS 13 A 18\n");
+			
 			EPosition tmpPos=13;
 			for(i=1; i<=6; i++)
 			{
@@ -824,6 +824,12 @@ int CheckerWithScreenPosition(int x, int y,SDisplay *display, EPosition *pos)
 	
 	return 0;
 
+}
+
+int Pion_Depart_Autorise(int x, int y, EPlayer player, SGameState* game)
+{
+	
+	return 0;	
 }
 
 
