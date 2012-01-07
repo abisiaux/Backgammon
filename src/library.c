@@ -62,6 +62,7 @@ int Load_API( char* path, S_AI_Functions* ai_struct, int ind)
 
 E_GameMode Check_Args( int argc, char** argv, S_AI_Functions* ai_struct)
 {
+
 	switch(argc)
 	{
 		case 1 :

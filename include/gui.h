@@ -117,6 +117,13 @@ int Menu_Click(int x, int y);
 void Display_Message(SDisplay	*display, char	*message, SDL_Rect position, SDL_Color color, int box);
 
 void Display_Possibilities(SDisplay *display, SGameState *game, EPlayer player); // A MODIFIER
+
+/*retourne vrai si le joueur a cliqué sur une zone contenant un pion déplacable*/
+void Starting_Checker_Zone(int x, int y);// A VENIR
+
+/*Donne le pion en fonction d'un pion sur le jeu dans le poiteur de EPosition pos
+	Retourne Vrai si pion trouve, faux sinon.*/
+int CheckerWithScreenPosition(int x, int y, SDisplay *display, EPosition *pos); // OK FONCTIONNEL
 #endif
 
 

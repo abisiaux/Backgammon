@@ -26,10 +26,10 @@ void Display_Init(SDisplay *display)
 	}
 	
 	// Enregistrement du path des images
-	display->img_path = "../ressources/pictures/";
+	display->img_path = "ressources/pictures/";
 	
 	// Enregistrement du path des polices
-	display->font_path = "../ressources/fonts/";
+	display->font_path = "ressources/fonts/";
 	temp_path = (char*)malloc(100*sizeof(char));
 	
 	// Chargement de l'icone de la fenêtre
@@ -750,3 +750,88 @@ int Quit_Zone(int x, int y)
 	}
 	return 0;
 }
+
+int CheckerWithScreenPosition(int x, int y,SDisplay *display, EPosition *pos)
+{
+	int i=0;
+	
+	if(x>=323 && x<=554)//Barre de 1 à 6 ou de 19 à 24
+	{
+		
+		if(y>=423 && y<=590)// Barre de 1 à 6
+		{
+			printf("POS 1 A 6\n");
+			EPosition tmpPos=6;
+			for(i=1; i<=6; i++)
+			{
+				//printf("VAR=%d\ti->%d\n",(323+(i*40)),);
+				if(x<=(323+(i*40)))
+				{	
+					*pos=tmpPos;
+					return 1;
+				}
+				tmpPos--;
+			}
+		}
+		else if(y>=142 && y<=303)//Barre de 19 à 24
+		{
+			printf("POS 19 A 24\n");
+			EPosition tmpPos=19;
+			for(i=1; i<=6; i++)
+			{
+				if(x<=(323+(i*40)))
+				{	
+					*pos=tmpPos;
+					return 1;
+				}
+				tmpPos++;
+			}
+			
+		}
+	}
+	else if(x>=59 && x<=289)//Barre 7 à 12 ou de 13 à 18
+	{
+		if(y>=423 && y<=590)// Barre de 7 à 12
+		{
+			printf("POS 7 A 12\n");
+			EPosition tmpPos=12;
+			for(i=1; i<=6; i++)
+			{
+				if(x<=(59+(i*40)))
+				{	
+					*pos=tmpPos;
+					return 1;
+				}
+				tmpPos--;
+			}
+		}
+		else if(y>=142 && y<=303)//Barre de 13 à 18 --
+		{
+			printf("POS 13 A 18\n");
+			EPosition tmpPos=13;
+			for(i=1; i<=6; i++)
+			{
+				if(x<=(59+(i*40)))	
+				{	
+					*pos=tmpPos;
+					return 1;
+				}
+				tmpPos++;
+			}
+		}
+	}
+	
+	
+	return 0;
+
+}
+
+
+
+
+
+
+
+
+
+
