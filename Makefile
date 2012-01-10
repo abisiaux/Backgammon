@@ -17,11 +17,15 @@ OBJ=obj/
 
 all: ${EXEC}
 
-${EXEC}: ${OBJ}main.o ${OBJ}gui.o ${OBJ}arbitrator.o ${OBJ}library.o
+${EXEC}: ${OBJ}main.o ${OBJ}gui.o ${OBJ}arbitrator.o ${OBJ}library.o ${OBJ}menu.o
 			${CC} -o ${BIN}$@ $^ ${LDFLAGS}
 
 #Règle pour compiler l'interface graphique 
 ${OBJ}gui.o:  	${SRC}gui.c
+					${CC} -o $@ -c $^ ${CFLAGS}
+
+#Règle pour compiler le menu
+${OBJ}menu.o:  	${SRC}menu.c
 					${CC} -o $@ -c $^ ${CFLAGS}
 					
 # Règle pour compiler le programme

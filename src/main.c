@@ -13,42 +13,31 @@ int main(int argc, char **argv)
 	S_AI_Functions* ai_struct = Init_S_AI();
 	
 	E_GameMode gameMode = Check_Args( argc, argv, ai_struct);
+
 	
-	char* player1_name = (char*)malloc(30*sizeof(char));
-	char* player2_name = (char*)malloc(30*sizeof(char));
+	SDisplay display;
+	
+	Display_Init(&display); /* Initialisation de l'interface graphique */
 	
 	switch(gameMode)
 	{
 		case HUMAN_HUMAN :
-			printf("Entrer le nom du joueur 1 :\n");
-			scanf("%s",player1_name);
-			printf("Entrer le nom du joueur 2 :\n");
-			scanf("%s",player2_name);
+			sprintf(display.game->player1_name,"Joueur1");
+			sprintf(display.game->player2_name,"Joueur2");
 			break;
 		case HUMAN_AI :
-			printf("Entrer le nom du joueur :\n");
-			scanf("%s",player1_name);
-			player2_name = "Ordinateur";
+			sprintf(display.game->player1_name,"Joueur");
+			sprintf(display.game->player2_name,"Ordinateur");
 			break;
 		case AI_AI :
-			player1_name = "Ordinateur 1";
-			player2_name = "Ordinateur 2";
+			sprintf(display.game->player1_name,"Ordinateur1");
+			sprintf(display.game->player1_name,"Ordinateur2");
 			break;
 		default :
 			fprintf(stderr, "Les consignes d'utilisations du jeu sont definies dans le README.\n");
 			exit(EXIT_FAILURE);
 			break;
 	}
-	
-	SDisplay display;
-	
-	Display_Init(&display); /* Initialisation de l'interface graphique */
-	
-	/* Recopie des noms des joueurs dans la structure game*/
-	strcpy(display.game->player1_name, player1_name);
-	strcpy(display.game->player2_name, player2_name);
-	free(player1_name);
-	free(player2_name);
 	
 	SGameState *gameState;
 	

@@ -127,8 +127,18 @@ int Pion_Depart_Autorise(int x, int y, EPlayer player, SGameState* game,EPositio
 	Retourne Vrai si position trouve, faux sinon.*/
 int CheckerWithScreenPosition(int x, int y, EPosition *pos); // OK FONCTIONNEL
 
+<<<<<<< HEAD
 /*Colore le pion selectionne*/
 void colorChecker(SDisplay *display, SGameState* game, EPosition pos);
+=======
+void Menu_Fill(SDisplay *display,E_GameMode gameMode);
+
+void TextInput(char* name, SDL_keysym key);
+
+void Menu_PlayerName(SDisplay	*display, char	*message, SDL_Rect position, SDL_Color color);
+
+int Menu_Click(int x, int y);
+>>>>>>> 8fcc70e431d13b531e9090c1ef419ed78fc9c5d0
 #endif
 
 
