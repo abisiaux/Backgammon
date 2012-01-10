@@ -529,7 +529,7 @@ int CheckerWithScreenPosition(int x, int y, EPosition *pos)
 		if(y>=423 && y<=590)// Barre de 1 à 6
 		{
 			
-			EPosition tmpPos=6;
+			EPosition tmpPos=5;
 			for(i=1; i<=6; i++)
 			{
 				
@@ -544,7 +544,7 @@ int CheckerWithScreenPosition(int x, int y, EPosition *pos)
 		else if(y>=142 && y<=303)//Barre de 19 à 24
 		{
 			
-			EPosition tmpPos=19;
+			EPosition tmpPos=18;
 			for(i=1; i<=6; i++)
 			{
 				if(x<=(323+(i*40)))
@@ -562,7 +562,7 @@ int CheckerWithScreenPosition(int x, int y, EPosition *pos)
 		if(y>=423 && y<=590)// Barre de 7 à 12
 		{
 			
-			EPosition tmpPos=12;
+			EPosition tmpPos=11;
 			for(i=1; i<=6; i++)
 			{
 				if(x<=(59+(i*40)))
@@ -576,7 +576,7 @@ int CheckerWithScreenPosition(int x, int y, EPosition *pos)
 		else if(y>=142 && y<=303)//Barre de 13 à 18 --
 		{
 			
-			EPosition tmpPos=13;
+			EPosition tmpPos=12;
 			for(i=1; i<=6; i++)
 			{
 				if(x<=(59+(i*40)))	
@@ -594,18 +594,31 @@ int CheckerWithScreenPosition(int x, int y, EPosition *pos)
 
 }
 
-int Pion_Depart_Autorise(int x, int y, EPlayer player, SGameState* game)
+int Pion_Depart_Autorise(int x, int y, EPlayer player, SGameState* game, EPosition posDepart)
 {
-	
+	//On cherche la position correspondant aux coordonnées de la souris au moment du clic sur le pion
+	if(CheckerWithScreenPosition(x, y, &posDepart))
+	{
+		
+		SZone zoneCliquee = game->zones[posDepart];
+		if( (zoneCliquee.player == player) && (zoneCliquee.nb_checkers >= 1) )
+		{
+			return 1;
+		}		
+	}
 	return 0;	
 }
 
-
-
-
-
-
-
-
-
-
+void colorChecker(SDisplay *display, SGameState* game, EPosition pos)
+{
+	
+	SDL_Rect posSelectedChecker;
+	SZone selectedZone = game->zones[pos];
+	posSelectedChecker=display->positions[pos];
+	printf("E_POS:%d\tNB_CHECKER:%d\tY:%d\n",pos,selectedZone.nb_checkers,posSelectedChecker.y);
+	if( pos < 12)
+		posSelectedChecker.y -= (selectedZone.nb_checkers-1)*20; //mise a jour de y pour selectionner le pion du haut
+	else
+		posSelectedChecker.y += (selectedZone.nb_checkers-1)*20; //mise a jour de y pour selectionner le pion du haut
+	SDL_BlitSurface(display->selected_checker, NULL,display->screen, &posSelectedChecker);
+}
