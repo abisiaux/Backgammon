@@ -44,7 +44,6 @@ int main(int argc, char **argv)
 	gameState = Game_Init(); /* Initialisation de la partie */
 	
 	SDL_Event event;
-	SMove move;
 	EPlayer curentPlayer = EPlayer2;
 	
 	int quit = 0;
@@ -60,16 +59,15 @@ int main(int argc, char **argv)
 	/* Affichage du menu */
 	//quit = Display_Menu(&display,gameMode);
 	Display_Refresh(&display, gameState);
+	SDL_Flip(display.screen);
+	
 	
 	
 	
 	while (!quit) // Boucle principale
-	{printf("BOUCLE\n");
-		
-		
-		/*while(!quit) // Boucle de Match
-		{*/
-			/*printf("AVANT JOUEUR");
+	{
+
+			printf("AVANT JOUEUR");
 			if(curentPlayer == EPlayer1)
 			{
 				curentPlayer = EPlayer2;
@@ -83,16 +81,21 @@ int main(int argc, char **argv)
 				sprintf(tmp,"%s, c'est a toi de jouer.",display.game->player1_name);
 				Display_Message(&display, tmp, msg_position, msg_color,1);
 				SDL_Delay(2000);
-			}*/
-			//Display_Refresh(&display, gameState);
+			}
+			Display_Refresh(&display, gameState);
+			SDL_Flip(display.screen);
+			Launch_Die(gameState);
+			Display_Die(&display,gameState);
 			
-			//Launch_Die(gameState);
-			//Display_Die(&display,gameState);
 			
-			int nonJoue=1;
-			while(nonJoue)//Tant que le joueur n'a pas joué tous ses coups
+			int DepartSelected=0;
+			SMove mouvement;
+			int nb_die_used=0;
+			int nb_die_can_play=numberOfDieCanPlay(gameState, curentPlayer);
+			while(nb_die_used < nb_die_can_play)//Tant que le joueur n'a pas joué tous ses coups
 			{
-				EPosition pos=0;
+				EPosition pos=0;;
+				
 				SDL_WaitEvent(&event);
 				switch(event.type)
 				{
@@ -100,21 +103,35 @@ int main(int argc, char **argv)
 						quit = 1;
 						break;
 					case SDL_MOUSEBUTTONUP:
-						;
+						
 						if (event.button.button == SDL_BUTTON_LEFT ) //&& Pion_Depart_Autorise(event.button.x,event.button.y)
 						{// si le joueur clic sur un des pions correspondant aux pions qui peuvent être déplacés sur ce tour
-							printf("CLIC\n");
-							
-							printf("posSx=%d\tposSy=%d\n",event.button.x,event.button.y);
 							if(CheckerWithScreenPosition(event.button.x,event.button.y, &pos))
 							{
-								printf("Position trouvée, POS =%d\n",pos+1);
+								printf("POS+1 =%d\tposDepart:%d\n",pos+1,DepartSelected);
 								colorChecker(&display, gameState, pos);
 								SDL_Flip(display.screen);
-								printf("CHECKER COLORE\n");
-								SDL_Delay(5000);
-								nonJoue=0;
-								quit=1;
+								if(!DepartSelected)// si la position de depart n'est pas definie
+								{
+									DepartSelected=1;
+									mouvement.src_point = pos+1;// le plus 1 na rien a faire !!! modifier
+									printf("pos DEPARRT\t%d\n",DepartSelected);
+								}
+								else // si la pos depart est select on creer le mouvement
+								{
+									printf("pos ARRIVEE\n");
+									DepartSelected=0;
+									mouvement.dest_point = pos+1;// le plus 1 na rien a faire !!! modifier
+									printf("MOVE src:%d\tdest:%d",mouvement.src_point,mouvement.dest_point);
+									Checker_Move(&display,gameState,&mouvement);
+									printf("fin fonction");
+									nb_die_used += numberofDieForMove(gameState, curentPlayer, mouvement); 
+									
+								}
+									
+								
+								
+								
 							}
 							else 	printf("Position non trouvée\n");
 						}
@@ -123,6 +140,10 @@ int main(int argc, char **argv)
 				}
 			
 			}
+						
+			SDL_Delay(10000);
+			quit = 1;
+			
 			
 			
 			

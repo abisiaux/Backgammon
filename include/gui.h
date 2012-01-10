@@ -120,12 +120,9 @@ void Display_Message(SDisplay	*display, char	*message, SDL_Rect position, SDL_Co
 
 void Display_Possibilities(SDisplay *display, SGameState *game, EPlayer player); // A MODIFIER
 
-/*retourne vrai si le joueur a cliqué sur une zone contenant un pion déplacable*/
-int Pion_Depart_Autorise(int x, int y, EPlayer player, SGameState* game,EPosition posDepart);//EN COURS
-
 /*Donne la position en fonction d'un clic sur le jeu dans le poiteur de EPosition pos
 	Retourne Vrai si position trouve, faux sinon.*/
-int CheckerWithScreenPosition(int x, int y, EPosition *pos); // OK FONCTIONNEL
+int CheckerWithScreenPosition(int x, int y, EPosition *pos);
 
 
 /*Colore le pion selectionne*/

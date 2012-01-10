@@ -375,7 +375,7 @@ void Checker_Move(SDisplay *display, SGameState* game, SMove *move)
 	printf("DEST = fleche %d x=%d y=%d\n",move->dest_point,pos_dest_x,pos_dest_y);
 	printf("a=%f b=%f\n",a,b);*/
 	
-	int pas = 1; // Vitesse de deplacement du pion 1=lentement 8=rapide
+	int pas = 15; // Vitesse de deplacement du pion 1=lentement 8=rapide
 	int numCas;
 	
 	if(move->dest_point<13 && move->src_point<13) // Si les deux pions sont situés sur la barre du bas
@@ -599,28 +599,13 @@ int CheckerWithScreenPosition(int x, int y, EPosition *pos)
 
 }
 
-int Pion_Depart_Autorise(int x, int y, EPlayer player, SGameState* game, EPosition posDepart)
-{
-	//On cherche la position correspondant aux coordonnées de la souris au moment du clic sur le pion
-	if(CheckerWithScreenPosition(x, y, &posDepart))
-	{
-		
-		SZone zoneCliquee = game->zones[posDepart];
-		if( (zoneCliquee.player == player) && (zoneCliquee.nb_checkers >= 1) )
-		{
-			return 1;
-		}		
-	}
-	return 0;	
-}
-
 void colorChecker(SDisplay *display, SGameState* game, EPosition pos)
 {
 	
 	SDL_Rect posSelectedChecker;
 	SZone selectedZone = game->zones[pos];
 	posSelectedChecker=display->positions[pos];
-	printf("E_POS:%d\tNB_CHECKER:%d\tY:%d\n",pos,selectedZone.nb_checkers,posSelectedChecker.y);
+	//lprintf("E_POS:%d\tNB_CHECKER:%d\tY:%d\n",pos,selectedZone.nb_checkers,posSelectedChecker.y);
 	if( pos < 12)
 		posSelectedChecker.y -= (selectedZone.nb_checkers-1)*20; //mise a jour de y pour selectionner le pion du haut
 	else

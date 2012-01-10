@@ -109,3 +109,51 @@ int sens_rotation_correct(EPlayer joueur, EPosition depart, EPosition arrivee)
 	}
 	return 0;
 }
+
+int Pion_Depart_Autorise(int x, int y, EPlayer player, SGameState* game, EPosition posDepart)
+{
+	//On cherche la position correspondant aux coordonnées de la souris au moment du clic sur le pion
+	if(CheckerWithScreenPosition(x, y, &posDepart))
+	{
+		
+		SZone zoneCliquee = game->zones[posDepart];
+		if( (zoneCliquee.player == player) && (zoneCliquee.nb_checkers >= 1) )
+		{
+			return 1;
+		}		
+	}
+	return 0;	
+}
+
+int numberofDieForMove(SGameState* game, EPlayer player, SMove move)
+{
+	unsigned int saut=0;
+	if(player == EPlayer1)
+			saut = move.dest_point - move.src_point;
+		else
+			saut = move.src_point - move.dest_point;
+			
+	if(game->die1 != game->die2)
+	{
+		if(saut == game->die1 || saut == game->die2)
+			return 1;
+		else if(saut == (game->die1) + (game->die2))
+			return 2;
+		else return -1; // Normalement impossible  
+		
+	}
+	else
+	{
+		return (int)(saut/(game->die1));
+	}
+}
+
+int numberOfDieCanPlay(SGameState* game, EPlayer player)
+{
+	return 2;
+}
+
+
+
+
+
