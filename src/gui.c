@@ -599,6 +599,7 @@ int CheckerWithScreenPosition(int x, int y, EPosition *pos)
 
 }
 
+
 void colorChecker(SDisplay *display, SGameState* game, EPosition pos)
 {
 	
@@ -612,6 +613,5 @@ void colorChecker(SDisplay *display, SGameState* game, EPosition pos)
 		posSelectedChecker.y += (selectedZone.nb_checkers-1)*20; //mise a jour de y pour selectionner le pion du haut
 	SDL_BlitSurface(display->selected_checker, NULL,display->screen, &posSelectedChecker);
 }
-
 
 

@@ -7,6 +7,7 @@
 #include "../include/backgammon.h"
 #include "../include/arbitrator.h"
 #include "../include/library.h"
+#include "../include/menu.h"
 
 int main(int argc, char **argv)
 {
@@ -57,17 +58,27 @@ int main(int argc, char **argv)
 	SDL_Color msg_color = {255, 255, 255, 0};
 	
 	/* Affichage du menu */
+
 	//quit = Display_Menu(&display,gameMode);
+
+	quit = Display_Menu(&display,gameMode);
+
 	Display_Refresh(&display, gameState);
 	SDL_Flip(display.screen);
 	
 	
 	
 	
+	
+	
 	while (!quit) // Boucle principale
 	{
-
-			printf("AVANT JOUEUR");
+		
+		
+		/*while(!quit) // Boucle de Match
+		{*/
+			/*printf("AVANT JOUEUR");
+>>>>>>> 53a5965c632f704360311b3887699e12f6335de3
 			if(curentPlayer == EPlayer1)
 			{
 				curentPlayer = EPlayer2;
@@ -81,6 +92,7 @@ int main(int argc, char **argv)
 				sprintf(tmp,"%s, c'est a toi de jouer.",display.game->player1_name);
 				Display_Message(&display, tmp, msg_position, msg_color,1);
 				SDL_Delay(2000);
+<<<<<<< HEAD
 			}
 			Display_Refresh(&display, gameState);
 			SDL_Flip(display.screen);
@@ -96,6 +108,24 @@ int main(int argc, char **argv)
 			{
 				EPosition pos=0;;
 				
+=======
+			}*/
+			Display_Refresh(&display, gameState);
+			
+			Launch_Die(gameState);
+			Display_Die(&display,gameState);
+			
+			int DepartSelected=0;
+			SMove mouvement;
+			int nb_die_used=0;
+			int nb_die_can_play = numberOfDieCanPlay(gameState, curentPlayer);
+			printf("nb_die_can_play:%d\n",nb_die_can_play);
+			
+			
+			while(nb_die_used < nb_die_can_play)//Tant que le joueur n'a pas joué tous ses coups
+			{
+				EPosition pos=0;
+				
 				SDL_WaitEvent(&event);
 				switch(event.type)
 				{
@@ -103,6 +133,7 @@ int main(int argc, char **argv)
 						quit = 1;
 						break;
 					case SDL_MOUSEBUTTONUP:
+
 						
 						if (event.button.button == SDL_BUTTON_LEFT ) //&& Pion_Depart_Autorise(event.button.x,event.button.y)
 						{// si le joueur clic sur un des pions correspondant aux pions qui peuvent être déplacés sur ce tour
@@ -124,22 +155,21 @@ int main(int argc, char **argv)
 									mouvement.dest_point = pos+1;// le plus 1 na rien a faire !!! modifier
 									printf("MOVE src:%d\tdest:%d",mouvement.src_point,mouvement.dest_point);
 									Checker_Move(&display,gameState,&mouvement);
-									printf("fin fonction");
-									nb_die_used += numberofDieForMove(gameState, curentPlayer, mouvement); 
+									
+									nb_die_used += numberofDieForMove(gameState, curentPlayer, mouvement);
+									printf("nb_die_used:%d\n",nb_die_used); 
+									
 									
 								}
-									
-								
-								
-								
 							}
-							else 	printf("Position non trouvée\n");
+;
 						}
 			  			break;
 
 				}
 			
 			}
+			printf("fin DE LA PARTIE\n");
 						
 			SDL_Delay(10000);
 			quit = 1;
@@ -185,5 +215,5 @@ int main(int argc, char **argv)
 	
 	Display_Exit(&display);
 	
-	return EXIT_SUCCESS;
+	exit(EXIT_SUCCESS);
 }

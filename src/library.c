@@ -68,10 +68,10 @@ E_GameMode Check_Args( int argc, char** argv, S_AI_Functions* ai_struct)
 		case 1 :
 			return HUMAN_HUMAN;
 		case 2 :
-			if( Load_API(argv[1], ai_struct, 0) )
+			//if( Load_API(argv[1], ai_struct, 0) )
 				return HUMAN_AI;
-			else
-				return ERROR;
+			/*else
+				return ERROR;*/
 		case 3 :
 			if( Load_API(argv[1], ai_struct, 0) && Load_API(argv[2], ai_struct, 0) )
 				return AI_AI;

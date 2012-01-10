@@ -110,12 +110,6 @@ void Checker_Move(SDisplay *display, SGameState* game, SMove *move);
 /* Determine si la souris est sur le bouton quitter */
 int Quit_Zone(int x, int y);
 
-/* Affiche le menu / Retourne 0 si commencer Match | 1 si quitter */
-int Display_Menu(SDisplay *display, E_GameMode gameMode);
-
-/* Retourne un entier correspondant à un événement clic sur le menu */
-int Menu_Click(int x, int y);
-
 void Display_Message(SDisplay	*display, char	*message, SDL_Rect position, SDL_Color color, int box);
 
 void Display_Possibilities(SDisplay *display, SGameState *game, EPlayer player); // A MODIFIER
@@ -128,11 +122,9 @@ int CheckerWithScreenPosition(int x, int y, EPosition *pos);
 /*Colore le pion selectionne*/
 void colorChecker(SDisplay *display, SGameState* game, EPosition pos);
 
-void Menu_Fill(SDisplay *display,E_GameMode gameMode);
+/*Colore le pion selectionne*/
+void colorChecker(SDisplay *display, SGameState* game, EPosition pos);
 
-void TextInput(char* name, SDL_keysym key);
-
-void Menu_PlayerName(SDisplay	*display, char	*message, SDL_Rect position, SDL_Color color);
 
 int Menu_Click(int x, int y);
 

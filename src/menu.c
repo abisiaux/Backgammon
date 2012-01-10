@@ -9,6 +9,7 @@
 #include <SDL/SDL_ttf.h> // Pour la gestion des textes sous SDL
 
 #include "../include/gui.h"
+#include "../include/menu.h"
 #include "../include/backgammon.h"
 
 int Menu_Click(int x, int y)
@@ -32,20 +33,21 @@ int Menu_Click(int x, int y)
 		return 6;
 	
 	if( x>=262 && x<=532 && y>=207 && y<=244 ) // Clic sur changer nom Joueur 1
-	{
-		printf("Selection joueur1\n");
 		return 7;
-	}
+		
 	if( x>=262 && x<=532 && y>=260 && y<=297 ) // Clic sur changer nom Joueur 2
-	{
-		printf("Selection joueur2\n");
 		return 8;
-	}
+
+	if( x>=273 && x<=300 && y>=379 && y<=411 ) // Clic sur flèche score gauche
+		return 9;
+	
+	if( x>=357 && x<=386 && y>=379 && y<=411 ) // Clic sur flèche score gauche
+		return 10;
 	
 	return -1; // Clic ailleur
 }
 
-void Menu_PlayerName(SDisplay	*display, char	*message, SDL_Rect position, SDL_Color color)
+void Menu_Text(SDisplay	*display, char	*message, SDL_Rect position, SDL_Color color)
 {
 	SDL_Surface *msg = TTF_RenderText_Blended(display->font,message,color);
 	SDL_BlitSurface(msg, NULL, display->screen, &position);
@@ -63,7 +65,7 @@ void TextInput(char* name, SDL_keysym key)
         name[length - 1] = '\0';
 
     // Gestion des touches
-    else if (length < 13)
+    else if (length < 20) // Limite à 20 caractères le nom du joueur
     {
         int ascii = -1;
 
@@ -93,14 +95,19 @@ void Menu_Fill(SDisplay *display,E_GameMode gameMode)
 	SDL_Rect menu_position;
 	SDL_Rect check_position;
 	SDL_Color c = {0, 0, 0, 0};
+	SDL_Color col = {255, 255, 255, 0};
 	SDL_Rect player1_name_position;
 	SDL_Rect player2_name_position;
 	
 	char* background;
 	char* temp_path;
+	char* scoreLimit;
 	
 	background = (char*)malloc(100*sizeof(char));
 	temp_path = (char*)malloc(100*sizeof(char));
+	scoreLimit = (char*)malloc(3*sizeof(char));
+	
+	sprintf(scoreLimit, "%d", display->game->scoreLimit);
 	
 	menu_position.x = 0;
 	menu_position.y = 0;
@@ -127,7 +134,12 @@ void Menu_Fill(SDisplay *display,E_GameMode gameMode)
 		SDL_BlitSurface(display->background_menu, NULL, display->screen, &menu_position);
 		
 		// Affichage du nom du joueur
-		Menu_PlayerName(display,display->game->player1_name,player1_name_position,c);
+		Menu_Text(display,display->game->player1_name,player1_name_position,c);
+		
+		// Affichage du score
+		check_position.x = 320;
+		check_position.y = 375;
+		Menu_Text(display, scoreLimit, check_position,col);
 		
 		// Affichage des options cochées
 		if(display->game->player1_checker == GREEN)
@@ -162,8 +174,13 @@ void Menu_Fill(SDisplay *display,E_GameMode gameMode)
 		SDL_BlitSurface(display->background_menu, NULL, display->screen, &menu_position);
 		
 		// Affichage des noms des joueurs
-		Menu_PlayerName(display,display->game->player1_name,player1_name_position,c);
-		Menu_PlayerName(display,display->game->player2_name,player2_name_position,c);
+		Menu_Text(display,display->game->player1_name,player1_name_position,c);
+		Menu_Text(display,display->game->player2_name,player2_name_position,c);
+		
+		// Affichage du score
+		check_position.x = 320;
+		check_position.y = 378;
+		Menu_Text(display, scoreLimit, check_position,col);
 		
 		// Affichage des options cochées
 				
@@ -179,6 +196,10 @@ void Menu_Fill(SDisplay *display,E_GameMode gameMode)
 		SDL_BlitSurface(display->checked, NULL, display->screen, &check_position);
 	}
 	SDL_Flip(display->screen);
+	
+	free(temp_path);
+	free(scoreLimit);
+	//free(background);
 }
 	
 int Display_Menu(SDisplay *display, E_GameMode gameMode)
@@ -260,14 +281,35 @@ int Display_Menu(SDisplay *display, E_GameMode gameMode)
 							SDL_BlitSurface(player_name_selection, NULL, display->screen, &temp_position);
 							SDL_Flip(display->screen);
 							break;
+							
 						case 8 :
-							numPlayerSelected = 2;
-							Menu_Fill(display, gameMode);
-							temp_position.x = 258;
-							temp_position.y = 255;
-							SDL_BlitSurface(player_name_selection, NULL, display->screen, &temp_position);
-							SDL_Flip(display->screen);
+							if(gameMode == HUMAN_HUMAN)
+							{	
+								numPlayerSelected = 2;
+								Menu_Fill(display, gameMode);
+								temp_position.x = 258;
+								temp_position.y = 255;
+								SDL_BlitSurface(player_name_selection, NULL, display->screen, &temp_position);
+								SDL_Flip(display->screen);
+							}
 							break;
+						
+						case 9 :
+							if(display->game->scoreLimit >1)
+							{
+								display->game->scoreLimit = display->game->scoreLimit - 2 ;
+								Menu_Fill(display, gameMode);
+							}
+							break;
+							
+						case 10 :
+							if(display->game->scoreLimit < 15)
+							{
+								display->game->scoreLimit = display->game->scoreLimit + 2 ;
+								Menu_Fill(display, gameMode);
+							}
+							break;
+							
 						default :
 							break;
 					}
@@ -283,7 +325,7 @@ int Display_Menu(SDisplay *display, E_GameMode gameMode)
 					SDL_BlitSurface(player_name_selection, NULL, display->screen, &temp_position);
 					SDL_Flip(display->screen);
 				}
-				else if(numPlayerSelected == 2 )
+				else if(numPlayerSelected == 2 && gameMode == HUMAN_HUMAN)
 				{
 					TextInput(display->game->player2_name, event.key.keysym);
 					Menu_Fill(display, gameMode);

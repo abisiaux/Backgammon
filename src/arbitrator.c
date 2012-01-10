@@ -128,11 +128,11 @@ int Pion_Depart_Autorise(int x, int y, EPlayer player, SGameState* game, EPositi
 int numberofDieForMove(SGameState* game, EPlayer player, SMove move)
 {
 	unsigned int saut=0;
-	if(player == EPlayer1)
-			saut = move.dest_point - move.src_point;
-		else
-			saut = move.src_point - move.dest_point;
-			
+	if(player == EPlayer2)
+		saut = move.dest_point - move.src_point;
+	else
+		saut = move.src_point - move.dest_point;
+	printf("SAUT:%d\n",saut);
 	if(game->die1 != game->die2)
 	{
 		if(saut == game->die1 || saut == game->die2)
