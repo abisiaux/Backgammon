@@ -69,16 +69,18 @@ int main(int argc, char **argv)
 	SDL_Color msg_color = {255, 255, 255, 0};
 	
 	/* Affichage du menu */
-	quit =Display_Menu(&display,gameMode);
+	//quit = Display_Menu(&display,gameMode);
 	Display_Refresh(&display, gameState);
 	
+	
+	
 	while (!quit) // Boucle principale
-	{
+	{printf("BOUCLE\n");
 		
 		
 		/*while(!quit) // Boucle de Match
 		{*/
-			printf("AVANT JOUEUR");
+			/*printf("AVANT JOUEUR");
 			if(curentPlayer == EPlayer1)
 			{
 				curentPlayer = EPlayer2;
@@ -92,16 +94,16 @@ int main(int argc, char **argv)
 				sprintf(tmp,"%s, c'est a toi de jouer.",display.game->player1_name);
 				Display_Message(&display, tmp, msg_position, msg_color,1);
 				SDL_Delay(2000);
-			}
-			Display_Refresh(&display, gameState);
+			}*/
+			//Display_Refresh(&display, gameState);
 			
-			Launch_Die(gameState);
-			Display_Die(&display,gameState);
+			//Launch_Die(gameState);
+			//Display_Die(&display,gameState);
 			
 			int nonJoue=1;
-			while(nonJoue)/*Tant que le joueur n'a pas joué tous ses coups*/
+			while(nonJoue)//Tant que le joueur n'a pas joué tous ses coups
 			{
-				
+				EPosition pos=0;
 				SDL_WaitEvent(&event);
 				switch(event.type)
 				{
@@ -109,14 +111,21 @@ int main(int argc, char **argv)
 						quit = 1;
 						break;
 					case SDL_MOUSEBUTTONUP:
-						if (event.button.button == SDL_BUTTON_LEFT /*&& Pion_Depart_Autorise(event.button.x,event.button.y)*/) 
+						;
+						if (event.button.button == SDL_BUTTON_LEFT ) //&& Pion_Depart_Autorise(event.button.x,event.button.y)
 						{// si le joueur clic sur un des pions correspondant aux pions qui peuvent être déplacés sur ce tour
 							printf("CLIC\n");
-							EPosition pos=0;
+							
 							printf("posSx=%d\tposSy=%d\n",event.button.x,event.button.y);
 							if(CheckerWithScreenPosition(event.button.x,event.button.y, &pos))
 							{
-								printf("Position trouvée, POS =%d\n",pos);
+								printf("Position trouvée, POS =%d\n",pos+1);
+								colorChecker(&display, gameState, pos);
+								SDL_Flip(display.screen);
+								printf("CHECKER COLORE\n");
+								SDL_Delay(5000);
+								nonJoue=0;
+								quit=1;
 							}
 							else 	printf("Position non trouvée\n");
 						}
@@ -161,6 +170,7 @@ int main(int argc, char **argv)
 			}
 			Display_Refresh(&display, gameState);
 		//}
+		SDL_Flip(display.screen);
 	}
 	
 	Display_Exit(&display);

@@ -47,6 +47,8 @@ struct Display
 	
 	SDL_Surface *white_checker; // Les pions blancs
 	
+	SDL_Surface *selected_checker; // Les pions Selectionnés
+	
 	SDL_Surface *die[6]; // Image du dé !! Attention : le dé de valeur i est stocké dans la case i-1 !!
 	
 	SDL_Rect die1_position; // Position du dé n°1
@@ -119,11 +121,14 @@ void Display_Message(SDisplay	*display, char	*message, SDL_Rect position, SDL_Co
 void Display_Possibilities(SDisplay *display, SGameState *game, EPlayer player); // A MODIFIER
 
 /*retourne vrai si le joueur a cliqué sur une zone contenant un pion déplacable*/
-int Pion_Depart_Autorise(int x, int y, EPlayer player, SGameState* game);// A VENIR
+int Pion_Depart_Autorise(int x, int y, EPlayer player, SGameState* game,EPosition posDepart);//EN COURS
 
 /*Donne la position en fonction d'un clic sur le jeu dans le poiteur de EPosition pos
 	Retourne Vrai si position trouve, faux sinon.*/
 int CheckerWithScreenPosition(int x, int y, EPosition *pos); // OK FONCTIONNEL
+
+/*Colore le pion selectionne*/
+void colorChecker(SDisplay *display, SGameState* game, EPosition pos);
 #endif
 
 
