@@ -124,6 +124,14 @@ int Pion_Depart_Autorise(int x, int y, EPlayer player, SGameState* game);// A VE
 /*Donne la position en fonction d'un clic sur le jeu dans le poiteur de EPosition pos
 	Retourne Vrai si position trouve, faux sinon.*/
 int CheckerWithScreenPosition(int x, int y, EPosition *pos); // OK FONCTIONNEL
+
+void Menu_Fill(SDisplay *display,E_GameMode gameMode);
+
+void TextInput(char* name, SDL_keysym key);
+
+void Menu_PlayerName(SDisplay	*display, char	*message, SDL_Rect position, SDL_Color color);
+
+int Menu_Click(int x, int y);
 #endif
 
 
