@@ -283,7 +283,7 @@ int Display_Menu(SDisplay *display, E_GameMode gameMode)
 								if( strcmp(display->game->player1_name,"") )
 									return 0;
 							}
-							Display_Message(display, "Veuillez saisir les noms des joueurs", temp_position, col, 1);
+							Display_Message(display, "Veuillez saisir", temp_position, col, 1);
 							SDL_Delay(1500);
 							Menu_Fill(display, gameMode);
 							SDL_Flip(display->screen);

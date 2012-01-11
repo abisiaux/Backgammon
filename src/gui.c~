@@ -159,7 +159,7 @@ void Display_Message(SDisplay	*display, char	*message, SDL_Rect position, SDL_Co
 	{
 		SDL_BlitSurface(display->msg_box, NULL, display->screen, &position);
 		
-		position.x= position.x + 260 - 12*leng/2;
+		position.x= position.x + 250 - 12*leng/2;
 		position.y = position.y + 25;
 	}
 	SDL_Surface *msg = TTF_RenderText_Blended(display->font,message,color);
