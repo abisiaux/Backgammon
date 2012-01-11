@@ -65,7 +65,7 @@ void TextInput(char* name, SDL_keysym key)
         name[length - 1] = '\0';
 
     // Gestion des touches
-    else if (length < 20) // Limite à 20 caractères le nom du joueur
+    else if (length < 12) // Limite à 15 caractères le nom du joueur
     {
         int ascii = -1;
 

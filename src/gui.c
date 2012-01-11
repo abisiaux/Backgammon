@@ -142,8 +142,8 @@ void Display_Init(SDisplay *display)
 	
 	// Allocation de la structure de jeu et initialisation
 	display->game = (SGame*)malloc(sizeof(SGame));
-	display->game->player1_name = (char*)malloc(50*sizeof(char));
-	display->game->player2_name = (char*)malloc(50*sizeof(char));
+	display->game->player1_name = (char*)malloc(12*sizeof(char));
+	display->game->player2_name = (char*)malloc(12*sizeof(char));
 	display->game->player1_checker = GREEN;
 	display->game->player2_checker = WHITE;
 	display->game->withDouble = 1; // Par défaut, on joue avec le double
@@ -168,7 +168,41 @@ void Display_Message(SDisplay	*display, char	*message, SDL_Rect position, SDL_Co
 	SDL_Flip(display->screen);
 }
 
+int Display_Message_Click(SDisplay	*display, char	*message, SDL_Rect position, SDL_Color color, int box)
+{
+	int leng = strlen(message);
+	if(box)
+	{
+		SDL_BlitSurface(display->msg_box, NULL, display->screen, &position);
+		
+		position.x= position.x + 260 - 12*leng/2;
+		position.y = position.y + 25;
+	}
+	SDL_Surface *msg = TTF_RenderText_Blended(display->font,message,color);
+	SDL_BlitSurface(msg, NULL, display->screen, &position);
+	SDL_FreeSurface(msg);
+	SDL_Flip(display->screen);
+	int click = 0;
+	SDL_Event event;
+	while(1)
+	{
+		SDL_WaitEvent(&event);
+		switch(event.type)
+		{
+			case SDL_QUIT:
+				return 1;
+				break;
+			case SDL_MOUSEBUTTONUP:
+				if (event.button.button == SDL_BUTTON_LEFT)
+				{
+					if(event.button.x>=80 && event.button.x<=548 && event.button.y>=325 && event.button.y<=415)
+						return 0;
+				}
+		  		break;
 
+		}
+	}
+}
 void Display_Exit(SDisplay *display)
 {
 	int i;
@@ -221,7 +255,7 @@ void Display_Score(SDisplay *display, SGameState *game)
 	pos.x = 108;
 	pos.y = 40;
 	Display_Message(display, display->game->player1_name, pos, c, 0);
-	pos.x = 295;
+	pos.x = 310;
 	Display_Message(display, scoreP1, pos, c, 0);
 	pos.y = 85;
 	Display_Message(display, scoreP2, pos, c, 0);
@@ -240,7 +274,7 @@ void Display_Refresh(SDisplay *display, SGameState *game)
 	Display_Checkers(display, game);
 	
 	// Affichage des dés
-	//Display_Die(display,game);
+	Display_Die(display,game);
 }
 
 void Launch_Die(SGameState *game)
@@ -377,7 +411,7 @@ void Checker_Move(SDisplay *display, SGameState* game, SMove *move)
 	printf("DEST = fleche %d x=%d y=%d\n",move->dest_point,pos_dest_x,pos_dest_y);
 	printf("a=%f b=%f\n",a,b);*/
 	
-	int pas = 15; // Vitesse de deplacement du pion 1=lentement 8=rapide
+	int pas = 8; // Vitesse de deplacement du pion 1=lentement 8=rapide
 	int numCas;
 	
 	if(move->dest_point<13 && move->src_point<13) // Si les deux pions sont situés sur la barre du bas

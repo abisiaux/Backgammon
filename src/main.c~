@@ -85,7 +85,6 @@ int main(int argc, char **argv)
 					quit = Display_Message_Click(&display, "Lancer les des", msg_position, msg_color,1);
 					Launch_Die(gameState);
 					Display_Refresh(&display, gameState);
-					SDL_Delay(2000);
 					mouvement.src_point = 8;
 					mouvement.dest_point = 14;
 					if(authorized_deplacement(gameState, &mouvement, EPlayer1))
