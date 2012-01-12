@@ -8,8 +8,7 @@
 #include <SDL/SDL_image.h> // Pour utiliser des formats d'image autre que bmp
 #include <SDL/SDL_ttf.h> // Pour la gestion des textes sous SDL
 
-#include "../include/gui.h"
-#include "../include/menu.h"
+#include "../include/definitions.h"
 #include "../include/backgammon.h"
 
 int Menu_Click(int x, int y)
@@ -90,7 +89,7 @@ void TextInput(char* name, SDL_keysym key)
    }
 }
 
-void Menu_Fill(SDisplay *display,E_GameMode gameMode)
+void Menu_Fill(SDisplay *display,EGameMode gameMode, SGame* game)
 {
 	SDL_Rect menu_position;
 	SDL_Rect check_position;
@@ -107,7 +106,7 @@ void Menu_Fill(SDisplay *display,E_GameMode gameMode)
 	temp_path = (char*)malloc(100*sizeof(char));
 	scoreLimit = (char*)malloc(3*sizeof(char));
 	
-	sprintf(scoreLimit, "%d", display->game->scoreLimit);
+	sprintf(scoreLimit, "%d", game->scoreLimit);
 	
 	menu_position.x = 0;
 	menu_position.y = 0;
@@ -134,7 +133,7 @@ void Menu_Fill(SDisplay *display,E_GameMode gameMode)
 		SDL_BlitSurface(display->background_menu, NULL, display->screen, &menu_position);
 		
 		// Affichage du nom du joueur
-		Menu_Text(display,display->game->player1_name,player1_name_position,c);
+		Menu_Text(display,game->player1_name,player1_name_position,c);
 		
 		// Affichage du score
 		check_position.x = 320;
@@ -142,7 +141,7 @@ void Menu_Fill(SDisplay *display,E_GameMode gameMode)
 		Menu_Text(display, scoreLimit, check_position,col);
 		
 		// Affichage des options cochées
-		if(display->game->player1_checker == GREEN)
+		if(game->player1_checker == GREEN)
 			check_position.x = 255;
 		else
 			check_position.x = 400;
@@ -151,7 +150,7 @@ void Menu_Fill(SDisplay *display,E_GameMode gameMode)
 		
 		SDL_BlitSurface(display->checked, NULL, display->screen, &check_position);
 		
-		if(display->game->withDouble)
+		if(game->withDouble)
 			check_position.x = 255;
 		else
 			check_position.x = 400;
@@ -174,8 +173,8 @@ void Menu_Fill(SDisplay *display,E_GameMode gameMode)
 		SDL_BlitSurface(display->background_menu, NULL, display->screen, &menu_position);
 		
 		// Affichage des noms des joueurs
-		Menu_Text(display,display->game->player1_name,player1_name_position,c);
-		Menu_Text(display,display->game->player2_name,player2_name_position,c);
+		Menu_Text(display,game->player1_name,player1_name_position,c);
+		Menu_Text(display,game->player2_name,player2_name_position,c);
 		
 		// Affichage du score
 		check_position.x = 320;
@@ -184,7 +183,7 @@ void Menu_Fill(SDisplay *display,E_GameMode gameMode)
 		
 		// Affichage des options cochées
 				
-		if(display->game->withDouble)
+		if(game->withDouble)
 		{
 			check_position.x = 255;
 		}
@@ -202,7 +201,7 @@ void Menu_Fill(SDisplay *display,E_GameMode gameMode)
 	//free(background);
 }
 	
-int Display_Menu(SDisplay *display, E_GameMode gameMode)
+int Display_Menu(SDisplay *display, EGameMode gameMode, SGame* game)
 {
 	SDL_Color col = {255, 255, 255, 0};
 	SDL_Surface *player_name_selection;
@@ -219,7 +218,7 @@ int Display_Menu(SDisplay *display, E_GameMode gameMode)
 	
 	SDL_Event event;
 	
-	Menu_Fill(display, gameMode);
+	Menu_Fill(display, gameMode, game);
 	SDL_Flip(display->screen);
 	while(1)
 	{
@@ -239,9 +238,9 @@ int Display_Menu(SDisplay *display, E_GameMode gameMode)
 							if(gameMode == HUMAN_AI)
 							{							
 								numPlayerSelected = 0;
-								display->game->player1_checker = GREEN;
-								display->game->player2_checker = WHITE;
-								Menu_Fill(display, gameMode);
+								game->player1_checker = GREEN;
+								game->player2_checker = WHITE;
+								Menu_Fill(display, gameMode, game);
 							}
 							break;
 							
@@ -249,22 +248,22 @@ int Display_Menu(SDisplay *display, E_GameMode gameMode)
 							if(gameMode == HUMAN_AI)
 							{
 								numPlayerSelected = 0;
-								display->game->player1_checker = WHITE;
-								display->game->player2_checker = GREEN;
-								Menu_Fill(display, gameMode);
+								game->player1_checker = WHITE;
+								game->player2_checker = GREEN;
+								Menu_Fill(display, gameMode, game);
 							}
 							break;
 							
 						case 3 : // Clic sur oui
 							numPlayerSelected = 0;
-							display->game->withDouble = 1;
-							Menu_Fill(display, gameMode);
+							game->withDouble = 1;
+							Menu_Fill(display, gameMode, game);
 							break;
 						
 						case 4 : // Clic sur non
 							numPlayerSelected = 0;
-							display->game->withDouble = 0;
-							Menu_Fill(display, gameMode);
+							game->withDouble = 0;
+							Menu_Fill(display, gameMode, game);
 							break;
 						
 						case 5 : // Clic sur quitter
@@ -275,23 +274,23 @@ int Display_Menu(SDisplay *display, E_GameMode gameMode)
 							temp_position.y = 300;
 							if( gameMode == HUMAN_HUMAN )
 							{
-								if( strcmp(display->game->player1_name,"") && strcmp(display->game->player2_name,""))
+								if( strcmp(game->player1_name,"") && strcmp(game->player2_name,""))
 									return 0;
 							}
 							else
 							{
-								if( strcmp(display->game->player1_name,"") )
+								if( strcmp(game->player1_name,"") )
 									return 0;
 							}
 							Display_Message(display, "Veuillez saisir les noms des joueurs", temp_position, col, 1);
 							SDL_Delay(1500);
-							Menu_Fill(display, gameMode);
+							Menu_Fill(display, gameMode, game);
 							SDL_Flip(display->screen);
 							break;
 						
 						case 7 : // Clic sur changer nom joueur 1
 							numPlayerSelected = 1;
-							Menu_Fill(display, gameMode);
+							Menu_Fill(display, gameMode, game);
 							temp_position.x = 258;
 							temp_position.y = 203;
 							SDL_BlitSurface(player_name_selection, NULL, display->screen, &temp_position);
@@ -302,7 +301,7 @@ int Display_Menu(SDisplay *display, E_GameMode gameMode)
 							if(gameMode == HUMAN_HUMAN)
 							{	
 								numPlayerSelected = 2;
-								Menu_Fill(display, gameMode);
+								Menu_Fill(display, gameMode, game);
 								temp_position.x = 258;
 								temp_position.y = 255;
 								SDL_BlitSurface(player_name_selection, NULL, display->screen, &temp_position);
@@ -311,18 +310,18 @@ int Display_Menu(SDisplay *display, E_GameMode gameMode)
 							break;
 						
 						case 9 :
-							if(display->game->scoreLimit >1)
+							if(game->scoreLimit >1)
 							{
-								display->game->scoreLimit = display->game->scoreLimit - 2 ;
-								Menu_Fill(display, gameMode);
+								game->scoreLimit = game->scoreLimit - 2 ;
+								Menu_Fill(display, gameMode, game);
 							}
 							break;
 							
 						case 10 :
-							if(display->game->scoreLimit < 15)
+							if(game->scoreLimit < 15)
 							{
-								display->game->scoreLimit = display->game->scoreLimit + 2 ;
-								Menu_Fill(display, gameMode);
+								game->scoreLimit = game->scoreLimit + 2 ;
+								Menu_Fill(display, gameMode, game);
 							}
 							break;
 							
@@ -337,7 +336,7 @@ int Display_Menu(SDisplay *display, E_GameMode gameMode)
 					if(event.key.keysym.sym == SDLK_TAB && gameMode == HUMAN_HUMAN)
 					{
 						numPlayerSelected = 2;
-						Menu_Fill(display, gameMode);
+						Menu_Fill(display, gameMode, game);
 						temp_position.x = 258;
 						temp_position.y = 255;
 						SDL_BlitSurface(player_name_selection, NULL, display->screen, &temp_position);
@@ -345,8 +344,8 @@ int Display_Menu(SDisplay *display, E_GameMode gameMode)
 					}
 					else
 					{
-						TextInput(display->game->player1_name, event.key.keysym);
-						Menu_Fill(display, gameMode);
+						TextInput(game->player1_name, event.key.keysym);
+						Menu_Fill(display, gameMode, game);
 						temp_position.x = 258;
 						temp_position.y = 203;
 						SDL_BlitSurface(player_name_selection, NULL, display->screen, &temp_position);
@@ -355,8 +354,8 @@ int Display_Menu(SDisplay *display, E_GameMode gameMode)
 				}
 				else if(numPlayerSelected == 2 && gameMode == HUMAN_HUMAN)
 				{
-					TextInput(display->game->player2_name, event.key.keysym);
-					Menu_Fill(display, gameMode);
+					TextInput(game->player2_name, event.key.keysym);
+					Menu_Fill(display, gameMode, game);
 					temp_position.x = 258;
 					temp_position.y = 255;
 					SDL_BlitSurface(player_name_selection, NULL, display->screen, &temp_position);

@@ -1,12 +1,13 @@
 #include "backgammon.h"
 #include "gui.h"
+#include "game.h"
 #include <SDL/SDL.h>
 
 #ifndef MENU_H
 	#define MENU_H
 
 /* Remplis le menu avec les options correspondants au mode de jeu */
-void Menu_Fill(SDisplay *display,E_GameMode gameMode);
+void Menu_Fill(SDisplay *display,EGameMode gameMode, SGame* game);
 
 /* Ajoute à une chaine de caractère un caractère obtenu par l'événement SDL_KEYUP */
 void TextInput(char* name, SDL_keysym key);
@@ -18,6 +19,6 @@ void Menu_Text(SDisplay *display, char	*message, SDL_Rect position,SDL_Color col
 int Menu_Click(int x, int y);
 
 /* Affiche le menu et retourne 0 si jouer ou 1 si quitter */
-int Display_Menu(SDisplay *display, E_GameMode gameMode);
+int Display_Menu(SDisplay *display, EGameMode gameMode, SGame* game);
 
 #endif

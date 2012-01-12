@@ -1,0 +1,29 @@
+#ifndef LIBRARY_H
+	#define LIBRARY_H
+	
+#include "backgammon.h"
+#include "game.h"
+
+typedef struct
+{
+	void* AI_Handle;
+	pfInitLibrary AI_InitLibrary;
+	pfStartMatch AI_StartMatch;
+	pfEndMatch AI_EndMatch;
+	pfStartGame AI_StartGame;
+	pfEndGame AI_EndGame;
+	pfDoubleStack AI_DoubleStack;
+	pfTakeDouble AI_TakeDouble;
+	pfMakeDecision AI_MakeDecision;
+} SAI_Functions;
+
+
+SAI_Functions* Init_SAI(void);
+
+void Free_SAI( SAI_Functions* ai_struct);
+
+int Load_API( char* path, SAI_Functions* ai_struct, int ind);
+
+E_GameMode Check_Args( int argc, char** argv, SAI_Functions* ai_struct);
+
+#endif

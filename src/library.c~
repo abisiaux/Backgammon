@@ -2,13 +2,16 @@
 #include<stdlib.h>
 #include<dlfcn.h>
 
-#include "../include/library.h"
+#include "../include/definitions.h"
 
-S_AI_Functions* Init_S_AI(void)
-{
-	S_AI_Functions* ai_struct;
+#ifndef LIBRARY_H
+	#define LIBRARY_H
 	
-	ai_struct = (S_AI_Functions*)malloc(2*sizeof(S_AI_Functions));
+SAI_Functions* Init_SAI(void)
+{
+	SAI_Functions* ai_struct;
+	
+	ai_struct = (SAI_Functions*)malloc(2*sizeof(SAI_Functions));
 	
 	int i;
 	
@@ -29,7 +32,7 @@ S_AI_Functions* Init_S_AI(void)
 	return ai_struct;
 }
 
-void Free_S_AI( S_AI_Functions* ai_struct)
+void Free_SAI( SAI_Functions* ai_struct)
 {
 	if (ai_struct[0].AI_Handle != NULL) // Si la librairie a été chargée
 		dlclose(ai_struct[0].AI_Handle);
@@ -40,7 +43,7 @@ void Free_S_AI( S_AI_Functions* ai_struct)
 	free(ai_struct);
 }
 
-int Load_API( char* path, S_AI_Functions* ai_struct, int ind)
+int Load_API( char* path, SAI_Functions* ai_struct, int ind)
 {
 	if((ai_struct[ind].AI_Handle = dlopen(path,RTLD_LAZY)) == NULL)
 	{
@@ -60,7 +63,7 @@ int Load_API( char* path, S_AI_Functions* ai_struct, int ind)
     return 1;
 }
 
-E_GameMode Check_Args( int argc, char** argv, S_AI_Functions* ai_struct)
+EGameMode Check_Args( int argc, char** argv, SAI_Functions* ai_struct)
 {
 
 	switch(argc)
@@ -81,3 +84,5 @@ E_GameMode Check_Args( int argc, char** argv, S_AI_Functions* ai_struct)
 			return ERROR;
 	}
 }
+
+#endif

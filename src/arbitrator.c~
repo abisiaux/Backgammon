@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
-#include "../include/definitions.h"
+#include "../include/arbitrator.h"
 #include "../include/backgammon.h"
 
 int authorized_deplacement(SGameState* game, SMove *move, EPlayer player)
