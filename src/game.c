@@ -244,9 +244,12 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game)
 			quit = 1;
 		quit = 1;
 	}
+	
 	free(tmp);
+	free(gameState);
 	free(game->player1_name);
 	free(game->player2_name);
+	
 	return 1;
 }
 

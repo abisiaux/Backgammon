@@ -193,12 +193,13 @@ void Menu_Fill(SDisplay *display,EGameMode gameMode, SGame* game)
 		check_position.y = 320;
 		
 		SDL_BlitSurface(display->checked, NULL, display->screen, &check_position);
+
 	}
 	SDL_Flip(display->screen);
 	
 	free(temp_path);
 	free(scoreLimit);
-	//free(background);
+	//free(background); // Invalid Free ????
 }
 	
 int Display_Menu(SDisplay *display, EGameMode gameMode, SGame* game)
@@ -275,12 +276,18 @@ int Display_Menu(SDisplay *display, EGameMode gameMode, SGame* game)
 							if( gameMode == HUMAN_HUMAN )
 							{
 								if( strcmp(game->player1_name,"") && strcmp(game->player2_name,""))
+								{
+									free(temp_path);
 									return 0;
+								}
 							}
 							else
 							{
 								if( strcmp(game->player1_name,"") )
+								{
+									free(temp_path);
 									return 0;
+								}
 							}
 							Display_Message(display, "Veuillez saisir les noms des joueurs", temp_position, col, 1);
 							SDL_Delay(1500);
@@ -364,4 +371,5 @@ int Display_Menu(SDisplay *display, EGameMode gameMode, SGame* game)
 				break;
 		}
 	}
+	free(temp_path);
 }

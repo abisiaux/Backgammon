@@ -21,6 +21,8 @@ void Display_Init(SDisplay *display, SGame* game)
 	if (SDL_Init(SDL_INIT_VIDEO) == -1)
 	{
 		fprintf(stderr, "Erreur d'initialisation de la SDL");
+		free(temp_path); // On libère
+		free(temp_name);
 		exit(EXIT_FAILURE);
 	}
 	
@@ -131,6 +133,8 @@ void Display_Init(SDisplay *display, SGame* game)
 	if (display->screen == NULL) // Si l'ouverture a échoué, on écrit l'erreur et on arrête
 	{
 		fprintf(stderr, "Impossible de charger le mode vidéo : %s\n", SDL_GetError());
+		free(temp_path); // On libère
+		free(temp_name);
 		exit(EXIT_FAILURE);
 	}
 	
@@ -140,6 +144,8 @@ void Display_Init(SDisplay *display, SGame* game)
 	if(TTF_Init() == -1)
 	{
 		fprintf(stderr, "Erreur d'initialisation de TTF_Init : %s\n", TTF_GetError());
+		free(temp_path); // On libère
+		free(temp_name);
 		exit(EXIT_FAILURE);
 	}
    
@@ -156,7 +162,8 @@ void Display_Init(SDisplay *display, SGame* game)
 	game->withDouble = 1; // Par défaut, on joue avec le double
 	game->scoreLimit = 5; // Par défaut, limite de score est de 
 	
-	free(temp_path); // On libère temp_path car on ne l'utilise plus
+	free(temp_path); // On libère
+	free(temp_name);
 }
 
 
@@ -220,7 +227,10 @@ void Display_Exit(SDisplay *display)
 	SDL_FreeSurface(display->checked);
 	SDL_FreeSurface(display->white_checker);
 	SDL_FreeSurface(display->green_checker);
-
+	SDL_FreeSurface(display->selected_checker);
+	SDL_FreeSurface(display->msg_box);
+	SDL_FreeSurface(display->possibility);
+	
 	for( i=0; i<6; i++ )
 	{
 		SDL_FreeSurface(display->die[i]);
@@ -228,6 +238,7 @@ void Display_Exit(SDisplay *display)
 	SDL_FreeSurface(display->screen);
 	
 	TTF_CloseFont(display->font);
+
 	TTF_Quit();
 	SDL_Quit();
 }
@@ -292,6 +303,9 @@ void Display_Score(SDisplay *display, SGameState *gameState, SGame* game)
 	Display_Message(display, scoreP2, pos, c, 0);
 	pos.x = 108;
 	Display_Message(display, game->player2_name, pos, c, 0);
+	
+	free(scoreP1);
+	free(scoreP2);
 }
 
 
@@ -356,6 +370,7 @@ void Display_Checkers(SDisplay *display, SGameState *game)
 				sprintf(tmp, "%d", game->zones[i].nb_checkers);
 				num = TTF_RenderText_Blended(display->font,tmp,color);
 				SDL_BlitSurface(num, NULL, display->screen, &new_pos);
+				SDL_FreeSurface(num);
 				break;
 			}
 			else
@@ -370,6 +385,7 @@ void Display_Checkers(SDisplay *display, SGameState *game)
 			}
 		}
 	}
+	free(tmp);
 }
 
 

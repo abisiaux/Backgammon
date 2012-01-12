@@ -71,6 +71,8 @@ int main(int argc, char **argv)
 		
 	}
 	
+	Free_SAI(ai_struct);
+	
 	Display_Exit(&display);
 	
 	exit(EXIT_SUCCESS);
