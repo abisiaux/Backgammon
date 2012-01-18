@@ -77,7 +77,9 @@ typedef struct Display
 	
 	SDL_Rect die2_position; // Position du dé n°2
 	
-	SDL_Surface *possibility; // Cadre autour de la flèche pour indiquer une possibilité de déplacement
+	SDL_Surface *possibility1_12; // Cadre autour de la flèche pour indiquer une possibilité de déplacement
+	
+	SDL_Surface *possibility13_24; // Cadre autour de la flèche pour indiquer une possibilité de déplacement
 	
 	char *font_path; // Le chemin du dossier contenant les polices
 	
@@ -151,8 +153,14 @@ void Display_Message(SDisplay	*display, char	*message, SDL_Rect position, SDL_Co
 
 int Display_Message_Click(SDisplay	*display, char	*message, SDL_Rect position, SDL_Color color, int box);
 
+/*Determine les zones diponibles pour acceuillir un pion*/
+int* Display_Arrow_Possibilities(SDisplay *display, SGameState *game, EPlayer player, EPosition depart);
+
+/*Dessine un contour de fleche*/
+void Draw_Selected_Arrow(SDisplay *display, EPosition pos);
+
 //void Display_Possibilities(SDisplay *display, SGameState *gameState, EPlayer player); // A MODIFIER
-void Display_CheckersPossibilities(SDisplay *display, SGameState *game, EPlayer player);
+int Display_CheckersPossibilities(SDisplay *display, SGameState *game, EPlayer player);
 /*Donne la position en fonction d'un clic sur le jeu dans le poiteur de EPosition pos
 	Retourne Vrai si position trouve, faux sinon.*/
 int CheckerWithScreenPosition(int x, int y, EPosition *pos);
@@ -168,6 +176,8 @@ void colorChecker(SDisplay *display, SGameState* gameState, EPosition pos);
 int Menu_Click(int x, int y);
 
 void Display_RefreshGameBoard(SDisplay *display, SGameState *game);
+
+int inTab(EPosition p,int* tab);
 
 /**************************** FIN DEFINITIONS POUR L'INTERFACE GRAPHIQUE ******************************/
 

@@ -196,19 +196,33 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game)
 						quit = Display_Message_Click(display, tmp, msg_position, msg_color,1);
 						if(quit)
 						{
-							quit = 1;
 							break;
 						}
 						Game_LaunchDie(gameState);
+						/*PARTIE ANTONIN TEST*/
+						/*gameState->die1 = 4; // A ENLEVER, UNIQUEMENT POUR LES TESTS
+						gameState->die2 = 4;*/
 						Display_RefreshGameBoard(display, gameState);
-						Display_CheckersPossibilities(display, gameState, curentP);
+						quit = Display_CheckersPossibilities(display, gameState, curentP);
+						if(quit)
+						{
+							break;
+						}
 						SDL_Flip(display->screen);
-						sleep(5);
+						//Display_WaitMove(display, gameState, curentP);
+					/*	printf("PARTIE DU CODE A TESTER\n");
 						
-						mouvement.src_point = 8;
-						mouvement.dest_point = 13;
+						printf("%d\n",(gameState->zones[23]).player);
+						Display_Arrow_Possibilities(display, gameState, 1, 11);
+						
+						sleep(10);
+						printf("APRES SLEEP\n");*/
+						/*FIN PARTIE ANTONIN TEST */
+												
+						//mouvement.src_point = 8;
+						//mouvement.dest_point = 13;
 						//if(authorized_deplacement(gameState, &mouvement, EPlayer1))
-						Checker_Move(display,gameState,&mouvement);
+						//Checker_Move(display,gameState,&mouvement);
 							
 						curentP = EPlayer2;
 					}
@@ -216,6 +230,7 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game)
 					{
 						sprintf(tmp,"%s, lance les des !",game->player2_name);
 						quit = Display_Message_Click(display, tmp, msg_position, msg_color,1);
+						printf("CLIC\n");
 						if(quit)
 						{
 							quit = 1;
@@ -223,13 +238,17 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game)
 						}
 						Game_LaunchDie(gameState);
 						Display_RefreshGameBoard(display, gameState);
-						Display_CheckersPossibilities(display, gameState, curentP);
+						quit = Display_CheckersPossibilities(display, gameState, curentP);
+						if(quit)
+						{
+							break;
+						}
 						SDL_Flip(display->screen);
-						sleep(5);
+						/*sleep(5);
 						mouvement.src_point = 17;
 						mouvement.dest_point = 12;
 						//if(authorized_deplacement(gameState, &mouvement, EPlayer2))
-							Checker_Move(display,gameState,&mouvement);
+							Checker_Move(display,gameState,&mouvement);*/
 						
 						curentP = EPlayer1;
 					}

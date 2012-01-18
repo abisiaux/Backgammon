@@ -69,8 +69,13 @@ void Display_Init(SDisplay *display, SGame* game)
 	
 	// Chargement du cadre de possibilité
 	strcpy(temp_path, display->img_path);
-	strcat(temp_path, "possibility.png");
-	display->possibility = IMG_Load(temp_path);
+	strcat(temp_path, "flecheSelected1_12.png");
+	display->possibility1_12 = IMG_Load(temp_path);
+	
+	// Chargement du cadre de possibilité
+	strcpy(temp_path, display->img_path);
+	strcat(temp_path, "flecheSelected13_24.png");
+	display->possibility13_24 = IMG_Load(temp_path);
 	
 	
 	// Chargement de l'image du cadre d'un message
@@ -229,7 +234,8 @@ void Display_Exit(SDisplay *display)
 	SDL_FreeSurface(display->green_checker);
 	SDL_FreeSurface(display->selected_checker);
 	SDL_FreeSurface(display->msg_box);
-	SDL_FreeSurface(display->possibility);
+	SDL_FreeSurface(display->possibility1_12);
+	SDL_FreeSurface(display->possibility13_24);
 	
 	for( i=0; i<6; i++ )
 	{
@@ -537,7 +543,7 @@ void Checker_Move(SDisplay *display, SGameState* game, SMove *move)
 	Display_RefreshGameBoard(display, game);
 }
 
-void Display_DrawPossibility(SDisplay *display,EPosition numFleche)
+/*void Display_DrawPossibility(SDisplay *display,EPosition numFleche)
 {
 	SDL_Rect new_pos = display->positions[numFleche-1];
 	new_pos.x = new_pos.x -5;
@@ -546,7 +552,7 @@ void Display_DrawPossibility(SDisplay *display,EPosition numFleche)
 		
 	SDL_BlitSurface(display->possibility, NULL,display->screen, &new_pos);
 	
-}
+}*/
 
 /*
 
@@ -689,7 +695,7 @@ void colorChecker(SDisplay *display, SGameState* game, EPosition pos)
 			
 	SDL_BlitSurface(display->selected_checker, NULL,display->screen, &posSelectedChecker);
 }
-
+/*
 void Display_CheckersPossibilities(SDisplay *display, SGameState *game, EPlayer player)
 {
 	int i=0;
@@ -722,6 +728,99 @@ void Display_CheckersPossibilities(SDisplay *display, SGameState *game, EPlayer 
 			}
 		}
 	}
+	//SDL_Flip(display->screen);
+}
+
+*/
+int Display_CheckersPossibilities(SDisplay *display, SGameState *game, EPlayer player)
+{
+	int i=0;
+	int * tab=(int *)malloc(28*sizeof(int));
+	int* arriveesValides;
+	int cpt=0;
+	int posDepartSelected = 0;
+	for(int i=0;i<28;i++) tab[i]=-1;
+	SDL_Event event;
+	
+	if(game->die1 != game->die2) // Si dés différents
+	{
+		for( i=0; i<24; i++) // Pour chaque flèche
+		{
+			if(game->zones[i].nb_checkers>0 && game->zones[i].player==player)
+			{
+				if( (i+game->die1)<24 && (game->zones[i+game->die1].nb_checkers==0 || game->zones[i+game->die1].player==player) )
+				{
+					printf("Possibilite sur fleche %d avec de1 et pion sur fleche %d\n",i+1+game->die1,i+1);
+					colorChecker(display,game,i);
+					tab[cpt]=i;
+					cpt++;
+				}
+				if( (i+game->die2)<24 && (game->zones[i+game->die2].nb_checkers==0 || game->zones[i+game->die2].player==player) )
+				{
+					printf("Possibilite sur fleche %d avec de2 et pion sur fleche %d\n",i+1+game->die2,i+1);
+					colorChecker(display,game,i);
+					tab[cpt]=i;
+					cpt++;
+				}
+				if( (i+game->die1+game->die2)<24 && (game->zones[i+game->die1+game->die2].nb_checkers==0 || game->zones[i+game->die1+game->die2].player==player) )
+				{
+					printf("Possibilite sur fleche %d avec de1+de2 et pion sur fleche %d\n",i+1+game->die1+game->die2,i+1);
+					colorChecker(display,game,i);
+					tab[cpt]=i;
+					cpt++;
+				}
+			}
+		}
+		SDL_Flip(display->screen);
+		while(1)
+		{
+			SDL_WaitEvent(&event);
+			EPosition posDepart;
+			EPosition posArrivee;
+			
+			SMove mouvement;
+			switch(event.type)
+			{
+				case SDL_QUIT:
+					return 1;
+					break;
+				
+				case SDL_MOUSEBUTTONUP:
+					if (event.button.button == SDL_BUTTON_LEFT)
+					{
+						if(!posDepartSelected) // selection de la position depart
+						{
+							if(CheckerWithScreenPosition(event.button.x, event.button.y, &posDepart)) // il a trouvé une position valide 
+							{
+								if(inTab(posDepart, tab))
+								{
+									arriveesValides = Display_Arrow_Possibilities(display, game, player, posDepart);
+									posDepartSelected = 1;
+									mouvement.src_point = posDepart+1;
+								}
+							}
+						}
+						else // selection de la position arrivée
+						{
+							if(CheckerWithScreenPosition(event.button.x, event.button.y, &posArrivee)) // il a trouvé une position valide
+							{
+								printf("POS ARRIVEE\n");
+								if(inTab(posArrivee, arriveesValides))
+								{
+									printf("POS ARRIVEE VALIDE\n");
+									mouvement.dest_point = posArrivee+1;
+									Checker_Move(display,game,&mouvement);
+									return 0;
+								}
+							}
+						}
+					}
+					break;
+				}
+			}
+	}
+	free(arriveesValides);
+	free(tab);
 	//SDL_Flip(display->screen);
 }
 
@@ -764,3 +863,103 @@ int Display_WaitMove(SDisplay *display, SGameState* game, EPlayer player)
 	return 0;
 }
 */
+
+int* Display_Arrow_Possibilities(SDisplay *display, SGameState *game, EPlayer player, EPosition depart)
+{
+	Display_RefreshGameBoard(display, game);
+	colorChecker(display,game,depart);
+	int *arriveesPossibles;
+	arriveesPossibles=(int *)malloc(28*sizeof(int));
+	int cpt=0;
+	for(int i=0;i<28;i++) arriveesPossibles[i]=-1;
+	int sens = 1;
+	if(player == EPlayer2)
+	{
+			sens = -1;
+	}
+	printf("sens = %d\n",sens);
+	if(game->die1 != game->die2) // Si dés différents
+	{
+		SZone ArriveeAvecDE1 = game->zones[depart+(game->die1)*sens];
+		SZone ArriveeAvecDE2 = game->zones[depart+(game->die2)*sens];
+		SZone ArriveeAvecDE1ETDE2 = game->zones[depart+(game->die1)*sens+(game->die2)*sens];
+		unsigned int arrowWithDie1=0;
+		unsigned int arrowWithDie2=0;
+		
+		if(ArriveeAvecDE1.player == player ||  ArriveeAvecDE1.nb_checkers == 0)
+		{
+			//on dessine sur la zone ArriveeAvecDE1
+			Draw_Selected_Arrow(display, depart+(game->die1)*sens);
+			arrowWithDie1 = 1;
+			arriveesPossibles[cpt]= depart+(game->die1)*sens;
+			cpt++;
+		}
+		if(ArriveeAvecDE2.player == player ||  ArriveeAvecDE2.nb_checkers == 0)
+		{
+			//on dessine sur la zone ArriveeAvecDE2
+			Draw_Selected_Arrow(display, depart+(game->die2)*sens);
+			printf("POSSIBILITE AVEC DE2\n");
+			arrowWithDie2 = 1;
+			arriveesPossibles[cpt]= depart+(game->die2*sens);
+			cpt++;
+		}
+		if( (ArriveeAvecDE1ETDE2.player == player ||  ArriveeAvecDE1ETDE2.nb_checkers == 0) && (arrowWithDie1 || arrowWithDie2) )
+		{
+			//on dessine sur la zone ArriveeAvecDE1ETDE2
+			Draw_Selected_Arrow(display, depart+(game->die1)*sens+(game->die2)*sens);
+			printf("POSSIBILITE AVEC DE1 et DE2\n");
+			arriveesPossibles[cpt]= depart+(game->die1)*sens+(game->die2)*sens;
+			cpt++;
+		}
+		
+	}
+	else
+	{
+		int nbpossibilite=1;
+		for(int i=1;i<=4;i++)
+		{
+			SZone ArriveeAvecDE = game->zones[depart+((game->die1)*sens*i)];
+			if((ArriveeAvecDE.player == player ||  ArriveeAvecDE.nb_checkers == 0) && (nbpossibilite==i))
+			{
+				//on dessine sur la zone ArriveeAvecDE
+				Draw_Selected_Arrow(display, depart+((game->die1)*sens*i));
+				printf("POSSIBILITE AVEC DE\n");
+				nbpossibilite++;
+				arriveesPossibles[cpt]= depart+((game->die1)*sens*i);
+				cpt++;
+			}	
+		}
+	
+	}
+	SDL_Flip(display->screen);
+	return arriveesPossibles;
+}
+
+void Draw_Selected_Arrow(SDisplay *display, EPosition pos)
+{
+	SDL_Rect posArrow = display->positions[pos];
+	posArrow.x = posArrow.x - 2;
+	
+	if(pos < 12)
+	{
+		printf("X:%d\tY:%d\n",posArrow.x,posArrow.y);
+		posArrow.y = posArrow.y - 130;
+		SDL_BlitSurface(display->possibility1_12, NULL,display->screen, &posArrow);
+	}
+	else if( pos < 24)
+	{
+		posArrow.y = 145; 
+		SDL_BlitSurface(display->possibility13_24, NULL,display->screen, &posArrow);
+	}
+}
+
+int inTab(EPosition p,int tab[28])
+{
+	for(int i=0; i<28; i++)
+	{
+		if(tab[i] == (int)p)
+		 return 1;
+	}
+	return 0;
+}
+ 
