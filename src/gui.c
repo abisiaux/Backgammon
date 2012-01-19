@@ -27,10 +27,10 @@ void Display_Init(SDisplay *display, SGame* game)
 	}
 	
 	// Enregistrement du path des images
-	display->img_path = "../ressources/pictures/";
+	display->img_path = "ressources/pictures/";
 	
 	// Enregistrement du path des polices
-	display->font_path = "../ressources/fonts/";
+	display->font_path = "ressources/fonts/";
 	temp_path = (char*)malloc(100*sizeof(char));
 	
 	// Chargement de l'icone de la fenêtre
@@ -788,6 +788,12 @@ int Display_CheckersPossibilities(SDisplay *display, SGameState *game, EPlayer p
 				case SDL_MOUSEBUTTONUP:
 					if (event.button.button == SDL_BUTTON_LEFT)
 					{
+						//Si il y a clic sur un autre pion de départ possible, malgré qu'un pion de départ ait déja été choisi
+						if(CheckerWithScreenPosition(event.button.x, event.button.y, &posDepart) && inTab(posDepart, tab) && posDepartSelected)
+						{
+							posDepartSelected = !posDepartSelected;
+						}
+						
 						if(!posDepartSelected) // selection de la position depart
 						{
 							if(CheckerWithScreenPosition(event.button.x, event.button.y, &posDepart)) // il a trouvé une position valide 
