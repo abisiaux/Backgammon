@@ -788,7 +788,7 @@ int Display_CheckersPossibilities(SDisplay *display, SGameState *game, EPlayer p
 				case SDL_MOUSEBUTTONUP:
 					if (event.button.button == SDL_BUTTON_LEFT)
 					{
-						//Si il y a clic sur un autre pion de départ possible, malgré qu'un pion de départ ait déja été choisi
+						//Si il y a clic sur un autre pion de départ cliqué, malgré qu'un pion de départ ait déja été choisi avant
 						if(CheckerWithScreenPosition(event.button.x, event.button.y, &posDepart) && inTab(posDepart, tab) && posDepartSelected)
 						{
 							posDepartSelected = !posDepartSelected;
