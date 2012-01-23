@@ -180,8 +180,6 @@ void Display_RefreshGameBoard(SDisplay *display, SGameState *gameState, SGame *g
 
 int inTab(EPosition p,int* tab);
 
-void DrawBar(SDisplay *display, SGameState *gameState, SGame *game);
-
 /**************************** FIN DEFINITIONS POUR L'INTERFACE GRAPHIQUE ******************************/
 
 

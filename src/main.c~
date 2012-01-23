@@ -12,6 +12,7 @@ int main(int argc, char **argv)
 	SAI_Functions* ai_struct = Init_SAI();
 	
 	EGameMode gameMode = Check_Args( argc, argv, ai_struct);
+
 	
 	SDisplay display;
 	SGame game;
