@@ -143,13 +143,13 @@ void Display_Init(SDisplay *display, SGame* game)
 	display->positions[24].x = 304;
 	display->positions[24].y = 511;
 	// Out Player 1
-	display->positions[25].x = 568;
+	display->positions[25].x = 565;
 	display->positions[25].y = 140;
 	// Bar PLayer 2
 	display->positions[26].x = 304;
 	display->positions[26].y = 220;
 	// Out Player 2
-	display->positions[27].x = 568;
+	display->positions[27].x = 577;
 	display->positions[27].y = 590;
 	
 	// Initialisation de la fenêtre
@@ -749,7 +749,7 @@ int Display_CheckersPossibilities(SDisplay *display, SGameState *gameState, EPla
 			SDL_WaitEvent(&event);
 			EPosition posDepart;
 			EPosition posArrivee;
-			int aut =0;
+			
 			SMove mouvement;
 			switch(event.type)
 			{
@@ -787,13 +787,6 @@ int Display_CheckersPossibilities(SDisplay *display, SGameState *gameState, EPla
 								{
 									printf("POS ARRIVEE VALIDE\n");
 									mouvement.dest_point = posArrivee+1;
-
-									if(authorized_deplacement(game, &mouvement, player))
-									{
-										aut = 1;
-									}
-									printf("JOUEUR %d\tSRC %d\tDEST %d\tDIE1 %d\tDIE2 %d MVT AUTORISE %d\n",player,mouvement.src_point,mouvement.dest_point,game->die1,game->die2,aut);
-									aut = 0;
 									Checker_Move(display,gameState,&mouvement, game);
 									return 0;
 								}

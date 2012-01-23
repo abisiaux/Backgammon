@@ -180,8 +180,6 @@ void Display_RefreshGameBoard(SDisplay *display, SGameState *gameState, SGame *g
 
 int inTab(EPosition p,int* tab);
 
-void DrawBar(SDisplay *display, SGameState *gameState, SGame *game);
-
 /**************************** FIN DEFINITIONS POUR L'INTERFACE GRAPHIQUE ******************************/
 
 
@@ -222,7 +220,7 @@ int authorized_deplacement(SGameState* game, SMove *move, EPlayer player);
 int case_appartenant_au_joueur(SZone zone, EPlayer player);
 int case_appartenant_joueur_adverse_avec_un_pion(SZone zone, EPlayer player);
 int position_vide(SZone zone);
-unsigned int get_distance(EPosition depart, EPosition arrivee, EPlayer player);
+unsigned int get_distance(EPosition pos1, EPosition pos2);
 int sens_rotation_correct(EPlayer joueur, EPosition depart, EPosition arrivee);
 
 /*retourne vrai si le joueur a cliqué sur une zone contenant un pion déplacable*/
