@@ -19,6 +19,7 @@ unsigned int nb_checkers; // Nombre de pion du joueur sur la zone
 // Enumeration des zones pour le tableau points
 typedef enum
 {
+EPos_nopos=-1,
 EPos_1=0,
 EPos_2,
 EPos_3,

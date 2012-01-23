@@ -777,7 +777,7 @@ int Display_CheckersPossibilities(SDisplay *display, SGameState *game, EPlayer p
 			SDL_WaitEvent(&event);
 			EPosition posDepart;
 			EPosition posArrivee;
-			
+			int aut =0;
 			SMove mouvement;
 			switch(event.type)
 			{
@@ -815,6 +815,13 @@ int Display_CheckersPossibilities(SDisplay *display, SGameState *game, EPlayer p
 								{
 									printf("POS ARRIVEE VALIDE\n");
 									mouvement.dest_point = posArrivee+1;
+									if(authorized_deplacement(game, &mouvement, player))
+									{
+										aut = 1;
+									}
+									printf("JOUEUR %d\tSRC %d\tDEST %d\tDIE1 %d\tDIE2 %d MVT AUTORISE %d\n",player,mouvement.src_point,mouvement.dest_point,game->die1,game->die2,aut);
+									aut = 0;
+									
 									Checker_Move(display,game,&mouvement);
 									return 0;
 								}
