@@ -165,6 +165,36 @@ int Game_FirstToPlay( SDisplay* display, EGameMode gameMode, SGame* game, SGameS
 					SDL_Delay(1500);
 				}
 				break;
+			case AI_AI:
+				
+				Game_LaunchDie(gameState);
+				dieP1[0] = gameState->die1;
+				dieP1[1] = gameState->die2;
+			
+				Game_LaunchDie(gameState);
+				dieP2[0] = gameState->die1;
+				dieP2[1] = gameState->die2;
+				
+				if((dieP1[0]+dieP1[1]) > (dieP2[0]+dieP2[1]))
+				{
+					/* On rétablit les des dans le gameState*/
+					gameState->die1 = dieP1[0];
+					gameState->die2 = dieP1[1];
+					free(tmp);
+					return 1; // Joueur1 commence la partie
+				}
+				else if((dieP1[0]+dieP1[1]) < (dieP2[0]+dieP2[1]))
+				{
+					/* On rétablit les des dans le gameState*/
+					gameState->die1 = dieP2[0];
+					gameState->die2 = dieP2[1];
+					free(tmp);
+					return 2; // Joueur2 commence la partie
+				}
+				break;
+			case ERROR :
+				free(tmp);
+				return -1;
 		}
 		if(event.type == SDL_QUIT)
 		{
@@ -191,6 +221,8 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 	int quit = 0;
 	int finish;
 	SMove mouvement;
+	SMove mvmt_ia[4];
+	unsigned int lastTimeError=0;
 	SDL_Rect msg_position;
 	msg_position.x = 80;
 	msg_position.y = 325;
@@ -309,6 +341,7 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 						curentP = EPlayer1;
 					}
 					break;
+					
 				case AI_AI :
 					if(curentP == EPlayer1)
 					{

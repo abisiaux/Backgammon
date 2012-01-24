@@ -631,14 +631,14 @@ void Checker_Move(SDisplay *display, SGameState* gameState, SMove *move, SGame *
 		{
 			gameState->zones[26].nb_checkers++;
 			gameState->zones[26].player = gameState->zones[move->dest_point-1].player;
-			gameState->zones[move->dest_point-1].nb_checkers == 1;
+			gameState->zones[move->dest_point-1].nb_checkers = 1;
 			gameState->zones[move->dest_point-1].player = gameState->zones[move->src_point-1].player;
 		}
 		else
 		{
 			gameState->zones[24].nb_checkers++;
 			gameState->zones[24].player = gameState->zones[move->dest_point-1].player;
-			gameState->zones[move->dest_point-1].nb_checkers == 1;
+			gameState->zones[move->dest_point-1].nb_checkers = 1;
 			gameState->zones[move->dest_point-1].player = gameState->zones[move->src_point-1].player;
 		}
 	}
@@ -813,7 +813,7 @@ int Display_CheckersPossibilities(SDisplay *display, SGameState *gameState, EPla
 			SDL_WaitEvent(&event);
 			EPosition posDepart;
 			EPosition posArrivee;
-			
+			int aut =0;
 			SMove mouvement;
 			switch(event.type)
 			{
@@ -854,6 +854,13 @@ int Display_CheckersPossibilities(SDisplay *display, SGameState *gameState, EPla
 									printf("POS ARRIVEE VALIDE\n");
 									mouvement.dest_point = posArrivee+1;
 									free(arriveesValides);
+
+									if(authorized_deplacement(game, &mouvement, player))
+									{
+										aut = 1;
+									}
+									printf("JOUEUR %d\tSRC %d\tDEST %d\tDIE1 %d\tDIE2 %d MVT AUTORISE %d\n",player,mouvement.src_point,mouvement.dest_point,gameState->die1,gameState->die2,aut);
+									aut = 0;
 									Checker_Move(display,gameState,&mouvement, game);
 									return 0;
 								}

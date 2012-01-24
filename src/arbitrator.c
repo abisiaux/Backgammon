@@ -10,17 +10,18 @@ int authorized_deplacement(SGameState* game, SMove *move, EPlayer player)
 	//2- mouvement(nombre de case à parcourir) correspond au nombre indiqué par un des dés ?
 	//4- Sens du mouvement autorisé? 
 	//3- position d'arrivée est vide ou lui appartenant ou avec un seul pion adverse ?
-
- 	SZone zoneDepart = (game->zones)[(move->src_point)-1]; // zone de départ
-	SZone zoneArrivee = (game->zones)[(move->dest_point)-1]; // zone de départ
 	EPosition posDepart = (move->src_point)-1;
 	EPosition posArrivee = (move->dest_point)-1;
+ 	SZone zoneDepart = (game->zones)[posDepart]; // zone de départ
+	SZone zoneArrivee = (game->zones)[posArrivee]; // zone de départ
+	// si le joueur ne joue pas le pion en prison, alors qu'il y en a un, le coup est incorrect
+	if(nb_Pion_prison(game,player) > 0 && ( (posDepart =! EPos_BarP1 && player == EPlayer1) || (posDepart =! EPos_BarP2 && player == EPlayer2) ) )
+		return 0;
+	
 	//Position départ = position appartenant au joueur ?
 	if(case_appartenant_au_joueur(zoneDepart,player))
 	{
-		//printf("src : %u, indice :%u\n",move->src_point,posDepart);
-		//printf("destS : %u, indice :%u\n",move->dest_point,posArrivee);
-		unsigned int nb_sauts = get_distance(posArrivee,posDepart);
+		unsigned int nb_sauts = get_distance(posDepart,posArrivee, player);
 		//printf("DISTANCE : %u\n",nb_sauts);
 		//printf("DE1 : %u, DE2: %u\n",game->die1,game->die2);
 		// Si le mouvement correspont au nombre d'un des dés
@@ -31,8 +32,13 @@ int authorized_deplacement(SGameState* game, SMove *move, EPlayer player)
 			if(sens_rotation_correct(player, posDepart, posArrivee))
 			{
 				// on regarde si la position d'arrivée est vide, ou lui appartient, ou appartient à l'adversaire avec un seul et unique pion
-				if(case_appartenant_au_joueur(zoneArrivee, player) || case_appartenant_joueur_adverse_avec_un_pion(zoneArrivee, player) || position_vide(zoneArrivee) )
+				if(case_appartenant_au_joueur(zoneArrivee, player) || case_appartenant_joueur_adverse_avec_un_pion(zoneArrivee, player) || position_vide(zoneArrivee))
 				{
+					//si le joueur joue en out
+					if( (posArrivee == EPos_OutP1 && player == EPlayer1) || (posArrivee =! EPos_OutP2 && player == EPlayer2) && !jeu_out_posible(game, player))
+					{
+						return 0;
+					}
 					return 1;
 				}	
 				//else printf("CASE ARRIVEE PAS VIDE OU APPARTENANT AU JOUEUR ADVERSE AVEC + d'1 PION\n");
@@ -41,6 +47,8 @@ int authorized_deplacement(SGameState* game, SMove *move, EPlayer player)
 		}
 		//else printf("NB SAUTS CORRESPOND PAS AU NOMBRE DU DE\n");
 	}
+
+
 	//else printf("CASE DEPART APPARTENANT JOUEUR ADVERSE\n");
 
 	return 0;	
@@ -76,11 +84,22 @@ int position_vide(SZone zone)
 	//else printf("POS NON VIDE\n");
 	return 0;
 }
-unsigned int get_distance(EPosition pos1, EPosition pos2)
+unsigned int get_distance(EPosition depart, EPosition arrivee, EPlayer player)
 {
-	if(((int)(pos1) - (int)(pos2)) < 0)
-		return (unsigned int)( -1*((int)(pos1) - (int)(pos2)));
-	else return ((pos1) - (pos2));
+	//depart est une case prison
+	if(depart == EPos_BarP1 && player == EPlayer1)
+	{
+		depart = EPos_1;
+	}
+	else if(depart == EPos_BarP2 && player == EPlayer2)
+	{
+		depart = EPos_24;
+	}
+	
+
+	if(((int)(depart) - (int)(arrivee)) < 0)
+		return (unsigned int)( -1*((int)(depart) - (int)(arrivee)));
+	else return ((depart) - (arrivee));
 }
 int sens_rotation_correct(EPlayer joueur, EPosition depart, EPosition arrivee)
 {
@@ -125,6 +144,8 @@ int Pion_Depart_Autorise(int x, int y, EPlayer player, SGameState* game, EPositi
 	return 0;	
 }
 
+
+
 int numberofDieForMove(SGameState* game, EPlayer player, SMove move)
 {
 	unsigned int saut=0;
@@ -154,6 +175,51 @@ int numberOfDieCanPlay(SGameState* game, EPlayer player)
 }
 
 
+int nb_Pion_prison(SGameState* game, EPlayer player)
+{
+	if(player == EPlayer1)
+	{
+		
+		return (game->zones[EPos_BarP1]).nb_checkers;
+	}
+	else
+	{
+		return (game->zones[EPos_BarP2]).nb_checkers;
+	}
 
+}
+
+int jeu_out_posible(SGameState* game, EPlayer player)
+{
+	unsigned int cpt=0;
+	EPosition temp = EPos_nopos;
+	if(player == EPlayer1) // carré final ( 19/24 )
+	{
+		 temp = EPos_19;
+		
+		while( temp <= EPos_24 )
+		{
+			if( ((game->zones[temp]).player == player) )
+				cpt += (game->zones[temp]).nb_checkers;
+			temp++;
+		}
+		if(cpt == 15) return 1;
+		
+	}
+	else // carré final ( 1/6 )
+	{
+		temp = EPos_1;
+		
+		while( temp <= EPos_6 )
+		{
+			if( ((game->zones[temp]).player == player) )
+				cpt += (game->zones[temp]).nb_checkers;
+			temp++;
+		}
+		if(cpt == 15) return 1;
+	}
+	return 0;
+
+}
 
 

@@ -221,6 +221,8 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 	int quit = 0;
 	int finish;
 	SMove mouvement;
+	SMove mvmt_ia[4];
+	unsigned int lastTimeError=0;
 	SDL_Rect msg_position;
 	msg_position.x = 80;
 	msg_position.y = 325;
@@ -339,6 +341,7 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 						curentP = EPlayer1;
 					}
 					break;
+					
 				case AI_AI :
 					if(curentP == EPlayer1)
 					{

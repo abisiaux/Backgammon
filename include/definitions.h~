@@ -117,7 +117,11 @@ typedef struct
 /* Initialise la partie */
 SGameState* Game_Init();
 
-int Game_Play(SDisplay* display, EGameMode gameMode, SGame* game);
+<<<<<<< HEAD
+int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions* ai_struct);
+=======
+int Game_Play(SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions* ai_struct);
+>>>>>>> c63b25bcdb4ea1aac45181de6a0f7451f96f8569
 
 /* Lancer les dés */
 void Game_LaunchDie(SGameState *game);
@@ -225,7 +229,7 @@ int authorized_deplacement(SGameState* game, SMove *move, EPlayer player);
 int case_appartenant_au_joueur(SZone zone, EPlayer player);
 int case_appartenant_joueur_adverse_avec_un_pion(SZone zone, EPlayer player);
 int position_vide(SZone zone);
-unsigned int get_distance(EPosition pos1, EPosition pos2);
+unsigned int get_distance(EPosition depart, EPosition arrivee, EPlayer player);
 int sens_rotation_correct(EPlayer joueur, EPosition depart, EPosition arrivee);
 
 /*retourne vrai si le joueur a cliqué sur une zone contenant un pion déplacable*/
