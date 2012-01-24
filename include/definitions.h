@@ -115,7 +115,7 @@ typedef struct
 /* Initialise la partie */
 SGameState* Game_Init();
 
-int Game_Play(SDisplay* display, EGameMode gameMode, SGame* game);
+int Game_Play(SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions* ai_struct);
 
 /* Lancer les dés */
 void Game_LaunchDie(SGameState *game);

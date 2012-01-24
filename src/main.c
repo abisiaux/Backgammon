@@ -51,7 +51,7 @@ int main(int argc, char **argv)
 	{
 		SDL_WaitEvent(&event);
 		
-		quit = Game_Play( &display, gameMode, &game);
+		quit = Game_Play( &display, gameMode, &game,ai_struct);
 		
 		switch(event.type)
 		{
