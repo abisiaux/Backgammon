@@ -27,10 +27,10 @@ void Display_Init(SDisplay *display, SGame* game)
 	}
 	
 	// Enregistrement du path des images
-	display->img_path = "../ressources/pictures/";
+	display->img_path = "ressources/pictures/";
 	
 	// Enregistrement du path des polices
-	display->font_path = "../ressources/fonts/";
+	display->font_path = "ressources/fonts/";
 	temp_path = (char*)malloc(100*sizeof(char));
 	
 	// Chargement de l'icone de la fenêtre
@@ -761,10 +761,10 @@ int Display_CheckersPossibilities(SDisplay *display, SGameState *gameState, EPla
 					if (event.button.button == SDL_BUTTON_LEFT)
 					{
 						//Si il y a clic sur un autre pion de départ cliqué, malgré qu'un pion de départ ait déja été choisi avant
-						if(CheckerWithScreenPosition(event.button.x, event.button.y, &posDepart) && inTab(posDepart, tab) && posDepartSelected)
+						/*if(CheckerWithScreenPosition(event.button.x, event.button.y, &posDepart) && inTab(posDepart, tab) && posDepartSelected)
 						{
 							posDepartSelected = !posDepartSelected;
-						}
+						}*/ //BUG -> IMPOSSIBLE DE DEPLACER LE PION 
 						
 						if(!posDepartSelected) // selection de la position depart
 						{
@@ -792,7 +792,7 @@ int Display_CheckersPossibilities(SDisplay *display, SGameState *gameState, EPla
 									{
 										aut = 1;
 									}
-									printf("JOUEUR %d\tSRC %d\tDEST %d\tDIE1 %d\tDIE2 %d MVT AUTORISE %d\n",player,mouvement.src_point,mouvement.dest_point,game->die1,game->die2,aut);
+									printf("JOUEUR %d\tSRC %d\tDEST %d\tDIE1 %d\tDIE2 %d MVT AUTORISE %d\n",player,mouvement.src_point,mouvement.dest_point,gameState->die1,gameState->die2,aut);
 									aut = 0;
 									Checker_Move(display,gameState,&mouvement, game);
 									return 0;
