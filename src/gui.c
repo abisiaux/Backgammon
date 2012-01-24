@@ -704,7 +704,7 @@ void colorChecker(SDisplay *display, SGameState* game, EPosition pos)
 	SDL_BlitSurface(display->selected_checker, NULL,display->screen, &posSelectedChecker);
 }
 
-int Display_CheckersPossibilities(SDisplay *display, SGameState *gameState, EPlayer player, SGame *game)
+int Display_CheckersPossibilities(SDisplay *display, SGameState *gameState, EPlayer player, SGame *game, int Die_For_Play[7])
 {
 	int i=0;
 	int * tab=(int *)malloc(28*sizeof(int));
@@ -788,7 +788,7 @@ int Display_CheckersPossibilities(SDisplay *display, SGameState *gameState, EPla
 									printf("POS ARRIVEE VALIDE\n");
 									mouvement.dest_point = posArrivee+1;
 
-									if(authorized_deplacement(game, &mouvement, player))
+									if(authorized_deplacement(gameState, &mouvement, player,Die_For_Play))
 									{
 										aut = 1;
 									}

@@ -146,9 +146,15 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 	SDL_Event event;
 	int quit = 0;
 	int finish;
-	SMove mouvement;
-	SMove mvmt_ia[4];
-	unsigned int lastTimeError=0;
+	
+	SMove mouvement; // Mouvement pour le joueur humain
+	
+	int Die_For_Play[7]={0,1,1,1,1,1,1}; // Nb dés à utiliser dans le tour ex : {0,1,0,0,1,0,0} Dés encore à jouer : 1 et 4
+	/** DECLARATIONS IA **/
+	SMove mvmt_ia[4]; // Tableau de mouvement a fournir à l'IA
+	unsigned int lastTimeError=0; // 
+	
+	
 	SDL_Rect msg_position;
 	msg_position.x = 80;
 	msg_position.y = 325;
@@ -212,7 +218,7 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 						/*gameState->die1 = 4; // A ENLEVER, UNIQUEMENT POUR LES TESTS
 						gameState->die2 = 4;*/
 						Display_RefreshGameBoard(display, gameState, game);
-						quit = Display_CheckersPossibilities(display, gameState, curentP, game);
+						quit = Display_CheckersPossibilities(display, gameState, curentP, game, Die_For_Play);
 						if(quit)
 						{
 							break;
@@ -247,7 +253,7 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 						}
 						Game_LaunchDie(gameState);
 						Display_RefreshGameBoard(display, gameState, game);
-						quit = Display_CheckersPossibilities(display, gameState, curentP, game);
+						quit = Display_CheckersPossibilities(display, gameState, curentP, game, Die_For_Play);
 						if(quit)
 						{
 							break;
@@ -295,7 +301,7 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 	return 1;
 }
 
-void Game_LaunchDie(SGameState *game)
+void Game_LaunchDie(SGameState *game) // ajouter le Die_For_play
 {
 	srand( time(NULL) ); // Initialisation du generateur de nombre aleatoire
 	game->die1 = 1+(rand()/(float)RAND_MAX)*6; // Tirage aléatoire d'un chiffre entre 1 et 6

@@ -4,28 +4,38 @@
 #include "../include/definitions.h"
 #include "../include/backgammon.h"
 
-int authorized_deplacement(SGameState* game, SMove *move, EPlayer player)
+int authorized_deplacement(SGameState* game, SMove *move, EPlayer player, int Die_For_Play[7])
 {
+	;
 	//1- position de départ lui appartient bien ?
 	//2- mouvement(nombre de case à parcourir) correspond au nombre indiqué par un des dés ?
 	//4- Sens du mouvement autorisé? 
 	//3- position d'arrivée est vide ou lui appartenant ou avec un seul pion adverse ?
 	EPosition posDepart = (move->src_point)-1;
+	printf("SRC : %d\n",posDepart);
 	EPosition posArrivee = (move->dest_point)-1;
+	printf("DEST : %d\n",posArrivee);
  	SZone zoneDepart = (game->zones)[posDepart]; // zone de départ
-	SZone zoneArrivee = (game->zones)[posArrivee]; // zone de départ
+ 	printf("PLAYER : %d\n",(game->zones)[posDepart].player);
+ 	/*for(int i=0; i<28; i++)
+ 		printf("i=%d -> %d -> %d\n",i,(game->zones)[i].player,(game->zones)[i].nb_checkers);*/
+	SZone zoneArrivee = (game->zones)[posArrivee]; // zone d arrivee
 	// si le joueur ne joue pas le pion en prison, alors qu'il y en a un, le coup est incorrect
-	if(nb_Pion_prison(game,player) > 0 && ( (posDepart =! EPos_BarP1 && player == EPlayer1) || (posDepart =! EPos_BarP2 && player == EPlayer2) ) )
+	if( (nb_Pion_prison(game,player) > 0) && ( ((posDepart != EPos_BarP1) && (player == EPlayer1)) || ((posDepart != EPos_BarP2) && (player == EPlayer2)) ) )
+	{
+		printf("PION EN PRISON !! %d\n",nb_Pion_prison(game,player));
 		return 0;
-	
+	}
+	printf("anto\n");
 	//Position départ = position appartenant au joueur ?
 	if(case_appartenant_au_joueur(zoneDepart,player))
 	{
+		printf("ok : %d\n",posDepart);
 		unsigned int nb_sauts = get_distance(posDepart,posArrivee, player);
-		//printf("DISTANCE : %u\n",nb_sauts);
-		//printf("DE1 : %u, DE2: %u\n",game->die1,game->die2);
+		printf("DISTANCE : %u\n",nb_sauts);
+		printf("DE1 : %u, DE2: %u\n",game->die1,game->die2);
 		// Si le mouvement correspont au nombre d'un des dés
-		if(nb_sauts == game->die1 || nb_sauts == game->die2)
+		if(Taille_Mouvement_Correcte(nb_sauts, Die_For_Play ))
 		{
 			//printf("RES DE = NB SAUTS\n");
 			//on regarde si le sens de rotation est correct pour le joueur			
@@ -49,7 +59,7 @@ int authorized_deplacement(SGameState* game, SMove *move, EPlayer player)
 	}
 
 
-	//else printf("CASE DEPART APPARTENANT JOUEUR ADVERSE\n");
+	else printf("CASE DEPART APPARTENANT JOUEUR ADVERSE player : %d\n",zoneDepart.player);
 
 	return 0;	
 	
@@ -87,14 +97,15 @@ int position_vide(SZone zone)
 unsigned int get_distance(EPosition depart, EPosition arrivee, EPlayer player)
 {
 	//depart est une case prison
-	if(depart == EPos_BarP1 && player == EPlayer1)
+	/*if((depart == EPos_BarP1) && (player == EPlayer1))
 	{
 		depart = EPos_1;
 	}
-	else if(depart == EPos_BarP2 && player == EPlayer2)
+	else if((depart == EPos_BarP2) && (player == EPlayer2))
 	{
 		depart = EPos_24;
-	}
+	}*/
+	printf("GETDIST:%d // %d",depart,arrivee);
 	
 
 	if(((int)(depart) - (int)(arrivee)) < 0)
@@ -180,11 +191,11 @@ int nb_Pion_prison(SGameState* game, EPlayer player)
 	if(player == EPlayer1)
 	{
 		
-		return (game->zones[EPos_BarP1]).nb_checkers;
+		return (game->zones[EPos_OutP1]).nb_checkers; /// ATTENTION CHANGER EN BAR !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	}
 	else
 	{
-		return (game->zones[EPos_BarP2]).nb_checkers;
+		return (game->zones[EPos_OutP2]).nb_checkers;
 	}
 
 }
@@ -220,6 +231,18 @@ int jeu_out_posible(SGameState* game, EPlayer player)
 	}
 	return 0;
 
+}
+
+int Taille_Mouvement_Correcte(unsigned int taille_mouvement, int Die_For_Play[7] )
+{
+	printf("FCT\n");
+	for(unsigned int i=1; i<7; i++)
+	{
+		printf("I=%d\t taileMVMT=%d\t DIEFORPLAYER_DE_I=%d\n",(int)i,(int)taille_mouvement,Die_For_Play[i]);
+		if(taille_mouvement == i && Die_For_Play[i] >= 1)
+			return 1;
+	}
+	return 0;
 }
 
 
