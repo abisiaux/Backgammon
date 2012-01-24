@@ -85,6 +85,8 @@ typedef struct Display
 	
 	SDL_Surface *possibility13_24; // Cadre autour de la flèche pour indiquer une possibilité de déplacement
 	
+	SDL_Surface *possibility_out; // Cadre autour de la zone out pour indiquer une possibilité de déplacement
+	
 	char *font_path; // Le chemin du dossier contenant les polices
 	
 	char *img_path; // Le chemin du dossier contenant les images
@@ -115,7 +117,11 @@ typedef struct
 /* Initialise la partie */
 SGameState* Game_Init();
 
-int Game_Play(SDisplay* display, EGameMode gameMode, SGame* game);
+<<<<<<< HEAD
+int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions* ai_struct);
+=======
+int Game_Play(SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions* ai_struct);
+>>>>>>> c63b25bcdb4ea1aac45181de6a0f7451f96f8569
 
 /* Lancer les dés */
 void Game_LaunchDie(SGameState *game);
@@ -180,6 +186,9 @@ void Display_RefreshGameBoard(SDisplay *display, SGameState *gameState, SGame *g
 
 int inTab(EPosition p,int* tab);
 
+void Display_DrawOut(SDisplay *display, SGameState *gameState, SGame *game);
+void Display_DrawBar(SDisplay *display, SGameState *gameState, SGame *game);
+
 /**************************** FIN DEFINITIONS POUR L'INTERFACE GRAPHIQUE ******************************/
 
 
@@ -220,7 +229,7 @@ int authorized_deplacement(SGameState* game, SMove *move, EPlayer player);
 int case_appartenant_au_joueur(SZone zone, EPlayer player);
 int case_appartenant_joueur_adverse_avec_un_pion(SZone zone, EPlayer player);
 int position_vide(SZone zone);
-unsigned int get_distance(EPosition pos1, EPosition pos2);
+unsigned int get_distance(EPosition depart, EPosition arrivee, EPlayer player);
 int sens_rotation_correct(EPlayer joueur, EPosition depart, EPosition arrivee);
 
 /*retourne vrai si le joueur a cliqué sur une zone contenant un pion déplacable*/

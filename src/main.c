@@ -9,6 +9,7 @@
 
 int main(int argc, char **argv)
 {
+	
 	SAI_Functions* ai_struct = Init_SAI();
 	
 	EGameMode gameMode = Check_Args( argc, argv, ai_struct);
@@ -51,7 +52,7 @@ int main(int argc, char **argv)
 	{
 		SDL_WaitEvent(&event);
 		
-		quit = Game_Play( &display, gameMode, &game,ai_struct);
+		quit = Game_Play( &display, gameMode, &game, ai_struct);
 		
 		switch(event.type)
 		{

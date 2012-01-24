@@ -121,6 +121,80 @@ int Game_FirstToPlay( SDisplay* display, EGameMode gameMode, SGame* game, SGameS
 					SDL_Delay(1500);
 				}
 				break;
+			case HUMAN_AI:
+				sprintf( tmp, "%s, lance les des !", game->player1_name);
+				quit = Display_Message_Click( display, tmp, msg_position, msg_color,1);
+				if(quit)
+				{
+					quit = 1;
+					break;
+				}
+				Game_LaunchDie(gameState);
+				Display_RefreshGameBoard(display, gameState, game);
+				SDL_Delay(1500);
+				dieP1[0] = gameState->die1;
+				dieP1[1] = gameState->die2;
+			
+				sprintf(tmp,"%s, lance les des ...", game->player2_name);
+				Display_Message( display, tmp, msg_position, msg_color,1);
+				Game_LaunchDie(gameState);
+				Display_RefreshGameBoard(display, gameState, game);
+				SDL_Delay(1500);
+				dieP2[0] = gameState->die1;
+				dieP2[1] = gameState->die2;
+				if((dieP1[0]+dieP1[1]) > (dieP2[0]+dieP2[1]))
+				{
+					/* On rétablit les des dans le gameState*/
+					gameState->die1 = dieP1[0];
+					gameState->die2 = dieP1[1];
+					free(tmp);
+					return 1; // Joueur1 commence la partie
+				}
+				else if((dieP1[0]+dieP1[1]) < (dieP2[0]+dieP2[1]))
+				{
+					/* On rétablit les des dans le gameState*/
+					gameState->die1 = dieP2[0];
+					gameState->die2 = dieP2[1];
+					free(tmp);
+					return 2; // Joueur2 commence la partie
+				}
+				else
+				{
+					Display_Message( display, "Il y a egalite, on recommence !", msg_position, msg_color,1);
+					SDL_Flip(display->screen);
+					SDL_Delay(1500);
+				}
+				break;
+			case AI_AI:
+				
+				Game_LaunchDie(gameState);
+				dieP1[0] = gameState->die1;
+				dieP1[1] = gameState->die2;
+			
+				Game_LaunchDie(gameState);
+				dieP2[0] = gameState->die1;
+				dieP2[1] = gameState->die2;
+				
+				if((dieP1[0]+dieP1[1]) > (dieP2[0]+dieP2[1]))
+				{
+					/* On rétablit les des dans le gameState*/
+					gameState->die1 = dieP1[0];
+					gameState->die2 = dieP1[1];
+					free(tmp);
+					return 1; // Joueur1 commence la partie
+				}
+				else if((dieP1[0]+dieP1[1]) < (dieP2[0]+dieP2[1]))
+				{
+					/* On rétablit les des dans le gameState*/
+					gameState->die1 = dieP2[0];
+					gameState->die2 = dieP2[1];
+					free(tmp);
+					return 2; // Joueur2 commence la partie
+				}
+				break;
+			case ERROR :
+				free(tmp);
+				return -1;
 		}
 		if(event.type == SDL_QUIT)
 		{
@@ -135,7 +209,7 @@ int Game_FirstToPlay( SDisplay* display, EGameMode gameMode, SGame* game, SGameS
 		
 int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions* ai_struct)
 {
-
+	
 	SGameState *gameState;
 	gameState = Game_Init(); /* Initialisation de la partie */
 	
@@ -159,6 +233,11 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 	msg_position.x = 80;
 	msg_position.y = 325;
 	SDL_Color msg_color = {255, 255, 255, 0};
+	
+	int cptAI[2]; // Compteur d'erreur des AI
+	cptAI[0] = 0; 
+	cptAI[1] = 0; 
+	
 	
 	while( gameState->score < game->scoreLimit && gameState->scoreP2 < game->scoreLimit && !quit ) // Boucle de jeu
 	{
@@ -214,41 +293,20 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 							break;
 						}
 						Game_LaunchDie(gameState);
-						/*PARTIE ANTONIN TEST*/
-						/*gameState->die1 = 4; // A ENLEVER, UNIQUEMENT POUR LES TESTS
-						gameState->die2 = 4;*/
 						Display_RefreshGameBoard(display, gameState, game);
 						quit = Display_CheckersPossibilities(display, gameState, curentP, game, Die_For_Play);
 						if(quit)
 						{
 							break;
 						}
-						SDL_Flip(display->screen);
-						//Display_WaitMove(display, gameState, curentP);
-					/*	printf("PARTIE DU CODE A TESTER\n");
-						
-						printf("%d\n",(gameState->zones[23]).player);
-						Display_Arrow_Possibilities(display, gameState, 1, 11);
-						
-						sleep(10);
-						printf("APRES SLEEP\n");*/
-						/*FIN PARTIE ANTONIN TEST */
-												
-						//mouvement.src_point = 8;
-						//mouvement.dest_point = 13;
-						//if(authorized_deplacement(gameState, &mouvement, EPlayer1))
-						//Checker_Move(display,gameState,&mouvement);
-							
 						curentP = EPlayer2;
 					}
 					else
 					{
 						sprintf(tmp,"%s, lance les des !",game->player2_name);
 						quit = Display_Message_Click(display, tmp, msg_position, msg_color,1);
-						printf("CLIC\n");
 						if(quit)
 						{
-							quit = 1;
 							break;
 						}
 						Game_LaunchDie(gameState);
@@ -258,33 +316,60 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 						{
 							break;
 						}
-						SDL_Flip(display->screen);
-						/*sleep(5);
-						mouvement.src_point = 17;
-						mouvement.dest_point = 12;
-						//if(authorized_deplacement(gameState, &mouvement, EPlayer2))
-							Checker_Move(display,gameState,&mouvement);*/
-						
 						curentP = EPlayer1;
 					}
 					break;
 					
-				/*case HUMAN_AI:
+				case HUMAN_AI :
 					if(curentP == EPlayer1)
 					{
+						sprintf(tmp,"%s, lance les des !",game->player1_name);
+						quit = Display_Message_Click(display, tmp, msg_position, msg_color,1);
+						if(quit)
+						{
+							break;
+						}
 						Game_LaunchDie(gameState);
-						ai_struct[0].AI_MakeDecision(gameState, mvmt_ia, lastTimeError);
-						
+						Display_RefreshGameBoard(display, gameState, game);
+						quit = Display_CheckersPossibilities(display, gameState, curentP, game);
+						if(quit)
+						{
+							break;
+						}
+						curentP = EPlayer2;
 					}
 					else
 					{
-					
+	
+						Game_LaunchDie(gameState);
+						Display_RefreshGameBoard(display, gameState, game);
+						/* DEROULEMENT JEU AI */
+						curentP = EPlayer1;
 					}
 					break;
-					*/
+					
+				case AI_AI :
+					if(curentP == EPlayer1)
+					{
+						Game_LaunchDie(gameState);
+						Display_RefreshGameBoard(display, gameState, game);
+						/* DEROULEMENT JEU AI */
+						curentP = EPlayer2;
+					}
+					else
+					{
+	
+						Game_LaunchDie(gameState);
+						Display_RefreshGameBoard(display, gameState, game);
+						/* DEROULEMENT JEU AI */
+						curentP = EPlayer1;
+					}
+					break;
+				case ERROR :
+					quit=1;
+					break;
 			}
 			//finish = 1;
-			
 			if(event.type == SDL_QUIT)
 				quit = 1;
 		}
@@ -292,7 +377,6 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 			quit = 1;
 		quit = 1;
 	}
-	
 	free(tmp);
 	free(gameState);
 	free(game->player1_name);
