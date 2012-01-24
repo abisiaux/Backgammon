@@ -85,6 +85,8 @@ typedef struct Display
 	
 	SDL_Surface *possibility13_24; // Cadre autour de la flèche pour indiquer une possibilité de déplacement
 	
+	SDL_Surface *possibility_out; // Cadre autour de la zone out pour indiquer une possibilité de déplacement
+	
 	char *font_path; // Le chemin du dossier contenant les polices
 	
 	char *img_path; // Le chemin du dossier contenant les images
@@ -115,7 +117,7 @@ typedef struct
 /* Initialise la partie */
 SGameState* Game_Init();
 
-int Game_Play(SDisplay* display, EGameMode gameMode, SGame* game);
+int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions* ai_struct);
 
 /* Lancer les dés */
 void Game_LaunchDie(SGameState *game);
@@ -180,7 +182,8 @@ void Display_RefreshGameBoard(SDisplay *display, SGameState *gameState, SGame *g
 
 int inTab(EPosition p,int* tab);
 
-void DrawBar(SDisplay *display, SGameState *gameState, SGame *game);
+void Display_DrawOut(SDisplay *display, SGameState *gameState, SGame *game);
+void Display_DrawBar(SDisplay *display, SGameState *gameState, SGame *game);
 
 /**************************** FIN DEFINITIONS POUR L'INTERFACE GRAPHIQUE ******************************/
 

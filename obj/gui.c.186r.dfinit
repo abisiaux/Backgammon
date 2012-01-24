@@ -1,0 +1,240 @@
+
+;; Function Display_Init (Display_Init)
+
+verify found no changes in insn with uid = 6.
+verify found no changes in insn with uid = 18.
+verify found no changes in insn with uid = 21.
+verify found no changes in insn with uid = 24.
+verify found no changes in insn with uid = 26.
+verify found no changes in insn with uid = 35.
+verify found no changes in insn with uid = 44.
+verify found no changes in insn with uid = 62.
+verify found no changes in insn with uid = 66.
+verify found no changes in insn with uid = 73.
+verify found no changes in insn with uid = 95.
+verify found no changes in insn with uid = 109.
+verify found no changes in insn with uid = 129.
+verify found no changes in insn with uid = 143.
+verify found no changes in insn with uid = 165.
+verify found no changes in insn with uid = 175.
+verify found no changes in insn with uid = 197.
+verify found no changes in insn with uid = 207.
+verify found no changes in insn with uid = 231.
+verify found no changes in insn with uid = 241.
+verify found no changes in insn with uid = 265.
+verify found no changes in insn with uid = 275.
+verify found no changes in insn with uid = 299.
+verify found no changes in insn with uid = 309.
+verify found no changes in insn with uid = 335.
+verify found no changes in insn with uid = 345.
+verify found no changes in insn with uid = 369.
+verify found no changes in insn with uid = 379.
+verify found no changes in insn with uid = 401.
+verify found no changes in insn with uid = 411.
+verify found no changes in insn with uid = 431.
+verify found no changes in insn with uid = 436.
+verify found no changes in insn with uid = 449.
+verify found no changes in insn with uid = 456.
+verify found no changes in insn with uid = 461.
+verify found no changes in insn with uid = 466.
+verify found no changes in insn with uid = 667.
+verify found no changes in insn with uid = 676.
+verify found no changes in insn with uid = 684.
+verify found no changes in insn with uid = 687.
+verify found no changes in insn with uid = 690.
+verify found no changes in insn with uid = 692.
+verify found no changes in insn with uid = 698.
+verify found no changes in insn with uid = 699.
+verify found no changes in insn with uid = 704.
+verify found no changes in insn with uid = 712.
+verify found no changes in insn with uid = 715.
+verify found no changes in insn with uid = 718.
+verify found no changes in insn with uid = 720.
+verify found no changes in insn with uid = 730.
+verify found no changes in insn with uid = 749.
+verify found no changes in insn with uid = 754.
+verify found no changes in insn with uid = 760.
+verify found no changes in insn with uid = 775.
+verify found no changes in insn with uid = 778.
+
+;; Function Display_Message (Display_Message)
+
+verify found no changes in insn with uid = 25.
+verify found no changes in insn with uid = 58.
+verify found no changes in insn with uid = 69.
+verify found no changes in insn with uid = 72.
+
+;; Function Display_Message_Click (Display_Message_Click)
+
+verify found no changes in insn with uid = 25.
+verify found no changes in insn with uid = 58.
+verify found no changes in insn with uid = 69.
+verify found no changes in insn with uid = 72.
+verify found no changes in insn with uid = 76.
+verify found no changes in insn with uid = 80.
+
+;; Function Display_Exit (Display_Exit)
+
+verify found no changes in insn with uid = 8.
+verify found no changes in insn with uid = 12.
+verify found no changes in insn with uid = 16.
+verify found no changes in insn with uid = 20.
+verify found no changes in insn with uid = 24.
+verify found no changes in insn with uid = 28.
+verify found no changes in insn with uid = 32.
+verify found no changes in insn with uid = 36.
+verify found no changes in insn with uid = 40.
+verify found no changes in insn with uid = 44.
+verify found no changes in insn with uid = 54.
+verify found no changes in insn with uid = 65.
+verify found no changes in insn with uid = 69.
+verify found no changes in insn with uid = 70.
+verify found no changes in insn with uid = 71.
+
+;; Function Display_Clear (Display_Clear)
+
+verify found no changes in insn with uid = 6.
+verify found no changes in insn with uid = 15.
+verify found no changes in insn with uid = 37.
+verify found no changes in insn with uid = 51.
+verify found no changes in insn with uid = 58.
+verify found no changes in insn with uid = 78.
+verify found no changes in insn with uid = 92.
+verify found no changes in insn with uid = 95.
+
+;; Function Display_RefreshGameBoard (Display_RefreshGameBoard)
+
+verify found no changes in insn with uid = 6.
+verify found no changes in insn with uid = 15.
+verify found no changes in insn with uid = 35.
+verify found no changes in insn with uid = 41.
+verify found no changes in insn with uid = 52.
+verify found no changes in insn with uid = 59.
+verify found no changes in insn with uid = 66.
+verify found no changes in insn with uid = 73.
+verify found no changes in insn with uid = 78.
+verify found no changes in insn with uid = 82.
+
+;; Function Display_Score (Display_Score)
+
+verify found no changes in insn with uid = 6.
+verify found no changes in insn with uid = 10.
+verify found no changes in insn with uid = 24.
+verify found no changes in insn with uid = 32.
+verify found no changes in insn with uid = 45.
+verify found no changes in insn with uid = 56.
+verify found no changes in insn with uid = 67.
+verify found no changes in insn with uid = 79.
+verify found no changes in insn with uid = 82.
+verify found no changes in insn with uid = 85.
+
+;; Function Display_Die (Display_Die)
+
+verify found no changes in insn with uid = 34.
+verify found no changes in insn with uid = 51.
+verify found no changes in insn with uid = 71.
+verify found no changes in insn with uid = 91.
+verify found no changes in insn with uid = 110.
+verify found no changes in insn with uid = 125.
+
+;; Function Checker_Draw (Checker_Draw)
+
+verify found no changes in insn with uid = 22.
+verify found no changes in insn with uid = 36.
+verify found no changes in insn with uid = 55.
+verify found no changes in insn with uid = 69.
+
+;; Function Display_DrawOut (Display_DrawOut)
+
+verify found no changes in insn with uid = 34.
+verify found no changes in insn with uid = 48.
+verify found no changes in insn with uid = 89.
+verify found no changes in insn with uid = 103.
+
+;; Function Display_DrawBar (Display_DrawBar)
+
+verify found no changes in insn with uid = 34.
+verify found no changes in insn with uid = 48.
+verify found no changes in insn with uid = 89.
+verify found no changes in insn with uid = 103.
+
+;; Function Display_Checkers (Display_Checkers)
+
+verify found no changes in insn with uid = 6.
+verify found no changes in insn with uid = 54.
+verify found no changes in insn with uid = 62.
+verify found no changes in insn with uid = 73.
+verify found no changes in insn with uid = 76.
+verify found no changes in insn with uid = 138.
+verify found no changes in insn with uid = 159.
+
+;; Function Checker_Move (Checker_Move)
+
+verify found no changes in insn with uid = 364.
+verify found no changes in insn with uid = 406.
+verify found no changes in insn with uid = 420.
+verify found no changes in insn with uid = 424.
+verify found no changes in insn with uid = 722.
+
+;; Function Quit_Zone (Quit_Zone)
+
+
+;; Function CheckerWithScreenPosition (CheckerWithScreenPosition)
+
+
+;; Function colorChecker (colorChecker)
+
+verify found no changes in insn with uid = 86.
+
+;; Function Display_CheckersPossibilities (Display_CheckersPossibilities)
+
+verify found no changes in insn with uid = 97.
+verify found no changes in insn with uid = 104.
+verify found no changes in insn with uid = 164.
+verify found no changes in insn with uid = 171.
+verify found no changes in insn with uid = 249.
+verify found no changes in insn with uid = 256.
+verify found no changes in insn with uid = 273.
+verify found no changes in insn with uid = 277.
+verify found no changes in insn with uid = 293.
+verify found no changes in insn with uid = 313.
+verify found no changes in insn with uid = 322.
+verify found no changes in insn with uid = 334.
+verify found no changes in insn with uid = 356.
+verify found no changes in insn with uid = 365.
+verify found no changes in insn with uid = 380.
+verify found no changes in insn with uid = 399.
+verify found no changes in insn with uid = 405.
+verify found no changes in insn with uid = 410.
+verify found no changes in insn with uid = 416.
+verify found no changes in insn with uid = 422.
+verify found no changes in insn with uid = 431.
+verify found no changes in insn with uid = 439.
+verify found no changes in insn with uid = 446.
+verify found no changes in insn with uid = 455.
+
+;; Function Display_Arrow_Possibilities (Display_Arrow_Possibilities)
+
+verify found no changes in insn with uid = 11.
+verify found no changes in insn with uid = 18.
+verify found no changes in insn with uid = 20.
+verify found no changes in insn with uid = 50.
+verify found no changes in insn with uid = 112.
+verify found no changes in insn with uid = 152.
+verify found no changes in insn with uid = 154.
+verify found no changes in insn with uid = 204.
+verify found no changes in insn with uid = 206.
+verify found no changes in insn with uid = 271.
+verify found no changes in insn with uid = 273.
+verify found no changes in insn with uid = 301.
+
+;; Function Draw_Selected_Arrow (Draw_Selected_Arrow)
+
+verify found no changes in insn with uid = 26.
+verify found no changes in insn with uid = 41.
+verify found no changes in insn with uid = 59.
+verify found no changes in insn with uid = 82.
+verify found no changes in insn with uid = 109.
+
+;; Function inTab (inTab)
+

@@ -1,0 +1,80 @@
+
+;; Function Display_Init (Display_Init)
+
+deleting insn with uid = 866.
+
+;; Function Display_Message (Display_Message)
+
+deleting insn with uid = 96.
+
+;; Function Display_Message_Click (Display_Message_Click)
+
+deleting insn with uid = 172.
+
+;; Function Display_Exit (Display_Exit)
+
+deleting insn with uid = 85.
+
+;; Function Display_Clear (Display_Clear)
+
+deleting insn with uid = 120.
+
+;; Function Display_RefreshGameBoard (Display_RefreshGameBoard)
+
+deleting insn with uid = 103.
+
+;; Function Display_Score (Display_Score)
+
+deleting insn with uid = 113.
+
+;; Function Display_Die (Display_Die)
+
+deleting insn with uid = 159.
+
+;; Function Checker_Draw (Checker_Draw)
+
+deleting insn with uid = 93.
+
+;; Function Display_DrawOut (Display_DrawOut)
+
+deleting insn with uid = 140.
+
+;; Function Display_DrawBar (Display_DrawBar)
+
+deleting insn with uid = 140.
+
+;; Function Display_Checkers (Display_Checkers)
+
+deleting insn with uid = 197.
+
+;; Function Checker_Move (Checker_Move)
+
+deleting insn with uid = 899.
+
+;; Function Quit_Zone (Quit_Zone)
+
+deleting insn with uid = 45.
+
+;; Function CheckerWithScreenPosition (CheckerWithScreenPosition)
+
+deleting insn with uid = 248.
+
+;; Function colorChecker (colorChecker)
+
+deleting insn with uid = 128.
+
+;; Function Display_CheckersPossibilities (Display_CheckersPossibilities)
+
+deleting insn with uid = 533.
+
+;; Function Display_Arrow_Possibilities (Display_Arrow_Possibilities)
+
+deleting insn with uid = 362.
+
+;; Function Draw_Selected_Arrow (Draw_Selected_Arrow)
+
+deleting insn with uid = 141.
+
+;; Function inTab (inTab)
+
+deleting insn with uid = 57.
