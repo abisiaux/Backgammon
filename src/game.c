@@ -392,6 +392,14 @@ void Game_LaunchDie(SGameState *gameState, SGame *game)
 	gameState->die2 = 1+(rand()/(float)RAND_MAX)*6; // Tirage aléatoire d'un chiffre entre 1 et 6
 	printf("Dé 1 : %d Dé 2 : %d\n",gameState->die1,gameState->die2);
 	int i;
-	for(i=0;i<4;i++) game->die_To_Play[i]=1;
+	if(gameState->die1 != gameState->die2)
+	{
+		for(i=0;i<2;i++) game->die_To_Play[i]=1;
+		for(i=2;i<4;i++) game->die_To_Play[i]=0;
+	}
+	else
+	{
+		for(i=0;i<4;i++) game->die_To_Play[i]=1;
+	}
 }
 		
