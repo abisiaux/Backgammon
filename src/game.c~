@@ -47,7 +47,7 @@ SGameState* Game_Init()
 	game->zones[24].nb_checkers=5;
 	
 	/*TEST*/
-	game->zones[26].player=EPlayer1;
+	game->zones[26].player=EPlayer2;
 	game->zones[26].nb_checkers=5;
 	return game;
 }
@@ -287,13 +287,14 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 					if(curentP == EPlayer1)
 					{
 						sprintf(tmp,"%s, lance les des !",game->player1_name);
-						quit = Display_Message_Click(display, tmp, msg_position, msg_color,1);
+						
+						quit = Display_GameActions(display, gameState, game);
 						if(quit)
 						{
 							break;
 						}
-						Game_LaunchDie(gameState, game);
-						game->die_To_Play[0] = 0;
+						//Game_LaunchDie(gameState, game);
+						//game->die_To_Play[0] = 0;
 						Display_RefreshGameBoard(display, gameState, game);
 						quit = Display_CheckersPossibilities(display, gameState, curentP, game, Die_For_Play);
 						if(quit)
