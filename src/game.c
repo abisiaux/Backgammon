@@ -42,13 +42,7 @@ SGameState* Game_Init()
 	game->zones[5].player=EPlayer2;
 	game->zones[5].nb_checkers=5;
 	
-	/*TEST*/
-	game->zones[24].player=EPlayer1;
-	game->zones[24].nb_checkers=5;
 	
-	/*TEST*/
-	game->zones[26].player=EPlayer2;
-	game->zones[26].nb_checkers=5;
 	return game;
 }
 

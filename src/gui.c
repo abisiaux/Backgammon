@@ -1133,6 +1133,8 @@ int Display_GameActions(SDisplay *display, SGameState* gameState, SGame *game)
 					{
 						Game_LaunchDie(gameState, game);
 						pos.x = 630;
+						pos.y = 190;
+						SDL_BlitSurface(erase, NULL, display->screen,&pos);
 						pos.y = 250;
 						SDL_BlitSurface(erase, NULL, display->screen,&pos);
 					

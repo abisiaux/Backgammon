@@ -1102,8 +1102,8 @@ int Display_GameActions(SDisplay *display, SGameState* gameState, SGame *game)
 	if(game->withDouble && game->doubleValue<64)
 	{
 		SDL_BlitSurface(display->gameActions[0], NULL, display->screen,&pos);
-		pos.y = 250;
 	}
+	pos.y = 250;
 	SDL_BlitSurface(display->gameActions[1], NULL, display->screen,&pos);
 	
 	SDL_Flip(display->screen);
@@ -1132,6 +1132,9 @@ int Display_GameActions(SDisplay *display, SGameState* gameState, SGame *game)
 					if((event.button.x>=630 && event.button.x<=790 && event.button.y>=250 && event.button.y<=295) ) // Lancer
 					{
 						Game_LaunchDie(gameState, game);
+						pos.x = 630;
+						pos.y = 190;
+						SDL_BlitSurface(erase, NULL, display->screen,&pos);
 						pos.x = 630;
 						pos.y = 250;
 						SDL_BlitSurface(erase, NULL, display->screen,&pos);

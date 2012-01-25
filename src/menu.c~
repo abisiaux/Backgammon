@@ -340,7 +340,7 @@ int Display_Menu(SDisplay *display, EGameMode gameMode, SGame* game)
 			case SDL_KEYDOWN:
 				if(numPlayerSelected == 1 )
 				{
-					if(event.key.keysym.sym == SDLK_TAB && gameMode != HUMAN_AI)
+					if(event.key.keysym.sym == SDLK_TAB && gameMode == HUMAN_HUMAN)
 					{
 						numPlayerSelected = 2;
 						Menu_Fill(display, gameMode, game);
