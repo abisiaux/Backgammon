@@ -28,10 +28,10 @@ void Display_Init(SDisplay *display, SGame* game)
 	}
 	
 	// Enregistrement du path des images
-	display->img_path = "ressources/pictures/";
+	display->img_path = "../ressources/pictures/";
 	
 	// Enregistrement du path des polices
-	display->font_path = "ressources/fonts/";
+	display->font_path = "../ressources/fonts/";
 	temp_path = (char*)malloc(100*sizeof(char));
 	
 	// Chargement de l'icone de la fenêtre
@@ -253,7 +253,8 @@ void Display_Double(SDisplay *display, SGame* game)
 		SDL_Surface *num;
 		char* tmp = (char*)malloc(2*sizeof(char));
 		SDL_Color color = {255, 255, 255, 0};
-
+		if(game->doubleValue>10)
+			new_pos.x -= 8;
 		sprintf(tmp, "%d", game->doubleValue);
 		num = TTF_RenderText_Blended(display->font,tmp,color);
 		SDL_BlitSurface(num, NULL, display->screen, &new_pos);
@@ -1095,10 +1096,10 @@ int Display_GameActions(SDisplay *display, SGameState* gameState, SGame *game)
 {
 	SDL_Rect pos;
 	int notSelected = 1;
-	SDL_Surface *erase = SDL_CreateRGBSurface(SDL_HWSURFACE, 160, 45, 32, 0, 0, 0, 0);
+	SDL_Surface *erase = SDL_CreateRGBSurface(SDL_HWSURFACE, 160, 40, 32, 0, 0, 0, 0);
 	pos.x = 630;
 	pos.y = 190;
-	if(game->withDouble)
+	if(game->withDouble && game->doubleValue<64)
 	{
 		SDL_BlitSurface(display->gameActions[0], NULL, display->screen,&pos);
 		pos.y = 250;
@@ -1118,15 +1119,17 @@ int Display_GameActions(SDisplay *display, SGameState* gameState, SGame *game)
 			case SDL_MOUSEBUTTONUP:
 				if (event.button.button == SDL_BUTTON_LEFT)
 				{
-					if((event.button.x>=630 && event.button.x<=790 && event.button.y>=190 && event.button.y<=235) && game->withDouble && notSelected) // Double
+					if((event.button.x>=630 && event.button.x<=790 && event.button.y>=190 && event.button.y<=235) && game->withDouble && notSelected && game->doubleValue<=32) // Double
 					{
 						game->doubleValue = game->doubleValue * 2;
 						pos.x = 630;
 						pos.y = 190;
 						SDL_BlitSurface(erase, NULL, display->screen,&pos);
+						Display_Double(display, game);
+						SDL_Flip(display->screen);
 						notSelected = 1;
 					}
-					if((event.button.x>=630 && event.button.x<=790 && event.button.y>=190 && event.button.y<=235) && game->withDouble) // Lancer
+					if((event.button.x>=630 && event.button.x<=790 && event.button.y>=250 && event.button.y<=295) ) // Lancer
 					{
 						Game_LaunchDie(gameState, game);
 						pos.x = 630;
