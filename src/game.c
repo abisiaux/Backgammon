@@ -42,13 +42,7 @@ SGameState* Game_Init()
 	game->zones[5].player=EPlayer2;
 	game->zones[5].nb_checkers=5;
 	
-	/*TEST*/
-	game->zones[24].player=EPlayer1;
-	game->zones[24].nb_checkers=5;
 	
-	/*TEST*/
-	game->zones[26].player=EPlayer2;
-	game->zones[26].nb_checkers=5;
 	return game;
 }
 
@@ -286,14 +280,15 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 				case HUMAN_HUMAN :
 					if(curentP == EPlayer1)
 					{
-						sprintf(tmp,"%s, lance les des !",game->player1_name);
-						quit = Display_Message_Click(display, tmp, msg_position, msg_color,1);
+						sprintf( tmp, "%s, c'est ton tour !", game->player1_name);
+						Display_Message( display, tmp, msg_position, msg_color,1);
+						SDL_Flip(display->screen);
+						quit = Display_GameActions(display, gameState, game);
 						if(quit)
 						{
 							break;
 						}
-						Game_LaunchDie(gameState, game);
-						game->die_To_Play[0] = 0;
+
 						Display_RefreshGameBoard(display, gameState, game);
 						quit = Display_CheckersPossibilities(display, gameState, curentP, game);
 						printf("etat des dés : 1=>[]\t2=>[]\t3=>[]\t4=>[]\n", game->die_To_Play[0],game->die_To_Play[1],game->die_To_Play[2],game->die_To_Play[3]);
@@ -305,13 +300,13 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 					}
 					else
 					{
-						sprintf(tmp,"%s, lance les des !",game->player2_name);
-						quit = Display_Message_Click(display, tmp, msg_position, msg_color,1);
+						sprintf( tmp, "%s, c'est ton tour !", game->player2_name);
+						Display_Message( display, tmp, msg_position, msg_color,1);
+						quit = Display_GameActions(display, gameState, game);
 						if(quit)
 						{
 							break;
 						}
-						Game_LaunchDie(gameState, game);
 						Display_RefreshGameBoard(display, gameState, game);
 						quit = Display_CheckersPossibilities(display, gameState, curentP, game);
 						printf("etat des dés : 1=>[%d]\t2=>[%d]\t3=>[%d]\t4=>[%d]\n", game->die_To_Play[0],game->die_To_Play[1],game->die_To_Play[2],game->die_To_Play[3]);
@@ -326,13 +321,15 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 				case HUMAN_AI :
 					if(curentP == EPlayer1)
 					{
-						sprintf(tmp,"%s, lance les des !",game->player1_name);
-						quit = Display_Message_Click(display, tmp, msg_position, msg_color,1);
+						sprintf( tmp, "%s, c'est ton tour !", game->player1_name);
+						Display_Message( display, tmp, msg_position, msg_color,1);
+						SDL_Flip(display->screen);
+						quit = Display_GameActions(display, gameState, game);
 						if(quit)
 						{
 							break;
 						}
-						Game_LaunchDie(gameState, game);
+
 						Display_RefreshGameBoard(display, gameState, game);
 						quit = Display_CheckersPossibilities(display, gameState, curentP, game);
 						if(quit)

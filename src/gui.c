@@ -28,10 +28,10 @@ void Display_Init(SDisplay *display, SGame* game)
 	}
 	
 	// Enregistrement du path des images
-	display->img_path = "ressources/pictures/";
+	display->img_path = "../ressources/pictures/";
 	
 	// Enregistrement du path des polices
-	display->font_path = "ressources/fonts/";
+	display->font_path = "../ressources/fonts/";
 	temp_path = (char*)malloc(100*sizeof(char));
 	
 	// Chargement de l'icone de la fenêtre
@@ -177,6 +177,13 @@ void Display_Init(SDisplay *display, SGame* game)
 	display->positions[27].x = 292;
 	display->positions[27].y = 220;
 	
+	// Chargement des actions de jeu
+	strcpy(temp_path, display->img_path);
+	strcat(temp_path, "double.png");
+	display->gameActions[0] = IMG_Load(temp_path);
+	strcpy(temp_path, display->img_path);
+	strcat(temp_path, "launch.png");
+	display->gameActions[1] = IMG_Load(temp_path);
 	
 	// Initialisation de la fenêtre
 	display->screen = SDL_SetVideoMode(display->window_width, display->window_height, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
@@ -246,7 +253,8 @@ void Display_Double(SDisplay *display, SGame* game)
 		SDL_Surface *num;
 		char* tmp = (char*)malloc(2*sizeof(char));
 		SDL_Color color = {255, 255, 255, 0};
-
+		if(game->doubleValue>10)
+			new_pos.x -= 8;
 		sprintf(tmp, "%d", game->doubleValue);
 		num = TTF_RenderText_Blended(display->font,tmp,color);
 		SDL_BlitSurface(num, NULL, display->screen, &new_pos);
@@ -880,6 +888,7 @@ int allInJan( SGameState* gameState, EPlayer player)
 		return 1;
 	}
 }
+
 				
 int Display_CheckersPossibilities(SDisplay *display, SGameState *gameState, EPlayer player, SGame *game)
 {
@@ -1000,7 +1009,6 @@ int Display_CheckersPossibilities(SDisplay *display, SGameState *gameState, EPla
 	return 0;
 }
 
-
 int* Display_Arrow_Possibilities(SDisplay *display, SGameState *gameState, EPlayer player, EPosition depart, SGame *game)
 {
 	Display_RefreshGameBoard(display, gameState, game);
@@ -1113,4 +1121,59 @@ int inTab(EPosition p,int tab[28])
 	}
 	return 0;
 }
- 
+
+
+int Display_GameActions(SDisplay *display, SGameState* gameState, SGame *game)
+{
+	SDL_Rect pos;
+	int notSelected = 1;
+	SDL_Surface *erase = SDL_CreateRGBSurface(SDL_HWSURFACE, 160, 40, 32, 0, 0, 0, 0);
+	pos.x = 630;
+	pos.y = 190;
+	if(game->withDouble && game->doubleValue<64)
+	{
+		SDL_BlitSurface(display->gameActions[0], NULL, display->screen,&pos);
+	}
+	pos.y = 250;
+	SDL_BlitSurface(display->gameActions[1], NULL, display->screen,&pos);
+	
+	SDL_Flip(display->screen);
+	SDL_Event event;
+	while(1)
+	{
+		SDL_WaitEvent(&event);
+		switch(event.type)
+		{
+			case SDL_QUIT:
+				return 1;
+				break;
+			case SDL_MOUSEBUTTONUP:
+				if (event.button.button == SDL_BUTTON_LEFT)
+				{
+					if((event.button.x>=630 && event.button.x<=790 && event.button.y>=190 && event.button.y<=235) && game->withDouble && notSelected && game->doubleValue<=32) // Double
+					{
+						game->doubleValue = game->doubleValue * 2;
+						pos.x = 630;
+						pos.y = 190;
+						SDL_BlitSurface(erase, NULL, display->screen,&pos);
+						Display_Double(display, game);
+						SDL_Flip(display->screen);
+						notSelected = 1;
+					}
+					if((event.button.x>=630 && event.button.x<=790 && event.button.y>=250 && event.button.y<=295) ) // Lancer
+					{
+						Game_LaunchDie(gameState, game);
+						pos.x = 630;
+						pos.y = 190;
+						SDL_BlitSurface(erase, NULL, display->screen,&pos);
+						pos.y = 250;
+						SDL_BlitSurface(erase, NULL, display->screen,&pos);
+					
+						return 0;
+					}
+				}
+		  		break;
+
+		}
+	}
+}

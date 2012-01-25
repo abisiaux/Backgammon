@@ -33,7 +33,7 @@ int main(int argc, char **argv)
 			break;
 		case AI_AI :
 			sprintf(game.player1_name,"Ordinateur1");
-			sprintf(game.player1_name,"Ordinateur2");
+			sprintf(game.player2_name,"Ordinateur2");
 			break;
 		default :
 			fprintf(stderr, "Les consignes d'utilisations du jeu sont definies dans le README.\n");

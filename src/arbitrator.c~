@@ -4,7 +4,7 @@
 #include "../include/definitions.h"
 #include "../include/backgammon.h"
 
-int authorized_deplacement(SGameState* gameState, SMove *move, EPlayer player, SGame *game)
+int authorized_deplacement(SGameState* game, SMove *move, EPlayer player, int Die_For_Play[7])
 {
 	;
 	//1- position de départ lui appartient bien ?
@@ -15,28 +15,29 @@ int authorized_deplacement(SGameState* gameState, SMove *move, EPlayer player, S
 	printf("SRC : %d\n",posDepart);
 	EPosition posArrivee = (move->dest_point)-1;
 	printf("DEST : %d\n",posArrivee);
- 	SZone zoneDepart = (gameState->zones)[posDepart]; // zone de départ
- 	printf("PLAYER : %d\n",(gameState->zones)[posDepart].player);
+ 	SZone zoneDepart = (game->zones)[posDepart]; // zone de départ
+ 	printf("PLAYER : %d\n",(game->zones)[posDepart].player);
  	/*for(int i=0; i<28; i++)
  		printf("i=%d -> %d -> %d\n",i,(game->zones)[i].player,(game->zones)[i].nb_checkers);*/
-	SZone zoneArrivee = (gameState->zones)[posArrivee]; // zone d arrivee
+	SZone zoneArrivee = (game->zones)[posArrivee]; // zone d arrivee
 	// si le joueur ne joue pas le pion en prison, alors qu'il y en a un, le coup est incorrect
-	if( (nb_Pion_prison(gameState,player) > 0) && ( ((posDepart != EPos_BarP1) && (player == EPlayer1)) || ((posDepart != EPos_BarP2) && (player == EPlayer2)) ) )
+	if( (nb_Pion_prison(game,player) > 0) && ( ((posDepart != EPos_BarP1) && (player == EPlayer1)) || ((posDepart != EPos_BarP2) && (player == EPlayer2)) ) )
 	{
-		printf("PION EN PRISON !! %d\n",nb_Pion_prison(gameState,player));
+		printf("PION EN PRISON !! %d\n",nb_Pion_prison(game,player));
 		return 0;
 	}
-	
+	printf("anto\n");
 	//Position départ = position appartenant au joueur ?
 	if(case_appartenant_au_joueur(zoneDepart,player))
 	{
-		
-		unsigned int nb_sauts = get_distance(posDepart,posArrivee);
+		printf("ok : %d\n",posDepart);
+		unsigned int nb_sauts = get_distance(posDepart,posArrivee, player);
 		printf("DISTANCE : %u\n",nb_sauts);
+		printf("DE1 : %u, DE2: %u\n",game->die1,game->die2);
 		// Si le mouvement correspont au nombre d'un des dés
-		if(Taille_Mouvement_Correcte(nb_sauts, game, gameState ))
+		if(Taille_Mouvement_Correcte(nb_sauts, Die_For_Play ))
 		{
-
+			//printf("RES DE = NB SAUTS\n");
 			//on regarde si le sens de rotation est correct pour le joueur			
 			if(sens_rotation_correct(player, posDepart, posArrivee))
 			{
@@ -44,8 +45,7 @@ int authorized_deplacement(SGameState* gameState, SMove *move, EPlayer player, S
 				if(case_appartenant_au_joueur(zoneArrivee, player) || case_appartenant_joueur_adverse_avec_un_pion(zoneArrivee, player) || position_vide(zoneArrivee))
 				{
 					//si le joueur joue en out
-					if( (	(posArrivee == EPos_OutP1 && player == EPlayer1) || (posArrivee == EPos_OutP2 && player == EPlayer2)	) 
-						&& (!jeu_out_posible(gameState, player)) )
+					if( (posArrivee == EPos_OutP1 && player == EPlayer1) || (posArrivee =! EPos_OutP2 && player == EPlayer2) && !jeu_out_posible(game, player))
 					{
 						return 0;
 					}
@@ -94,18 +94,18 @@ int position_vide(SZone zone)
 	//else printf("POS NON VIDE\n");
 	return 0;
 }
-unsigned int get_distance(EPosition depart, EPosition arrivee)
+unsigned int get_distance(EPosition depart, EPosition arrivee, EPlayer player)
 {
 	//depart est une case prison
-	if(depart == EPos_BarP1)
+	/*if((depart == EPos_BarP1) && (player == EPlayer1))
 	{
 		depart = EPos_1;
 	}
-	else if(depart == EPos_BarP2)
+	else if((depart == EPos_BarP2) && (player == EPlayer2))
 	{
 		depart = EPos_24;
-	}
-
+	}*/
+	printf("GETDIST:%d // %d",depart,arrivee);
 	
 
 	if(((int)(depart) - (int)(arrivee)) < 0)
@@ -157,7 +157,7 @@ int Pion_Depart_Autorise(int x, int y, EPlayer player, SGameState* game, EPositi
 
 
 
-/*int numberofDieForMove(SGameState* game, EPlayer player, SMove move)
+int numberofDieForMove(SGameState* game, EPlayer player, SMove move)
 {
 	unsigned int saut=0;
 	if(player == EPlayer2)
@@ -178,9 +178,12 @@ int Pion_Depart_Autorise(int x, int y, EPlayer player, SGameState* game, EPositi
 	{
 		return (int)(saut/(game->die1));
 	}
-}*/
+}
 
-
+int numberOfDieCanPlay(SGameState* game, EPlayer player)
+{
+	return 2;
+}
 
 
 int nb_Pion_prison(SGameState* game, EPlayer player)
@@ -188,11 +191,7 @@ int nb_Pion_prison(SGameState* game, EPlayer player)
 	if(player == EPlayer1)
 	{
 		
-<<<<<<< HEAD
-		return (game->zones[EPos_BarP1]).nb_checkers;
-=======
 		return (game->zones[EPos_BarP1]).nb_checkers; /// ATTENTION CHANGER EN BAR !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
->>>>>>> beb3e89875315f90ac5634d7b695f7e010d7449e
 	}
 	else
 	{
@@ -215,7 +214,6 @@ int jeu_out_posible(SGameState* game, EPlayer player)
 				cpt += (game->zones[temp]).nb_checkers;
 			temp++;
 		}
-		cpt += (game->zones[EPos_OutP1]).nb_checkers;
 		if(cpt == 15) return 1;
 		
 	}
@@ -229,43 +227,20 @@ int jeu_out_posible(SGameState* game, EPlayer player)
 				cpt += (game->zones[temp]).nb_checkers;
 			temp++;
 		}
-		cpt += (game->zones[EPos_OutP2]).nb_checkers;
 		if(cpt == 15) return 1;
 	}
 	return 0;
 
 }
 
-int Taille_Mouvement_Correcte(unsigned int taille_mouvement, SGame *game, SGameState *gameState)
+int Taille_Mouvement_Correcte(unsigned int taille_mouvement, int Die_For_Play[7] )
 {
-	printf("FCT TAILLE MOVE\n");
-
-	for(int i=0; i<4; i++)
+	printf("FCT\n");
+	for(unsigned int i=1; i<7; i++)
 	{
-		if(game->die_To_Play[i] == 1) // si le dé n'est pas encore joué
-		{
-			switch(i)
-			{
-				case 0: //Dé 1 non joué  
-					if(taille_mouvement == gameState->die1) // taille du mouvement correspond au dé 1
-					{
-						return 1;	
-					}
-					break;
-				case 1: // Dé 2 non joué
-					if(taille_mouvement == gameState->die2) // taille du mouvement correspond au dé 2
-					{
-						return 1;	
-					}
-					break;
-				default:
-					if(taille_mouvement == gameState->die1) // taille du mouvement correspond au dé 3 ou 4
-					{
-						return 1;	
-					}
-					break;	
-			}
-		}
+		printf("I=%d\t taileMVMT=%d\t DIEFORPLAYER_DE_I=%d\n",(int)i,(int)taille_mouvement,Die_For_Play[i]);
+		if(taille_mouvement == i && Die_For_Play[i] >= 1)
+			return 1;
 	}
 	return 0;
 }

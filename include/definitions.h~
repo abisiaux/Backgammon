@@ -79,7 +79,7 @@ typedef struct Display
 	
 	SDL_Surface *videau; // Image du videau
 	
-	SDL_Rect double_position; // Position du videau
+	SDL_Rect videau_position; // Position du videau
 	
 	SDL_Surface *die[6]; // Image du dé !! Attention : le dé de valeur i est stocké dans la case i-1 !!
 	
@@ -95,6 +95,7 @@ typedef struct Display
 	
 	SDL_Surface *possibility_out; // Cadre autour de la zone out pour indiquer une possibilité de déplacement
 	
+	SDL_Surface *gameActions[2]; // Actions du jeu
 	char *font_path; // Le chemin du dossier contenant les polices
 	
 	char *img_path; // Le chemin du dossier contenant les images
@@ -193,6 +194,9 @@ int inTab(EPosition p,int* tab);
 
 void Display_DrawOut(SDisplay *display, SGameState *gameState, SGame *game);
 void Display_DrawBar(SDisplay *display, SGameState *gameState, SGame *game);
+
+/* TEST*/
+int makeChoice(SDisplay *display, SGameState *gameState, SGame *game, int mat[28][28], EPlayer player);
 
 /**************************** FIN DEFINITIONS POUR L'INTERFACE GRAPHIQUE ******************************/
 

@@ -17,9 +17,6 @@ int main(int argc, char **argv)
 	SDisplay display;
 	SGame game;
 	
-	int i;
-	for(i=0;i<4;i++) game.die_To_Play[i]=1;
-	
 	Display_Init(&display,&game); /* Initialisation de l'interface graphique */
 	
 	

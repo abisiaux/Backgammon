@@ -95,6 +95,7 @@ typedef struct Display
 	
 	SDL_Surface *possibility_out; // Cadre autour de la zone out pour indiquer une possibilité de déplacement
 	
+	SDL_Surface *gameActions[2]; // Actions du jeu
 	char *font_path; // Le chemin du dossier contenant les polices
 	
 	char *img_path; // Le chemin du dossier contenant les images
@@ -193,6 +194,9 @@ int inTab(EPosition p,int* tab);
 
 void Display_DrawOut(SDisplay *display, SGameState *gameState, SGame *game);
 void Display_DrawBar(SDisplay *display, SGameState *gameState, SGame *game);
+
+int Display_GameActions(SDisplay *display, SGameState* gameState, SGame *game);
+
 
 /**************************** FIN DEFINITIONS POUR L'INTERFACE GRAPHIQUE ******************************/
 
