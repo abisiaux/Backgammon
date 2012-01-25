@@ -17,7 +17,12 @@ int main(int argc, char **argv)
 	SDisplay display;
 	SGame game;
 	
+	int i;
+	for(i=0;i<4;i++) game.die_To_Play[i]=1;
+	
 	Display_Init(&display,&game); /* Initialisation de l'interface graphique */
+	
+	
 	
 	switch(gameMode)
 	{
@@ -52,11 +57,7 @@ int main(int argc, char **argv)
 	{
 		SDL_WaitEvent(&event);
 		
-<<<<<<< HEAD
 		quit = Game_Play( &display, gameMode, &game, ai_struct);
-=======
-		quit = Game_Play( &display, gameMode, &game,ai_struct);
->>>>>>> c63b25bcdb4ea1aac45181de6a0f7451f96f8569
 		
 		switch(event.type)
 		{

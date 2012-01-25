@@ -43,12 +43,12 @@ SGameState* Game_Init()
 	game->zones[5].nb_checkers=5;
 	
 	/*TEST*/
-	game->zones[25].player=EPlayer2;
-	game->zones[25].nb_checkers=5;
+	game->zones[24].player=EPlayer1;
+	game->zones[24].nb_checkers=5;
 	
 	/*TEST*/
-	game->zones[27].player=EPlayer1;
-	game->zones[27].nb_checkers=5;
+	game->zones[26].player=EPlayer1;
+	game->zones[26].nb_checkers=5;
 	return game;
 }
 
@@ -80,7 +80,7 @@ int Game_FirstToPlay( SDisplay* display, EGameMode gameMode, SGame* game, SGameS
 					quit = 1;
 					break;
 				}
-				Game_LaunchDie(gameState);
+				Game_LaunchDie(gameState, game);
 				Display_RefreshGameBoard(display, gameState, game);
 				SDL_Delay(1500);
 				dieP1[0] = gameState->die1;
@@ -93,7 +93,7 @@ int Game_FirstToPlay( SDisplay* display, EGameMode gameMode, SGame* game, SGameS
 					quit = 1;
 					break;
 				}
-				Game_LaunchDie(gameState);
+				Game_LaunchDie(gameState, game);
 				Display_RefreshGameBoard(display, gameState, game);
 				SDL_Delay(1500);
 				dieP2[0] = gameState->die1;
@@ -129,7 +129,7 @@ int Game_FirstToPlay( SDisplay* display, EGameMode gameMode, SGame* game, SGameS
 					quit = 1;
 					break;
 				}
-				Game_LaunchDie(gameState);
+				Game_LaunchDie(gameState, game);
 				Display_RefreshGameBoard(display, gameState, game);
 				SDL_Delay(1500);
 				dieP1[0] = gameState->die1;
@@ -137,7 +137,7 @@ int Game_FirstToPlay( SDisplay* display, EGameMode gameMode, SGame* game, SGameS
 			
 				sprintf(tmp,"%s, lance les des ...", game->player2_name);
 				Display_Message( display, tmp, msg_position, msg_color,1);
-				Game_LaunchDie(gameState);
+				Game_LaunchDie(gameState, game);
 				Display_RefreshGameBoard(display, gameState, game);
 				SDL_Delay(1500);
 				dieP2[0] = gameState->die1;
@@ -167,11 +167,11 @@ int Game_FirstToPlay( SDisplay* display, EGameMode gameMode, SGame* game, SGameS
 				break;
 			case AI_AI:
 				
-				Game_LaunchDie(gameState);
+				Game_LaunchDie(gameState, game);
 				dieP1[0] = gameState->die1;
 				dieP1[1] = gameState->die2;
 			
-				Game_LaunchDie(gameState);
+				Game_LaunchDie(gameState, game);
 				dieP2[0] = gameState->die1;
 				dieP2[1] = gameState->die2;
 				
@@ -220,9 +220,15 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 	SDL_Event event;
 	int quit = 0;
 	int finish;
-	SMove mouvement;
-	SMove mvmt_ia[4];
-	unsigned int lastTimeError=0;
+	
+	SMove mouvement; // Mouvement pour le joueur humain
+	
+	int Die_For_Play[7]={0,1,1,1,1,1,1}; // Nb dés à utiliser dans le tour ex : {0,1,0,0,1,0,0} Dés encore à jouer : 1 et 4
+	/** DECLARATIONS IA **/
+	SMove mvmt_ia[4]; // Tableau de mouvement a fournir à l'IA
+	unsigned int lastTimeError=0; // 
+	
+	
 	SDL_Rect msg_position;
 	msg_position.x = 80;
 	msg_position.y = 325;
@@ -286,9 +292,10 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 						{
 							break;
 						}
-						Game_LaunchDie(gameState);
+						Game_LaunchDie(gameState, game);
+						game->die_To_Play[0] = 0;
 						Display_RefreshGameBoard(display, gameState, game);
-						quit = Display_CheckersPossibilities(display, gameState, curentP, game);
+						quit = Display_CheckersPossibilities(display, gameState, curentP, game, Die_For_Play);
 						if(quit)
 						{
 							break;
@@ -303,9 +310,9 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 						{
 							break;
 						}
-						Game_LaunchDie(gameState);
+						Game_LaunchDie(gameState, game);
 						Display_RefreshGameBoard(display, gameState, game);
-						quit = Display_CheckersPossibilities(display, gameState, curentP, game);
+						quit = Display_CheckersPossibilities(display, gameState, curentP, game, Die_For_Play);
 						if(quit)
 						{
 							break;
@@ -323,9 +330,9 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 						{
 							break;
 						}
-						Game_LaunchDie(gameState);
+						Game_LaunchDie(gameState, game);
 						Display_RefreshGameBoard(display, gameState, game);
-						quit = Display_CheckersPossibilities(display, gameState, curentP, game);
+						quit = Display_CheckersPossibilities(display, gameState, curentP, game, Die_For_Play);
 						if(quit)
 						{
 							break;
@@ -335,7 +342,7 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 					else
 					{
 	
-						Game_LaunchDie(gameState);
+						Game_LaunchDie(gameState, game);
 						Display_RefreshGameBoard(display, gameState, game);
 						/* DEROULEMENT JEU AI */
 						curentP = EPlayer1;
@@ -345,7 +352,7 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 				case AI_AI :
 					if(curentP == EPlayer1)
 					{
-						Game_LaunchDie(gameState);
+						Game_LaunchDie(gameState, game);
 						Display_RefreshGameBoard(display, gameState, game);
 						/* DEROULEMENT JEU AI */
 						curentP = EPlayer2;
@@ -353,7 +360,7 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 					else
 					{
 	
-						Game_LaunchDie(gameState);
+						Game_LaunchDie(gameState, game);
 						Display_RefreshGameBoard(display, gameState, game);
 						/* DEROULEMENT JEU AI */
 						curentP = EPlayer1;
@@ -379,11 +386,13 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 	return 1;
 }
 
-void Game_LaunchDie(SGameState *game)
+void Game_LaunchDie(SGameState *gameState, SGame *game) // ajouter le Die_For_play
 {
 	srand( time(NULL) ); // Initialisation du generateur de nombre aleatoire
-	game->die1 = 1+(rand()/(float)RAND_MAX)*6; // Tirage aléatoire d'un chiffre entre 1 et 6
-	game->die2 = 1+(rand()/(float)RAND_MAX)*6; // Tirage aléatoire d'un chiffre entre 1 et 6
-	printf("Dé 1 : %d Dé 2 : %d\n",game->die1,game->die2);
+	gameState->die1 = 1+(rand()/(float)RAND_MAX)*6; // Tirage aléatoire d'un chiffre entre 1 et 6
+	gameState->die2 = 1+(rand()/(float)RAND_MAX)*6; // Tirage aléatoire d'un chiffre entre 1 et 6
+	printf("Dé 1 : %d Dé 2 : %d\n",gameState->die1,gameState->die2);
+	int i;
+	for(i=0;i<4;i++) game->die_To_Play[i]=1;
 }
 		

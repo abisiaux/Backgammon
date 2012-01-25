@@ -19,6 +19,8 @@ int main(int argc, char **argv)
 	
 	Display_Init(&display,&game); /* Initialisation de l'interface graphique */
 	
+	
+	
 	switch(gameMode)
 	{
 		case HUMAN_HUMAN :

@@ -23,9 +23,11 @@ typedef struct Game
 	int player2_checker; // Couleur des pions du Joueur 2
 	
 	int withDouble; // Présence du double ou non
+	int doubleValue; // Valeur du double
 	
-	unsigned 
-	int scoreLimit; // Limite de score
+	unsigned int scoreLimit; // Limite de score
+	
+	int die_To_Play[4]; // Tableau du statut des dés / 1=> dés pas encore joué et 0=> dés déjà joué
 }SGame;
 
 /* Différents modes de jeu
@@ -75,7 +77,13 @@ typedef struct Display
 	
 	SDL_Surface *selected_checker; // Les pions Selectionnés
 	
+	SDL_Surface *videau; // Image du videau
+	
+	SDL_Rect videau_position; // Position du videau
+	
 	SDL_Surface *die[6]; // Image du dé !! Attention : le dé de valeur i est stocké dans la case i-1 !!
+	
+	SDL_Surface *die_played[6]; // Image des dés joués !! Attention : le dé de valeur i est stocké dans la case i-1 !!
 	
 	SDL_Rect die1_position; // Position du dé n°1
 	
@@ -121,7 +129,7 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 
 
 /* Lancer les dés */
-void Game_LaunchDie(SGameState *game);
+void Game_LaunchDie(SGameState *gameState, SGame *game);
 
 int Game_FirstToPlay( SDisplay* display, EGameMode gameMode, SGame* game, SGameState *gameState);
 
@@ -138,8 +146,8 @@ void Display_Exit(SDisplay *display);
 /* Affiche les pions */
 void Display_Checkers(SDisplay *display, SGameState *gameState, SGame *game);
 
-/* Affiche les deux dés */
-void Display_Die(SDisplay *display,SGameState *gameState);
+/* Affiche les dés */
+void Display_Die(SDisplay *display,SGameState *gameState, SGame* game);
 
 /* Affiche les scores */
 void Display_Score(SDisplay *display, SGameState *gameState, SGame* game);

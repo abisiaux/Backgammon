@@ -23,9 +23,11 @@ typedef struct Game
 	int player2_checker; // Couleur des pions du Joueur 2
 	
 	int withDouble; // Présence du double ou non
+	int doubleValue; // Valeur du double
 	
-	unsigned 
-	int scoreLimit; // Limite de score
+	unsigned int scoreLimit; // Limite de score
+	
+	int die_To_Play[4]; // Tableau du statut des dés / 1=> dés pas encore joué et 0=> dés déjà joué
 }SGame;
 
 /* Différents modes de jeu
@@ -75,7 +77,13 @@ typedef struct Display
 	
 	SDL_Surface *selected_checker; // Les pions Selectionnés
 	
+	SDL_Surface *videau; // Image du videau
+	
+	SDL_Rect double_position; // Position du videau
+	
 	SDL_Surface *die[6]; // Image du dé !! Attention : le dé de valeur i est stocké dans la case i-1 !!
+	
+	SDL_Surface *die_played[6]; // Image des dés joués !! Attention : le dé de valeur i est stocké dans la case i-1 !!
 	
 	SDL_Rect die1_position; // Position du dé n°1
 	
@@ -117,14 +125,11 @@ typedef struct
 /* Initialise la partie */
 SGameState* Game_Init();
 
-<<<<<<< HEAD
 int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions* ai_struct);
-=======
-int Game_Play(SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions* ai_struct);
->>>>>>> c63b25bcdb4ea1aac45181de6a0f7451f96f8569
+
 
 /* Lancer les dés */
-void Game_LaunchDie(SGameState *game);
+void Game_LaunchDie(SGameState *gameState, SGame *game);
 
 int Game_FirstToPlay( SDisplay* display, EGameMode gameMode, SGame* game, SGameState *gameState);
 
@@ -141,8 +146,8 @@ void Display_Exit(SDisplay *display);
 /* Affiche les pions */
 void Display_Checkers(SDisplay *display, SGameState *gameState, SGame *game);
 
-/* Affiche les deux dés */
-void Display_Die(SDisplay *display,SGameState *gameState);
+/* Affiche les dés */
+void Display_Die(SDisplay *display,SGameState *gameState, SGame* game);
 
 /* Affiche les scores */
 void Display_Score(SDisplay *display, SGameState *gameState, SGame* game);
@@ -170,7 +175,7 @@ int* Display_Arrow_Possibilities(SDisplay *display, SGameState *gameState, EPlay
 void Draw_Selected_Arrow(SDisplay *display, EPosition pos);
 
 //void Display_Possibilities(SDisplay *display, SGameState *gameState, EPlayer player); // A MODIFIER
-int Display_CheckersPossibilities(SDisplay *display, SGameState *gameState, EPlayer player, SGame *game);
+int Display_CheckersPossibilities(SDisplay *display, SGameState *gameState, EPlayer player, SGame *game, int Die_For_Play[7]);
 
 /*Donne la position en fonction d'un clic sur le jeu dans le poiteur de EPosition pos
 	Retourne Vrai si position trouve, faux sinon.*/
@@ -225,7 +230,7 @@ EGameMode Check_Args( int argc, char** argv, SAI_Functions* ai_struct);
 
 /**************************** DEFINITIONS POUR L'ARBITRE ******************************/
 
-int authorized_deplacement(SGameState* game, SMove *move, EPlayer player);
+int authorized_deplacement(SGameState* game, SMove *move, EPlayer player,int Die_For_Play[7]);
 int case_appartenant_au_joueur(SZone zone, EPlayer player);
 int case_appartenant_joueur_adverse_avec_un_pion(SZone zone, EPlayer player);
 int position_vide(SZone zone);
@@ -239,6 +244,8 @@ int numberOfDieForMove(SGameState* game, EPlayer player, SMove move);
 /*retourne le nombre de dés qui peuvent être joués dans la partie ( utile si le joueur est bloqué par exemple)*/
 int numberOfDieCanPlay(SGameState* game, EPlayer player); // A IMPLEMENTER
 
+/*Retourne 1 si le mouvement correspond à un des dés encore jouable, 0 sinon*/
+int Taille_Mouvement_Correcte(unsigned int taille_mouvement, int Die_For_Play[7] );
 /**************************** FIN DEFINITIONS POUR L'ARBITRE ******************************/
 #endif
 
