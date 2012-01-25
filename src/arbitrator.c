@@ -26,18 +26,17 @@ int authorized_deplacement(SGameState* gameState, SMove *move, EPlayer player, S
 		printf("PION EN PRISON !! %d\n",nb_Pion_prison(gameState,player));
 		return 0;
 	}
-	printf("anto\n");
+	
 	//Position départ = position appartenant au joueur ?
 	if(case_appartenant_au_joueur(zoneDepart,player))
 	{
-		printf("ok : %d\n",posDepart);
-		unsigned int nb_sauts = get_distance(posDepart,posArrivee, player);
+		
+		unsigned int nb_sauts = get_distance(posDepart,posArrivee);
 		printf("DISTANCE : %u\n",nb_sauts);
-		printf("DE1 : %u, DE2: %u\n",gameState->die1,gameState->die2);
 		// Si le mouvement correspont au nombre d'un des dés
 		if(Taille_Mouvement_Correcte(nb_sauts, game, gameState ))
 		{
-			//printf("RES DE = NB SAUTS\n");
+
 			//on regarde si le sens de rotation est correct pour le joueur			
 			if(sens_rotation_correct(player, posDepart, posArrivee))
 			{
@@ -95,18 +94,18 @@ int position_vide(SZone zone)
 	//else printf("POS NON VIDE\n");
 	return 0;
 }
-unsigned int get_distance(EPosition depart, EPosition arrivee, EPlayer player)
+unsigned int get_distance(EPosition depart, EPosition arrivee)
 {
 	//depart est une case prison
-	if((depart == EPos_BarP1) && (player == EPlayer1))
+	if(depart == EPos_BarP1)
 	{
 		depart = EPos_1;
 	}
-	else if((depart == EPos_BarP2) && (player == EPlayer2))
+	else if(depart == EPos_BarP2)
 	{
 		depart = EPos_24;
 	}
-	printf("GETDIST:%d // %d",depart,arrivee);
+
 	
 
 	if(((int)(depart) - (int)(arrivee)) < 0)

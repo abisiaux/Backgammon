@@ -296,6 +296,7 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 						game->die_To_Play[0] = 0;
 						Display_RefreshGameBoard(display, gameState, game);
 						quit = Display_CheckersPossibilities(display, gameState, curentP, game);
+						printf("etat des dés : 1=>[]\t2=>[]\t3=>[]\t4=>[]\n", game->die_To_Play[0],game->die_To_Play[1],game->die_To_Play[2],game->die_To_Play[3]);
 						if(quit)
 						{
 							break;
@@ -313,6 +314,7 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 						Game_LaunchDie(gameState, game);
 						Display_RefreshGameBoard(display, gameState, game);
 						quit = Display_CheckersPossibilities(display, gameState, curentP, game);
+						printf("etat des dés : 1=>[%d]\t2=>[%d]\t3=>[%d]\t4=>[%d]\n", game->die_To_Play[0],game->die_To_Play[1],game->die_To_Play[2],game->die_To_Play[3]);
 						if(quit)
 						{
 							break;
@@ -386,7 +388,7 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 	return 1;
 }
 
-void Game_LaunchDie(SGameState *gameState, SGame *game) // ajouter le Die_For_play
+void Game_LaunchDie(SGameState *gameState, SGame *game) 
 {
 	srand( time(NULL) ); // Initialisation du generateur de nombre aleatoire
 	gameState->die1 = 1+(rand()/(float)RAND_MAX)*6; // Tirage aléatoire d'un chiffre entre 1 et 6
