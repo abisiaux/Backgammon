@@ -295,7 +295,7 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 						Game_LaunchDie(gameState, game);
 						game->die_To_Play[0] = 0;
 						Display_RefreshGameBoard(display, gameState, game);
-						quit = Display_CheckersPossibilities(display, gameState, curentP, game, Die_For_Play);
+						quit = Display_CheckersPossibilities(display, gameState, curentP, game);
 						if(quit)
 						{
 							break;
@@ -312,7 +312,7 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 						}
 						Game_LaunchDie(gameState, game);
 						Display_RefreshGameBoard(display, gameState, game);
-						quit = Display_CheckersPossibilities(display, gameState, curentP, game, Die_For_Play);
+						quit = Display_CheckersPossibilities(display, gameState, curentP, game);
 						if(quit)
 						{
 							break;
@@ -332,7 +332,7 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 						}
 						Game_LaunchDie(gameState, game);
 						Display_RefreshGameBoard(display, gameState, game);
-						quit = Display_CheckersPossibilities(display, gameState, curentP, game, Die_For_Play);
+						quit = Display_CheckersPossibilities(display, gameState, curentP, game);
 						if(quit)
 						{
 							break;

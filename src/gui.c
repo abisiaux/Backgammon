@@ -28,10 +28,10 @@ void Display_Init(SDisplay *display, SGame* game)
 	}
 	
 	// Enregistrement du path des images
-	display->img_path = "../ressources/pictures/";
+	display->img_path = "ressources/pictures/";
 	
 	// Enregistrement du path des polices
-	display->font_path = "../ressources/fonts/";
+	display->font_path = "ressources/fonts/";
 	temp_path = (char*)malloc(100*sizeof(char));
 	
 	// Chargement de l'icone de la fenêtre
@@ -850,7 +850,7 @@ int allInJan( SGameState* gameState, EPlayer player)
 	}
 }
 				
-int Display_CheckersPossibilities(SDisplay *display, SGameState *gameState, EPlayer player, SGame *game, int Die_For_Play[7])
+int Display_CheckersPossibilities(SDisplay *display, SGameState *gameState, EPlayer player, SGame *game)
 {
 	int i=0;
 	int tab[28];
@@ -906,7 +906,6 @@ int Display_CheckersPossibilities(SDisplay *display, SGameState *gameState, EPla
 			SDL_WaitEvent(&event);
 			EPosition posDepart;
 			EPosition posArrivee;
-			int aut =0;
 			SMove mouvement;
 			switch(event.type)
 			{
@@ -948,12 +947,9 @@ int Display_CheckersPossibilities(SDisplay *display, SGameState *gameState, EPla
 									mouvement.dest_point = posArrivee+1;
 									free(arriveesValides);
 
-									if(authorized_deplacement(gameState, &mouvement, player,Die_For_Play))
-									{
-										aut = 1;
-									}
-									printf("JOUEUR %d\tSRC %d\tDEST %d\tDIE1 %d\tDIE2 %d MVT AUTORISE %d\n",player,mouvement.src_point,mouvement.dest_point,gameState->die1,gameState->die2,aut);
-									aut = 0;
+									
+									printf("JOUEUR %d\tSRC %d\tDEST %d\tDIE1 %d\tDIE2 %d MVT AUTORISE %d\n",player,mouvement.src_point,mouvement.dest_point,gameState->die1,gameState->die2,authorized_deplacement(gameState, &mouvement, player, game));
+									
 									Checker_Move(display,gameState,&mouvement, game);
 									return 0;
 								}
@@ -962,7 +958,7 @@ int Display_CheckersPossibilities(SDisplay *display, SGameState *gameState, EPla
 							{
 								free(arriveesValides);
 								Display_RefreshGameBoard(display, gameState, game);
-								return Display_CheckersPossibilities(display, gameState, player, game, Die_For_Play);
+								return Display_CheckersPossibilities(display, gameState, player, game);
 							}
 						}
 					}
