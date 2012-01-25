@@ -291,7 +291,7 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 
 						Display_RefreshGameBoard(display, gameState, game);
 						quit = Display_CheckersPossibilities(display, gameState, curentP, game);
-						printf("etat des dés : 1=>[]\t2=>[]\t3=>[]\t4=>[]\n", game->die_To_Play[0],game->die_To_Play[1],game->die_To_Play[2],game->die_To_Play[3]);
+						printf("etat des dés : 1=>[%d]\t2=>[%d]\t3=>[%d]\t4=>[%d]\n", game->die_To_Play[0],game->die_To_Play[1],game->die_To_Play[2],game->die_To_Play[3]);
 						if(quit)
 						{
 							break;
