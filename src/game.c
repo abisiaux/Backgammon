@@ -230,11 +230,30 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 	
 	int cptAI[2]; // Compteur d'erreur des AI
 	cptAI[0] = 0; 
-	cptAI[1] = 0; 
+	cptAI[1] = 0;
 	
-	
+	if(gameMode == HUMAN_AI)
+	{
+		(*ai_struct[0].AI_StartMatch)(game->scoreLimit);
+	}
+	else if(gameMode == AI_AI)
+	{
+		(*ai_struct[0].AI_StartMatch)(game->scoreLimit);
+		(*ai_struct[1].AI_StartMatch)(game->scoreLimit);
+	}
 	while( gameState->score < game->scoreLimit && gameState->scoreP2 < game->scoreLimit && !quit ) // Boucle de jeu
 	{
+	
+		if(gameMode == HUMAN_AI)
+		{
+			(*ai_struct[0].AI_StartGame)();
+		}
+		else if(gameMode == AI_AI)
+		{
+			(*ai_struct[0].AI_StartGame)();
+			(*ai_struct[1].AI_StartGame)();
+		}
+		
 		SDL_WaitEvent(&event);
 
 		Display_Clear(display);
@@ -342,6 +361,7 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 						Game_LaunchDie(gameState, game);
 						Display_RefreshGameBoard(display, gameState, game);
 						/* DEROULEMENT JEU AI */
+						/* DEMANDER DOUBLE PUIS MOUVEMENT*/
 						curentP = EPlayer1;
 					}
 					break;
@@ -352,6 +372,7 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 						Game_LaunchDie(gameState, game);
 						Display_RefreshGameBoard(display, gameState, game);
 						/* DEROULEMENT JEU AI */
+						/* DEMANDER DOUBLE PUIS MOUVEMENT*/
 						curentP = EPlayer2;
 					}
 					else
@@ -360,6 +381,7 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 						Game_LaunchDie(gameState, game);
 						Display_RefreshGameBoard(display, gameState, game);
 						/* DEROULEMENT JEU AI */
+						/* DEMANDER DOUBLE PUIS MOUVEMENT*/
 						curentP = EPlayer1;
 					}
 					break;
@@ -371,9 +393,27 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 			if(event.type == SDL_QUIT)
 				quit = 1;
 		}
+		if(gameMode == HUMAN_AI)
+		{
+			(*ai_struct[0].AI_EndGame)();
+		}
+		else if(gameMode == AI_AI)
+		{
+			(*ai_struct[0].AI_EndGame)();
+			(*ai_struct[1].AI_EndGame)();
+		}
 		if(event.type == SDL_QUIT)
 			quit = 1;
-		quit = 1;
+		//quit = 1;
+	}
+	if(gameMode == HUMAN_AI)
+	{
+		(*ai_struct[0].AI_EndMatch)();
+	}
+	else if(gameMode == AI_AI)
+	{
+		(*ai_struct[0].AI_EndMatch)();
+		(*ai_struct[1].AI_EndMatch)();
 	}
 	free(tmp);
 	free(gameState);
