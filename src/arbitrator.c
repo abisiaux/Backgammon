@@ -187,12 +187,7 @@ int nb_Pion_prison(SGameState* game, EPlayer player)
 {
 	if(player == EPlayer1)
 	{
-		
-<<<<<<< HEAD
 		return (game->zones[EPos_BarP1]).nb_checkers;
-=======
-		return (game->zones[EPos_BarP1]).nb_checkers; /// ATTENTION CHANGER EN BAR !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
->>>>>>> beb3e89875315f90ac5634d7b695f7e010d7449e
 	}
 	else
 	{
