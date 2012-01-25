@@ -238,7 +238,7 @@ int authorized_deplacement(SGameState* gameState, SMove *move, EPlayer player, S
 int case_appartenant_au_joueur(SZone zone, EPlayer player);
 int case_appartenant_joueur_adverse_avec_un_pion(SZone zone, EPlayer player);
 int position_vide(SZone zone);
-unsigned int get_distance(EPosition depart, EPosition arrivee, EPlayer player);
+unsigned int get_distance(EPosition depart, EPosition arrivee);
 int sens_rotation_correct(EPlayer joueur, EPosition depart, EPosition arrivee);
 
 /*retourne vrai si le joueur a cliqué sur une zone contenant un pion déplacable*/

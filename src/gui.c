@@ -725,6 +725,37 @@ void Checker_Move(SDisplay *display, SGameState* gameState, SMove *move, SGame *
 		gameState->zones[move->dest_point-1].player = gameState->zones[move->src_point-1].player;
 	}
 	Display_RefreshGameBoard(display, gameState, game);
+	
+	//Mise a jour du tableau des dés utilisables.
+	unsigned int taille_mouvement = get_distance(move->src_point,move->dest_point);
+	for(int i=0;i<4;i++)
+	{
+		if(game->die_To_Play[i] == 1) // dé non utilisé jusqu'a present
+		{
+			switch(i)
+			{
+				case 0: //Dé 1 non joué  
+					if(taille_mouvement == gameState->die1) // taille du mouvement correspond au dé 1
+					{
+						game->die_To_Play[i] = 0;	
+					}
+					break;
+				case 1: // Dé 2 non joué
+					if(taille_mouvement == gameState->die2) // taille du mouvement correspond au dé 2
+					{
+						game->die_To_Play[i] = 0;	
+					}
+					break;
+				default:
+					if(taille_mouvement == gameState->die1) // taille du mouvement correspond au dé 3 ou 4
+					{
+						game->die_To_Play[i] = 0;	
+					}
+					break;	
+			}
+		}
+	}	
+	
 }
 
 
