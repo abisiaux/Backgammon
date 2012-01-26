@@ -1,3 +1,11 @@
+/**
+ * \file library.c
+ * \brief Contient l'implémentation des fonctions pour gérer les IA et déterminer le mode de jeu
+ * \author Alexandre BISIAUX et Antonin BIRET
+ * \date 26 janvier 2012
+ *
+ */
+
 #ifndef LIBRARY_H
 	#define LIBRARY_H
 	
@@ -7,7 +15,7 @@
 
 #include "../include/definitions.h"
 
-SIA_Functions* Init_SAI(void)
+SIA_Functions* Init_SAI()
 {
 	SIA_Functions* IA_struct;
 	
@@ -32,7 +40,7 @@ SIA_Functions* Init_SAI(void)
 	return IA_struct;
 }
 
-void Free_SAI( SIA_Functions* IA_struct)
+void Free_SAI(SIA_Functions* IA_struct)
 {
 	if (IA_struct[0].IA_Handle != NULL) // Si la librairie a été chargée
 		dlclose(IA_struct[0].IA_Handle);
@@ -43,13 +51,18 @@ void Free_SAI( SIA_Functions* IA_struct)
 	free(IA_struct);
 }
 
-int Load_API( char* path, SIA_Functions* IA_struct, int ind)
+int Load_API(char* path, SIA_Functions* IA_struct, int ind)
 {
-	if((IA_struct[ind].IA_Handle = dlopen("../lib/libOliv.so",RTLD_LAZY)) == NULL)
+	char* tmp = (char*)malloc(50*sizeof(char));
+	sprintf(tmp,"../lib/%s",path);
+	
+	if((IA_struct[ind].IA_Handle = dlopen(tmp,RTLD_LAZY)) == NULL)
 	{
 		fprintf(stderr, "Erreur lors du chargement de l'API\nInformations sur l'erreur :\n%s\n\n",dlerror());
+		//free(tmp);
 		return 0;
 	}
+	//free(tmp);
 	
 	if ((IA_struct[ind].IA_InitLibrary = (pfInitLibrary)dlsym(IA_struct[ind].IA_Handle, "InitLibrary")) == NULL) return 0;
 	if ((IA_struct[ind].IA_StartMatch = (pfStartMatch)dlsym(IA_struct[ind].IA_Handle, "StartMatch")) == NULL) return 0;
@@ -63,7 +76,7 @@ int Load_API( char* path, SIA_Functions* IA_struct, int ind)
     return 1;
 }
 
-EGameMode Check_Args( int argc, char** argv, SIA_Functions* IA_struct)
+EGameMode Check_Args(int argc, char** argv, SIA_Functions* IA_struct)
 {
 
 	switch(argc)
@@ -71,13 +84,13 @@ EGameMode Check_Args( int argc, char** argv, SIA_Functions* IA_struct)
 		case 1 :
 			return HUMAN_HUMAN;
 		case 2 :
-			if( Load_API(argv[1], IA_struct, 0) )
+			if(Load_API(argv[1], IA_struct, 0))
 				return HUMAN_IA;
 			else
 				return ERROR;
 		case 3 :
-			if( Load_API(argv[1], IA_struct, 0) && Load_API(argv[2], IA_struct, 1) )
-				return IA_AI;
+			if(Load_API(argv[1], IA_struct, 0) && Load_API(argv[2], IA_struct, 1))
+				return IA_IA;
 			else
 				return ERROR;
 		default :

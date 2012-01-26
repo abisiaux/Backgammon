@@ -968,7 +968,7 @@ int Display_CheckersPossibilities(SDisplay *display, SGameState *gameState, EPla
 									free(arriveesValides);
 
 									
-									printf("JOUEUR %d\tSRC %d\tDEST %d\tDIE1 %d\tDIE2 %d MVT AUTORISE %d\n",player,mouvement.src_point,mouvement.dest_point,gameState->die1,gameState->die2,authorized_deplacement(gameState, &mouvement, player, game));
+									printf("JOUEUR %d\tSRC %d\tDEST %d\tDIE1 %d\tDIE2 %d MVT AUTORISE %d\n",player,mouvement.src_point,mouvement.dest_point,gameState->die1,gameState->die2,Arbitrator_AuthorizedDeplacement(gameState, &mouvement, player, game));
 									
 									Display_CheckerMove(display,gameState,&mouvement, game);
 									return 0;
@@ -1103,8 +1103,14 @@ int inTab(EPosition p,int tab[28])
 }
 
 
-int Display_GameActions(SDisplay *display, SGameState* gameState, SGame *game)
+int Display_GameActions(SDisplay *display, SGameState* gameState, SGame *game, EPlayer player)
 {
+
+	EPlayer advers = EPlayer1;
+	if(player == EPlayer1)
+		advers = EPlayer2;
+	int accept;
+	
 	SDL_Rect pos;
 	int notSelected = 1;
 	SDL_Surface *erase = SDL_CreateRGBSurface(SDL_HWSURFACE, 160, 40, 32, 0, 0, 0, 0);
@@ -1125,6 +1131,7 @@ int Display_GameActions(SDisplay *display, SGameState* gameState, SGame *game)
 		switch(event.type)
 		{
 			case SDL_QUIT:
+				SDL_FreeSurface(erase);
 				return 1;
 				break;
 			case SDL_MOUSEBUTTONUP:
@@ -1132,13 +1139,26 @@ int Display_GameActions(SDisplay *display, SGameState* gameState, SGame *game)
 				{
 					if((event.button.x>=630 && event.button.x<=790 && event.button.y>=190 && event.button.y<=235) && game->withDouble && notSelected && game->doubleValue<=32) // Double
 					{
-						game->doubleValue = game->doubleValue * 2;
 						pos.x = 630;
 						pos.y = 190;
 						SDL_BlitSurface(erase, NULL, display->screen,&pos);
-						Display_Double(display, game);
 						SDL_Flip(display->screen);
 						notSelected = 1;
+						
+						accept = Game_AcceptDouble(display,advers,game);
+						if(accept == -1)
+						{
+							break;
+						}
+						if(!accept)
+						{
+							return 2;
+						}
+						else
+						{
+							game->doubleValue *= 2;
+							Display_Double(display, game);
+						}
 					}
 					if((event.button.x>=630 && event.button.x<=790 && event.button.y>=250 && event.button.y<=295) ) // Lancer
 					{
@@ -1148,7 +1168,7 @@ int Display_GameActions(SDisplay *display, SGameState* gameState, SGame *game)
 						SDL_BlitSurface(erase, NULL, display->screen,&pos);
 						pos.y = 250;
 						SDL_BlitSurface(erase, NULL, display->screen,&pos);
-					
+						SDL_FreeSurface(erase);
 						return 0;
 					}
 				}
