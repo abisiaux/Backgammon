@@ -1,15 +1,29 @@
+/**
+ * \file backgammon.h
+ * \brief Contient les signatures des fonctions et les différentes structures communes à la promotion.
+ * \date 26 janvier 2012
+ *
+ *	Contient les signatures des fonctions et les différentes structures communes à la promotion.
+ *
+ */
+
 #ifndef BACKGAMMON_H
 #define BACKGAMMON_H
 
-
-// Représente un joueur
+/**
+ * \enum EPlayer
+ * \brief Représente un joueur
+ */
 typedef enum
 {
 EPlayer1, // Joueur 1 -> le joueur courant pour la stratégie
 EPlayer2, // Joueur 2
 } EPlayer;
 
-// Structure de représentation d'une zone du jeu
+/**
+ * \struct SZone
+ * \brief Structure de représentation d'une zone du jeu
+ */
 typedef struct
 {
 EPlayer player; // Joueur propriétaire des pions
@@ -17,6 +31,10 @@ unsigned int nb_checkers; // Nombre de pion du joueur sur la zone
 } SZone;
 
 // Enumeration des zones pour le tableau points
+/**
+ * \enum EPosition
+ * \brief Représente un joueur
+ */
 typedef enum
 {
 EPos_nopos=-1,

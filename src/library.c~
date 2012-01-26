@@ -7,63 +7,63 @@
 
 #include "../include/definitions.h"
 
-SAI_Functions* Init_SAI(void)
+SIA_Functions* Init_SAI(void)
 {
-	SAI_Functions* ai_struct;
+	SIA_Functions* IA_struct;
 	
-	ai_struct = (SAI_Functions*)malloc(2*sizeof(SAI_Functions));
+	IA_struct = (SIA_Functions*)malloc(2*sizeof(SIA_Functions));
 	
 	int i;
 	
 	for(i=0; i<2; i++)
 	{
-		ai_struct[i].AI_Handle = NULL;
-		ai_struct[i].AI_InitLibrary = NULL;
-		ai_struct[i].AI_StartMatch = NULL;
-		ai_struct[i].AI_EndMatch = NULL;
-		ai_struct[i].AI_StartGame = NULL;
-		ai_struct[i].AI_EndGame = NULL;
-		ai_struct[i].AI_EndMatch = NULL;
-		ai_struct[i].AI_DoubleStack = NULL;
-		ai_struct[i].AI_TakeDouble = NULL;
-		ai_struct[i].AI_MakeDecision = NULL;
+		IA_struct[i].IA_Handle = NULL;
+		IA_struct[i].IA_InitLibrary = NULL;
+		IA_struct[i].IA_StartMatch = NULL;
+		IA_struct[i].IA_EndMatch = NULL;
+		IA_struct[i].IA_StartGame = NULL;
+		IA_struct[i].IA_EndGame = NULL;
+		IA_struct[i].IA_EndMatch = NULL;
+		IA_struct[i].IA_DoubleStack = NULL;
+		IA_struct[i].IA_TakeDouble = NULL;
+		IA_struct[i].IA_MakeDecision = NULL;
 	}
 	
-	return ai_struct;
+	return IA_struct;
 }
 
-void Free_SAI( SAI_Functions* ai_struct)
+void Free_SAI( SIA_Functions* IA_struct)
 {
-	if (ai_struct[0].AI_Handle != NULL) // Si la librairie a été chargée
-		dlclose(ai_struct[0].AI_Handle);
+	if (IA_struct[0].IA_Handle != NULL) // Si la librairie a été chargée
+		dlclose(IA_struct[0].IA_Handle);
 		
-	if (ai_struct[1].AI_Handle != NULL) // Si la librairie a été chargée
-		dlclose(ai_struct[1].AI_Handle);
+	if (IA_struct[1].IA_Handle != NULL) // Si la librairie a été chargée
+		dlclose(IA_struct[1].IA_Handle);
 	
-	free(ai_struct);
+	free(IA_struct);
 }
 
-int Load_API( char* path, SAI_Functions* ai_struct, int ind)
+int Load_API( char* path, SIA_Functions* IA_struct, int ind)
 {
-	if((ai_struct[ind].AI_Handle = dlopen("../lib/libOliv.so",RTLD_LAZY)) == NULL)
+	if((IA_struct[ind].IA_Handle = dlopen("../lib/libOliv.so",RTLD_LAZY)) == NULL)
 	{
 		fprintf(stderr, "Erreur lors du chargement de l'API\nInformations sur l'erreur :\n%s\n\n",dlerror());
 		return 0;
 	}
 	
-	if ((ai_struct[ind].AI_InitLibrary = (pfInitLibrary)dlsym(ai_struct[ind].AI_Handle, "InitLibrary")) == NULL) return 0;
-	if ((ai_struct[ind].AI_StartMatch = (pfStartMatch)dlsym(ai_struct[ind].AI_Handle, "StartMatch")) == NULL) return 0;
-	if ((ai_struct[ind].AI_StartGame = (pfStartGame)dlsym(ai_struct[ind].AI_Handle, "StartGame")) == NULL) return 0;
-	if ((ai_struct[ind].AI_EndGame = (pfEndGame)dlsym(ai_struct[ind].AI_Handle, "EndGame")) == NULL) return 0;
-	//if ((ai_struct[ind].AI_EndMatch = (pfEndMatch)dlsym(ai_struct[ind].AI_Handle, "EndMatch")) == NULL) return 0;
-	//if ((ai_struct[ind].AI_DoubleStack = (pfDoubleStack)dlsym(ai_struct[ind].AI_Handle, "DoubleStack")) == NULL) return 0;
-	//if ((ai_struct[ind].AI_TakeDouble = (pfTakeDouble)dlsym(ai_struct[ind].AI_Handle, "TakeDouble")) == NULL) return 0;
-	if ((ai_struct[ind].AI_MakeDecision = (pfMakeDecision)dlsym(ai_struct[ind].AI_Handle, "MakeDecision")) == NULL) return 0;
+	if ((IA_struct[ind].IA_InitLibrary = (pfInitLibrary)dlsym(IA_struct[ind].IA_Handle, "InitLibrary")) == NULL) return 0;
+	if ((IA_struct[ind].IA_StartMatch = (pfStartMatch)dlsym(IA_struct[ind].IA_Handle, "StartMatch")) == NULL) return 0;
+	if ((IA_struct[ind].IA_StartGame = (pfStartGame)dlsym(IA_struct[ind].IA_Handle, "StartGame")) == NULL) return 0;
+	if ((IA_struct[ind].IA_EndGame = (pfEndGame)dlsym(IA_struct[ind].IA_Handle, "EndGame")) == NULL) return 0;
+	if ((IA_struct[ind].IA_EndMatch = (pfEndMatch)dlsym(IA_struct[ind].IA_Handle, "EndMatch")) == NULL) return 0;
+	if ((IA_struct[ind].IA_DoubleStack = (pfDoubleStack)dlsym(IA_struct[ind].IA_Handle, "DoubleStack")) == NULL) return 0;
+	if ((IA_struct[ind].IA_TakeDouble = (pfTakeDouble)dlsym(IA_struct[ind].IA_Handle, "TakeDouble")) == NULL) return 0;
+	if ((IA_struct[ind].IA_MakeDecision = (pfMakeDecision)dlsym(IA_struct[ind].IA_Handle, "MakeDecision")) == NULL) return 0;
 
     return 1;
 }
 
-EGameMode Check_Args( int argc, char** argv, SAI_Functions* ai_struct)
+EGameMode Check_Args( int argc, char** argv, SIA_Functions* IA_struct)
 {
 
 	switch(argc)
@@ -71,13 +71,13 @@ EGameMode Check_Args( int argc, char** argv, SAI_Functions* ai_struct)
 		case 1 :
 			return HUMAN_HUMAN;
 		case 2 :
-			if( Load_API(argv[1], ai_struct, 0) )
-				return HUMAN_AI;
+			if( Load_API(argv[1], IA_struct, 0) )
+				return HUMAN_IA;
 			else
 				return ERROR;
 		case 3 :
-			if( Load_API(argv[1], ai_struct, 0) && Load_API(argv[2], ai_struct, 1) )
-				return AI_AI;
+			if( Load_API(argv[1], IA_struct, 0) && Load_API(argv[2], IA_struct, 1) )
+				return IA_AI;
 			else
 				return ERROR;
 		default :

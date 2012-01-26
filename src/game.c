@@ -68,7 +68,7 @@ int Game_FirstToPlay( SDisplay* display, EGameMode gameMode, SGame* game, SGameS
 		{
 			case HUMAN_HUMAN:
 				sprintf( tmp, "%s, lance les des !", game->player1_name);
-				quit = Display_Message_Click( display, tmp, msg_position, msg_color,1);
+				quit = Display_Message( display, tmp, msg_position, msg_color,1,1);
 				if(quit)
 				{
 					quit = 1;
@@ -81,7 +81,7 @@ int Game_FirstToPlay( SDisplay* display, EGameMode gameMode, SGame* game, SGameS
 				dieP1[1] = gameState->die2;
 			
 				sprintf(tmp,"%s, lance les des !", game->player2_name);
-				quit = Display_Message_Click( display, tmp, msg_position, msg_color,1);
+				quit = Display_Message( display, tmp, msg_position, msg_color,1,1);
 				if(quit)
 				{
 					quit = 1;
@@ -110,14 +110,14 @@ int Game_FirstToPlay( SDisplay* display, EGameMode gameMode, SGame* game, SGameS
 				}
 				else
 				{
-					Display_Message( display, "Il y a egalite, on recommence !", msg_position, msg_color,1);
+					Display_Message( display, "Il y a egalite, on recommence !", msg_position, msg_color,1,0);
 					SDL_Flip(display->screen);
 					SDL_Delay(1500);
 				}
 				break;
-			case HUMAN_AI:
+			case HUMAN_IA:
 				sprintf( tmp, "%s, lance les des !", game->player1_name);
-				quit = Display_Message_Click( display, tmp, msg_position, msg_color,1);
+				quit = Display_Message( display, tmp, msg_position, msg_color,1,1);
 				if(quit)
 				{
 					quit = 1;
@@ -130,7 +130,7 @@ int Game_FirstToPlay( SDisplay* display, EGameMode gameMode, SGame* game, SGameS
 				dieP1[1] = gameState->die2;
 			
 				sprintf(tmp,"%s, lance les des ...", game->player2_name);
-				Display_Message( display, tmp, msg_position, msg_color,1);
+				Display_Message( display, tmp, msg_position, msg_color,1,0);
 				Game_LaunchDie(gameState, game);
 				Display_RefreshGameBoard(display, gameState, game);
 				SDL_Delay(1500);
@@ -154,12 +154,12 @@ int Game_FirstToPlay( SDisplay* display, EGameMode gameMode, SGame* game, SGameS
 				}
 				else
 				{
-					Display_Message( display, "Il y a egalite, on recommence !", msg_position, msg_color,1);
+					Display_Message( display, "Il y a egalite, on recommence !", msg_position, msg_color,1,0);
 					SDL_Flip(display->screen);
 					SDL_Delay(1500);
 				}
 				break;
-			case AI_AI:
+			case IA_IA:
 				
 				Game_LaunchDie(gameState, game);
 				dieP1[0] = gameState->die1;
@@ -210,7 +210,7 @@ void initMvmt_ia(SMove mvmt_ia[4])
 	}
 }			
 		
-int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions* ai_struct)
+int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SIA_Functions* ia_struct)
 {
 	
 	SGameState *gameState;
@@ -242,26 +242,26 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 	cptAI[0] = 0; 
 	cptAI[1] = 0;
 	
-	if(gameMode == HUMAN_AI)
+	if(gameMode == HUMAN_IA)
 	{
-		(*ai_struct[0].AI_StartMatch)(game->scoreLimit);
+		(*ia_struct[0].IA_StartMatch)(game->scoreLimit);
 	}
-	else if(gameMode == AI_AI)
+	else if(gameMode == IA_IA)
 	{
-		(*ai_struct[0].AI_StartMatch)(game->scoreLimit);
-		(*ai_struct[1].AI_StartMatch)(game->scoreLimit);
+		(*ia_struct[0].IA_StartMatch)(game->scoreLimit);
+		(*ia_struct[1].IA_StartMatch)(game->scoreLimit);
 	}
 	while( gameState->score < game->scoreLimit && gameState->scoreP2 < game->scoreLimit && !quit ) // Boucle de jeu
 	{
 	
-		if(gameMode == HUMAN_AI)
+		if(gameMode == HUMAN_IA)
 		{
-			(*ai_struct[0].AI_StartGame)();
+			(*ia_struct[0].IA_StartGame)();
 		}
-		else if(gameMode == AI_AI)
+		else if(gameMode == IA_IA)
 		{
-			(*ai_struct[0].AI_StartGame)();
-			(*ai_struct[1].AI_StartGame)();
+			(*ia_struct[0].IA_StartGame)();
+			(*ia_struct[1].IA_StartGame)();
 		}
 		
 		SDL_WaitEvent(&event);
@@ -270,7 +270,7 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 		Display_Score(display,gameState,game);
 		Display_RefreshGameBoard(display, gameState, game);
 		SDL_Flip(display->screen);
-		Display_Message(display, "La partie commence !", msg_position, msg_color, 1);
+		Display_Message(display, "La partie commence !", msg_position, msg_color, 1,0);
 		SDL_Flip(display->screen);
 		SDL_Delay(1500);
 		
@@ -283,7 +283,7 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 		{
 			curentP = EPlayer1;
 			sprintf( tmp, "%s, commence !", game->player1_name);
-			Display_Message( display, tmp, msg_position, msg_color,1);
+			Display_Message( display, tmp, msg_position, msg_color,1,0);
 			SDL_Flip(display->screen);
 			SDL_Delay(1000);
 		}
@@ -291,7 +291,7 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 		{
 			curentP = EPlayer2;
 			sprintf( tmp, "%s, commence !", game->player2_name);
-			Display_Message( display, tmp, msg_position, msg_color,1);
+			Display_Message( display, tmp, msg_position, msg_color,1,0);
 			SDL_Flip(display->screen);
 			SDL_Delay(1000);
 		}
@@ -310,7 +310,7 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 					if(curentP == EPlayer1)
 					{
 						sprintf( tmp, "%s, c'est ton tour !", game->player1_name);
-						Display_Message( display, tmp, msg_position, msg_color,1);
+						Display_Message( display, tmp, msg_position, msg_color,1,0);
 						SDL_Flip(display->screen);
 						quit = Display_GameActions(display, gameState, game);
 						if(quit)
@@ -330,7 +330,7 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 					else
 					{
 						sprintf( tmp, "%s, c'est ton tour !", game->player2_name);
-						Display_Message( display, tmp, msg_position, msg_color,1);
+						Display_Message( display, tmp, msg_position, msg_color,1,0);
 						quit = Display_GameActions(display, gameState, game);
 						if(quit)
 						{
@@ -347,11 +347,11 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 					}
 					break;
 					
-				case HUMAN_AI :
+				case HUMAN_IA :
 					if(curentP == EPlayer1)
 					{
 						sprintf( tmp, "%s, c'est ton tour !", game->player1_name);
-						Display_Message( display, tmp, msg_position, msg_color,1);
+						Display_Message( display, tmp, msg_position, msg_color,1,0);
 						SDL_Flip(display->screen);
 						quit = Display_GameActions(display, gameState, game);
 						if(quit)
@@ -381,7 +381,7 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 							mvmt_ia[i].dest_point = EPos_nopos;
 						}
 						
-						(*ai_struct[0].AI_MakeDecision)(copyGameState(gameState,curentP), mvmt_ia, lastTimeError); 
+						(*ia_struct[0].IA_MakeDecision)(copyGameState(gameState,curentP), mvmt_ia, lastTimeError); 
 						for(i=0;i<4;i++)
 						{
 							if(mvmt_ia[i].src_point != EPos_nopos && mvmt_ia[i].dest_point != EPos_nopos)
@@ -389,15 +389,15 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 								printf("AI JOUE src = %d dest = %d\n",mvmt_ia[i].src_point + 1,mvmt_ia[i].dest_point + 1);
 								mvmt_ia[i].src_point += 1;
 								mvmt_ia[i].dest_point += 1;
-								//if(authorized_deplacement(gameState, mvmt_ia, curentP, game))
-									Checker_Move(display, gameState, &mvmt_ia[i], game);
+								//if(Arbitrator_AuthorizedDeplacement(gameState, mvmt_ia, curentP, game))
+									Display_CheckerMove(display, gameState, &mvmt_ia[i], game);
 							}
 						}
 						curentP = EPlayer1;
 					}
 					break;
 					
-				case AI_AI :
+				case IA_IA :
 					if(curentP == EPlayer1)
 					{
 						Game_LaunchDie(gameState, game);
@@ -424,27 +424,27 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 			if(event.type == SDL_QUIT)
 				quit = 1;
 		}
-		if(gameMode == HUMAN_AI)
+		if(gameMode == HUMAN_IA)
 		{
-			(*ai_struct[0].AI_EndGame)();
+			(*ia_struct[0].IA_EndGame)();
 		}
-		else if(gameMode == AI_AI)
+		else if(gameMode == IA_IA)
 		{
-			(*ai_struct[0].AI_EndGame)();
-			(*ai_struct[1].AI_EndGame)();
+			(*ia_struct[0].IA_EndGame)();
+			(*ia_struct[1].IA_EndGame)();
 		}
 		if(event.type == SDL_QUIT)
 			quit = 1;
 		//quit = 1;
 	}
-	if(gameMode == HUMAN_AI)
+	if(gameMode == HUMAN_IA)
 	{
-		(*ai_struct[0].AI_EndMatch)();
+		(*ia_struct[0].IA_EndMatch)();
 	}
-	else if(gameMode == AI_AI)
+	else if(gameMode == IA_IA)
 	{
-		(*ai_struct[0].AI_EndMatch)();
-		(*ai_struct[1].AI_EndMatch)();
+		(*ia_struct[0].IA_EndMatch)();
+		(*ia_struct[1].IA_EndMatch)();
 	}
 	free(tmp);
 	free(gameState);

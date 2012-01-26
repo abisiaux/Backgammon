@@ -65,13 +65,13 @@ void Display_Init(SDisplay *display, SGame* game)
 	
 	// Chargement de l'image de pion blanc pour les barres
 	strcpy(temp_path, display->img_path);
-	strcat(temp_path, "bar_white_checker.png");
-	display->bar_white_checker = IMG_Load(temp_path);
+	strcat(temp_path, "out_white_checker.png");
+	display->out_white_checker = IMG_Load(temp_path);
 	
 	// Chargement de l'image de pion vert pour les barres
 	strcpy(temp_path, display->img_path);
-	strcat(temp_path, "bar_green_checker.png");
-	display->bar_green_checker = IMG_Load(temp_path);
+	strcat(temp_path, "out_green_checker.png");
+	display->out_green_checker = IMG_Load(temp_path);
 	
 	//Chargement de l'image de pion selectionne
 	strcpy(temp_path, display->img_path);
@@ -226,7 +226,7 @@ void Display_Init(SDisplay *display, SGame* game)
 }
 
 
-void Display_Message(SDisplay	*display, char	*message, SDL_Rect position, SDL_Color color, int box)
+int Display_Message(SDisplay	*display, char	*message, SDL_Rect position, SDL_Color color, int box, int clic)
 {
 	int leng = strlen(message);
 	if(box)
@@ -239,6 +239,31 @@ void Display_Message(SDisplay	*display, char	*message, SDL_Rect position, SDL_Co
 	SDL_Surface *msg = TTF_RenderText_Blended(display->font,message,color);
 	SDL_BlitSurface(msg, NULL, display->screen, &position);
 	SDL_FreeSurface(msg);
+	SDL_Flip(display->screen);
+	
+	if(clic)
+	{
+		SDL_Event event;
+		while(1)
+		{
+			SDL_WaitEvent(&event);
+			switch(event.type)
+			{
+				case SDL_QUIT:
+					return 1;
+					break;
+				case SDL_MOUSEBUTTONUP:
+					if (event.button.button == SDL_BUTTON_LEFT)
+					{
+						if(event.button.x>=80 && event.button.x<=548 && event.button.y>=325 && event.button.y<=415)
+							return 0;
+					}
+			  		break;
+
+			}
+		}
+	}
+	return 0;
 }
 
 void Display_Double(SDisplay *display, SGame* game)
@@ -263,41 +288,6 @@ void Display_Double(SDisplay *display, SGame* game)
 	}
 }
 		
-int Display_Message_Click(SDisplay	*display, char	*message, SDL_Rect position, SDL_Color color, int box)
-{
-	int leng = strlen(message);
-	if(box)
-	{
-		SDL_BlitSurface(display->msg_box, NULL, display->screen, &position);
-		
-		position.x= position.x + 260 - 12*leng/2;
-		position.y = position.y + 25;
-	}
-	SDL_Surface *msg = TTF_RenderText_Blended(display->font,message,color);
-	SDL_BlitSurface(msg, NULL, display->screen, &position);
-	SDL_FreeSurface(msg);
-	SDL_Flip(display->screen);
-	SDL_Event event;
-	while(1)
-	{
-		SDL_WaitEvent(&event);
-		switch(event.type)
-		{
-			case SDL_QUIT:
-				return 1;
-				break;
-			case SDL_MOUSEBUTTONUP:
-				if (event.button.button == SDL_BUTTON_LEFT)
-				{
-					if(event.button.x>=80 && event.button.x<=548 && event.button.y>=325 && event.button.y<=415)
-						return 0;
-				}
-		  		break;
-
-		}
-	}
-	return 0;
-}
 void Display_Exit(SDisplay *display)
 {
 	int i;
@@ -309,8 +299,8 @@ void Display_Exit(SDisplay *display)
 	SDL_FreeSurface(display->checked);
 	SDL_FreeSurface(display->white_checker);
 	SDL_FreeSurface(display->green_checker);
-	SDL_FreeSurface(display->bar_white_checker);
-	SDL_FreeSurface(display->bar_green_checker);
+	SDL_FreeSurface(display->out_white_checker);
+	SDL_FreeSurface(display->out_green_checker);
 	SDL_FreeSurface(display->selected_checker);
 	SDL_FreeSurface(display->msg_box);
 	SDL_FreeSurface(display->possibility1_12);
@@ -320,7 +310,7 @@ void Display_Exit(SDisplay *display)
 	for( i=0; i<6; i++ )
 	{
 		SDL_FreeSurface(display->die[i]);
-		SDL_FreeSurface(display->die[i]_played);
+		SDL_FreeSurface(display->die_played[i]);
 	}
 	SDL_FreeSurface(display->screen);
 	
@@ -388,13 +378,13 @@ void Display_Score(SDisplay *display, SGameState *gameState, SGame* game)
 	
 	pos.x = 108;
 	pos.y = 40;
-	Display_Message(display, game->player1_name, pos, c, 0);
+	Display_Message(display, game->player1_name, pos, c, 0, 0);
 	pos.x = 310;
-	Display_Message(display, scoreP1, pos, c, 0);
+	Display_Message(display, scoreP1, pos, c, 0, 0);
 	pos.y = 85;
-	Display_Message(display, scoreP2, pos, c, 0);
+	Display_Message(display, scoreP2, pos, c, 0, 0);
 	pos.x = 108;
-	Display_Message(display, game->player2_name, pos, c, 0);
+	Display_Message(display, game->player2_name, pos, c, 0, 0);
 	
 	free(scoreP1);
 	free(scoreP2);
@@ -447,7 +437,7 @@ void Display_Die(SDisplay *display,SGameState *gameState, SGame* game)
 }
 
 
-void Checker_Draw(SDisplay *display, SDL_Rect position, int player, SGame *game)
+void Display_CheckerDraw(SDisplay *display, SDL_Rect position, int player, SGame *game)
 {
 	if( player==0)
 	{
@@ -475,9 +465,9 @@ void Display_DrawOut(SDisplay *display, SGameState *gameState, SGame *game)
 	{
 		pos.y += 10;
 		if(game->player1_checker == GREEN)
-			SDL_BlitSurface(display->bar_green_checker, NULL,display->screen, &pos);
+			SDL_BlitSurface(display->out_green_checker, NULL,display->screen, &pos);
 		else
-			SDL_BlitSurface(display->bar_white_checker, NULL,display->screen, &pos);
+			SDL_BlitSurface(display->out_white_checker, NULL,display->screen, &pos);
 	}
 	pos.x = display->positions[26].x;
 	pos.y = display->positions[26].y;
@@ -485,9 +475,9 @@ void Display_DrawOut(SDisplay *display, SGameState *gameState, SGame *game)
 	{
 		pos.y -= 10;
 		if(game->player2_checker == GREEN)
-			SDL_BlitSurface(display->bar_green_checker, NULL,display->screen, &pos);
+			SDL_BlitSurface(display->out_green_checker, NULL,display->screen, &pos);
 		else
-			SDL_BlitSurface(display->bar_white_checker, NULL,display->screen, &pos);
+			SDL_BlitSurface(display->out_white_checker, NULL,display->screen, &pos);
 	}
 }
 
@@ -551,7 +541,7 @@ void Display_Checkers(SDisplay *display, SGameState *gameState, SGame *game)
 					new_pos.y = display->positions[i].y - j*20;
 				else
 					new_pos.y = display->positions[i].y + j*20;
-				Checker_Draw(display,new_pos,gameState->zones[i].player,game);
+				Display_CheckerDraw(display,new_pos,gameState->zones[i].player,game);
 			
 			}
 		}
@@ -561,7 +551,7 @@ void Display_Checkers(SDisplay *display, SGameState *gameState, SGame *game)
 
 
 
-void Checker_Move(SDisplay *display, SGameState* gameState, SMove *move, SGame *game)
+void Display_CheckerMove(SDisplay *display, SGameState* gameState, SMove *move, SGame *game)
 {
 	/* Calcul de la droite passant par les deux zones */
 	int pos_src_x;
@@ -662,7 +652,7 @@ void Checker_Move(SDisplay *display, SGameState* gameState, SMove *move, SGame *
 		new_pos.x = new_pos.x + pas;
 		new_pos.y = (int)(a*new_pos.x + b);
 		Display_RefreshGameBoard(display,gameState,game);
-		Checker_Draw(display,new_pos,gameState->zones[move->src_point-1].player,game);
+		Display_CheckerDraw(display,new_pos,gameState->zones[move->src_point-1].player,game);
 		SDL_Flip(display->screen);
 		switch(numCas) // Suivant le cas de figure, on vérifie si on ne dépasse pas la flèche destinatrice
 		{
@@ -757,17 +747,6 @@ void Checker_Move(SDisplay *display, SGameState* gameState, SMove *move, SGame *
 		}
 	}	
 	
-}
-
-
-int Quit_Zone(int x, int y)
-{
-
-	if( (x >= 635 && x <= 795) && (y >=244 && y <= 325) )
-	{
-		return 1;
-	}
-	return 0;
 }
 
 int CheckerWithScreenPosition(int x, int y, EPosition *pos)
@@ -936,7 +915,7 @@ int Display_CheckersPossibilities(SDisplay *display, SGameState *gameState, EPla
 			msg_position.x = 80;
 			msg_position.y = 325;
 			SDL_Color msg_color = {255, 255, 255, 0};
-			Display_Message( display, "Pas de mouvement possible!", msg_position, msg_color,1);
+			Display_Message( display, "Pas de mouvement possible!", msg_position, msg_color,1, 0);
 			SDL_Flip(display->screen);
 			SDL_Delay(10000);
 			return 1;
@@ -991,7 +970,7 @@ int Display_CheckersPossibilities(SDisplay *display, SGameState *gameState, EPla
 									
 									printf("JOUEUR %d\tSRC %d\tDEST %d\tDIE1 %d\tDIE2 %d MVT AUTORISE %d\n",player,mouvement.src_point,mouvement.dest_point,gameState->die1,gameState->die2,authorized_deplacement(gameState, &mouvement, player, game));
 									
-									Checker_Move(display,gameState,&mouvement, game);
+									Display_CheckerMove(display,gameState,&mouvement, game);
 									return 0;
 								}
 							}
@@ -1035,7 +1014,7 @@ int* Display_Arrow_Possibilities(SDisplay *display, SGameState *gameState, EPlay
 		if(ArriveeAvecDE1.player == player ||  ArriveeAvecDE1.nb_checkers == 0 || (ArriveeAvecDE1.player != player &&  ArriveeAvecDE1.nb_checkers == 1) )
 		{
 			//on dessine sur la zone ArriveeAvecDE1
-			Draw_Selected_Arrow(display, depart+(gameState->die1)*sens);
+			Display_DrawSelectedArrow(display, depart+(gameState->die1)*sens);
 			arrowWithDie1 = 1;
 			arriveesPossibles[cpt]= depart+(gameState->die1)*sens;
 			cpt++;
@@ -1043,7 +1022,7 @@ int* Display_Arrow_Possibilities(SDisplay *display, SGameState *gameState, EPlay
 		if(ArriveeAvecDE2.player == player ||  ArriveeAvecDE2.nb_checkers == 0 || (ArriveeAvecDE2.player != player &&  ArriveeAvecDE2.nb_checkers == 1))
 		{
 			//on dessine sur la zone ArriveeAvecDE2
-			Draw_Selected_Arrow(display, depart+(gameState->die2)*sens);
+			Display_DrawSelectedArrow(display, depart+(gameState->die2)*sens);
 			printf("POSSIBILITE AVEC DE2\n");
 			arrowWithDie2 = 1;
 			arriveesPossibles[cpt]= depart+(gameState->die2*sens);
@@ -1052,7 +1031,7 @@ int* Display_Arrow_Possibilities(SDisplay *display, SGameState *gameState, EPlay
 		if( (ArriveeAvecDE1ETDE2.player == player ||  ArriveeAvecDE1ETDE2.nb_checkers == 0 || (ArriveeAvecDE1ETDE2.player != player &&  ArriveeAvecDE1ETDE2.nb_checkers == 1 )) && (arrowWithDie1 || arrowWithDie2) )
 		{
 			//on dessine sur la zone ArriveeAvecDE1ETDE2
-			Draw_Selected_Arrow(display, depart+(gameState->die1)*sens+(gameState->die2)*sens);
+			Display_DrawSelectedArrow(display, depart+(gameState->die1)*sens+(gameState->die2)*sens);
 			printf("POSSIBILITE AVEC DE1 et DE2\n");
 			arriveesPossibles[cpt]= depart+(gameState->die1)*sens+(gameState->die2)*sens;
 			cpt++;
@@ -1068,7 +1047,7 @@ int* Display_Arrow_Possibilities(SDisplay *display, SGameState *gameState, EPlay
 			if((ArriveeAvecDE.player == player ||  ArriveeAvecDE.nb_checkers == 0 || (ArriveeAvecDE.player != player ||  ArriveeAvecDE.nb_checkers == 1)) && (nbpossibilite==i))
 			{
 				//on dessine sur la zone ArriveeAvecDE
-				Draw_Selected_Arrow(display, depart+((gameState->die1)*sens*i));
+				Display_DrawSelectedArrow(display, depart+((gameState->die1)*sens*i));
 				printf("POSSIBILITE AVEC DE\n");
 				nbpossibilite++;
 				arriveesPossibles[cpt]= depart+((gameState->die1)*sens*i);
@@ -1081,7 +1060,7 @@ int* Display_Arrow_Possibilities(SDisplay *display, SGameState *gameState, EPlay
 	return arriveesPossibles;
 }
 
-void Draw_Selected_Arrow(SDisplay *display, EPosition pos)
+void Display_DrawSelectedArrow(SDisplay *display, EPosition pos)
 {
 	SDL_Rect posArrow = display->positions[pos];
 	posArrow.x = posArrow.x - 1;

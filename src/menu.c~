@@ -55,7 +55,7 @@ void Menu_Text(SDisplay	*display, char	*message, SDL_Rect position, SDL_Color co
 }
 
 
-void TextInput(char* name, SDL_keysym key)
+void Menu_TextInput(char* name, SDL_keysym key)
 {
     int length = strlen(name);
 
@@ -121,7 +121,7 @@ void Menu_Fill(SDisplay *display,EGameMode gameMode, SGame* game)
 	strcat(temp_path, "check.png");
 	display->checked = IMG_Load(temp_path);
 	
-	if(gameMode == HUMAN_AI)
+	if(gameMode == HUMAN_IA)
 	{
 		background = "background_menu1P.png";
 		
@@ -236,7 +236,7 @@ int Display_Menu(SDisplay *display, EGameMode gameMode, SGame* game)
 					switch( Menu_Click(event.button.x, event.button.y) )
 					{
 						case 1 : // Clic sur le jeton vert
-							if(gameMode == HUMAN_AI)
+							if(gameMode == HUMAN_IA)
 							{							
 								numPlayerSelected = 0;
 								game->player1_checker = GREEN;
@@ -246,7 +246,7 @@ int Display_Menu(SDisplay *display, EGameMode gameMode, SGame* game)
 							break;
 							
 						case 2 : // Clic sur jeton blanc
-							if(gameMode == HUMAN_AI)
+							if(gameMode == HUMAN_IA)
 							{
 								numPlayerSelected = 0;
 								game->player1_checker = WHITE;
@@ -289,7 +289,7 @@ int Display_Menu(SDisplay *display, EGameMode gameMode, SGame* game)
 									return 0;
 								}
 							}
-							Display_Message(display, "Veuillez saisir les noms des joueurs", temp_position, col, 1);
+							Display_Message(display, "Veuillez saisir les noms des joueurs", temp_position, col, 1,0);
 							SDL_Delay(1500);
 							Menu_Fill(display, gameMode, game);
 							SDL_Flip(display->screen);
@@ -340,7 +340,7 @@ int Display_Menu(SDisplay *display, EGameMode gameMode, SGame* game)
 			case SDL_KEYDOWN:
 				if(numPlayerSelected == 1 )
 				{
-					if(event.key.keysym.sym == SDLK_TAB && gameMode == HUMAN_HUMAN)
+					if(event.key.keysym.sym == SDLK_TAB && gameMode != HUMAN_IA)
 					{
 						numPlayerSelected = 2;
 						Menu_Fill(display, gameMode, game);
@@ -351,7 +351,7 @@ int Display_Menu(SDisplay *display, EGameMode gameMode, SGame* game)
 					}
 					else
 					{
-						TextInput(game->player1_name, event.key.keysym);
+						Menu_TextInput(game->player1_name, event.key.keysym);
 						Menu_Fill(display, gameMode, game);
 						temp_position.x = 258;
 						temp_position.y = 203;
@@ -359,9 +359,9 @@ int Display_Menu(SDisplay *display, EGameMode gameMode, SGame* game)
 						SDL_Flip(display->screen);
 					}
 				}
-				else if(numPlayerSelected == 2 && gameMode != HUMAN_AI)
+				else if(numPlayerSelected == 2 && gameMode != HUMAN_IA)
 				{
-					TextInput(game->player2_name, event.key.keysym);
+					Menu_TextInput(game->player2_name, event.key.keysym);
 					Menu_Fill(display, gameMode, game);
 					temp_position.x = 258;
 					temp_position.y = 255;

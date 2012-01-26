@@ -4,7 +4,7 @@
 #include "../include/definitions.h"
 #include "../include/backgammon.h"
 
-int authorized_deplacement(SGameState* gameState, SMove *move, EPlayer player, SGame *game)
+int Arbitrator_AuthorizedDeplacement(SGameState* gameState, SMove *move, EPlayer player, SGame *game)
 {
 	;
 	//1- position de départ lui appartient bien ?
@@ -28,20 +28,20 @@ int authorized_deplacement(SGameState* gameState, SMove *move, EPlayer player, S
 	}
 	
 	//Position départ = position appartenant au joueur ?
-	if(case_appartenant_au_joueur(zoneDepart,player))
+	if(Arbitrator_PlayerArrays(zoneDepart,player))
 	{
 		
 		unsigned int nb_sauts = get_distance(posDepart,posArrivee);
 		printf("DISTANCE : %u\n",nb_sauts);
 		// Si le mouvement correspont au nombre d'un des dés
-		if(Taille_Mouvement_Correcte(nb_sauts, game, gameState ))
+		if(Arbitrator_Taille_Mouvement_Correcte(nb_sauts, game, gameState ))
 		{
 
 			//on regarde si le sens de rotation est correct pour le joueur			
-			if(sens_rotation_correct(player, posDepart, posArrivee))
+			if(Arbitrator_Sens_rotation_correct(player, posDepart, posArrivee))
 			{
 				// on regarde si la position d'arrivée est vide, ou lui appartient, ou appartient à l'adversaire avec un seul et unique pion
-				if(case_appartenant_au_joueur(zoneArrivee, player) || case_appartenant_joueur_adverse_avec_un_pion(zoneArrivee, player) || position_vide(zoneArrivee))
+				if(Arbitrator_PlayerArrays(zoneArrivee, player) || case_appartenant_joueur_adverse_avec_un_pion(zoneArrivee, player) || Arbitrator_EmptyPosition(zoneArrivee))
 				{
 					//si le joueur joue en out
 					if( (	(posArrivee == EPos_OutP1 && player == EPlayer1) || (posArrivee == EPos_OutP2 && player == EPlayer2)	) 
@@ -65,7 +65,7 @@ int authorized_deplacement(SGameState* gameState, SMove *move, EPlayer player, S
 	
 }
 
-int case_appartenant_au_joueur(SZone zone, EPlayer player)
+int Arbitrator_PlayerArrays(SZone zone, EPlayer player)
 {
 	
 	if(zone.player == player)
@@ -84,7 +84,7 @@ int case_appartenant_joueur_adverse_avec_un_pion(SZone zone, EPlayer player)
 	}
 	return 0;
 }
-int position_vide(SZone zone)
+int Arbitrator_EmptyPosition(SZone zone)
 {
 	if(zone.nb_checkers == 0)
 	{
@@ -112,7 +112,7 @@ unsigned int get_distance(EPosition depart, EPosition arrivee)
 		return (unsigned int)( -1*((int)(depart) - (int)(arrivee)));
 	else return ((depart) - (arrivee));
 }
-int sens_rotation_correct(EPlayer joueur, EPosition depart, EPosition arrivee)
+int Arbitrator_Sens_rotation_correct(EPlayer joueur, EPosition depart, EPosition arrivee)
 {
 	//Joueur1(vert) rotation horaire
 	//Joueur2(blanc) rotation trigo 
@@ -140,7 +140,7 @@ int sens_rotation_correct(EPlayer joueur, EPosition depart, EPosition arrivee)
 	return 0;
 }
 
-int Pion_Depart_Autorise(int x, int y, EPlayer player, SGameState* game, EPosition posDepart)
+int Arbitrator_Pion_Depart_Autorise(int x, int y, EPlayer player, SGameState* game, EPosition posDepart)
 {
 	//On cherche la position correspondant aux coordonnées de la souris au moment du clic sur le pion
 	if(CheckerWithScreenPosition(x, y, &posDepart))
@@ -231,7 +231,7 @@ int jeu_out_posible(SGameState* game, EPlayer player)
 
 }
 
-int Taille_Mouvement_Correcte(unsigned int taille_mouvement, SGame *game, SGameState *gameState)
+int Arbitrator_Taille_Mouvement_Correcte(unsigned int taille_mouvement, SGame *game, SGameState *gameState)
 {
 	printf("FCT TAILLE MOVE\n");
 
