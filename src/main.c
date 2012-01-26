@@ -20,7 +20,7 @@ int main(int argc, char **argv)
 	
 	SIA_Functions* ia_struct = Init_SAI();
 	
-	EGameMode gameMode = Check_Args( argc, argv, ia_struct);
+	EGameMode gameMode = Check_Args(argc, argv, ia_struct);
 	
 	SDisplay display;
 	SGame game;
@@ -62,7 +62,7 @@ int main(int argc, char **argv)
 	{
 		SDL_WaitEvent(&event);
 		
-		quit = Game_Play( &display, gameMode, &game, ia_struct);
+		quit = Game_Play(&display, gameMode, &game, ia_struct);
 		
 		switch(event.type)
 		{

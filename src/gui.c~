@@ -1,6 +1,6 @@
 /**
  * \file gui.c
- * \brief Contient les fonctions d'affichage
+ * \brief Contient les fonctions d'affichage.
  * \author Alexandre BISIAUX et Antonin BIRET
  * \date 26 janvier 2012
  *
@@ -20,17 +20,17 @@
 
 #define VITESSE 8
 
-void Display_Init(SDisplay *display, SGame* game)
+void Display_Init(SDisplay* display, SGame* game)
 {	
 	int i;
-	char *temp_path;
-	char *temp_name;
+	char* temp_path;
+	char* temp_name;
 	
 	// Initialisation de la SDL
 	if (SDL_Init(SDL_INIT_VIDEO) == -1)
 	{
 		fprintf(stderr, "Erreur d'initialisation de la SDL");
-		free(temp_path); // On libère
+		free(temp_path);
 		free(temp_name);
 		exit(EXIT_FAILURE);
 	}
@@ -117,7 +117,7 @@ void Display_Init(SDisplay *display, SGame* game)
 	// Chargement des images des dés et initialisation de leur position
 	temp_name = (char*)malloc(100*sizeof(char));
 
-	for( i=1; i<=6; i++ )
+	for(i=1;i<=6;i++)
 	{
 		strcpy(temp_path, display->img_path);
 		sprintf(temp_name,"die/die[%d].png",i);
@@ -133,14 +133,13 @@ void Display_Init(SDisplay *display, SGame* game)
 	display->die2_position.y = 340;
 	
 	// Chargement des images des dés joués
-	for( i=1; i<=6; i++ )
+	for(i=1; i<=6; i++)
 	{
 		strcpy(temp_path, display->img_path);
 		sprintf(temp_name,"die/die[%d]_played.png",i);
 		strcat(temp_path,temp_name);
 		display->die_played[i-1] = IMG_Load(temp_path);
 	}
-	
 	
 	// Initialisation de la taille de la fenêtre
 	display->window_width = 800;
@@ -150,23 +149,23 @@ void Display_Init(SDisplay *display, SGame* game)
 	display->positions[0].x = 520;
 	display->positions[0].y = 562;
 	
-	for( i=1 ; i<24 ; i++ )
+	for(i=1;i<24;i++)
 	{
 		display->positions[i].y = display->positions[i-1].y  ;
-		if( i<6 )
+		if(i<6)
 			display->positions[i].x = display->positions[i-1].x - 38;
-		else if ( i==6 )
+		else if (i==6)
 			display->positions[i].x = display->positions[i-1].x - 74;
-		else if( i<12 )
+		else if(i<12)
 			display->positions[i].x = display->positions[i-1].x - 38;
-		else if( i==12 )
+		else if(i==12)
 		{
 			display->positions[i].x = display->positions[i-1].x ;
 			display->positions[i].y = 145;
 		}
-		else if( i<18 )
+		else if(i<18)
 			display->positions[i].x = display->positions[i-1].x + 38;
-		else if( i==18 )
+		else if(i==18)
 			display->positions[i].x=display->positions[i-1].x + 74;
 		else
 			display->positions[i].x=display->positions[i-1].x + 38;
@@ -199,7 +198,7 @@ void Display_Init(SDisplay *display, SGame* game)
 	if (display->screen == NULL) // Si l'ouverture a échoué, on écrit l'erreur et on arrête
 	{
 		fprintf(stderr, "Impossible de charger le mode vidéo : %s\n", SDL_GetError());
-		free(temp_path); // On libère
+		free(temp_path);
 		free(temp_name);
 		exit(EXIT_FAILURE);
 	}
@@ -210,7 +209,7 @@ void Display_Init(SDisplay *display, SGame* game)
 	if(TTF_Init() == -1)
 	{
 		fprintf(stderr, "Erreur d'initialisation de TTF_Init : %s\n", TTF_GetError());
-		free(temp_path); // On libère
+		free(temp_path);
 		free(temp_name);
 		exit(EXIT_FAILURE);
 	}
@@ -234,16 +233,17 @@ void Display_Init(SDisplay *display, SGame* game)
 }
 
 
-int Display_Message(SDisplay	*display, char	*message, SDL_Rect position, SDL_Color color, int box, int clic)
+int Display_Message(SDisplay* display, char* message, SDL_Rect position, SDL_Color color, int box, int clic)
 {
 	int leng = strlen(message);
+	
 	if(box)
 	{
 		SDL_BlitSurface(display->msg_box, NULL, display->screen, &position);
-		
 		position.x= position.x + 260 - 12*leng/2;
 		position.y = position.y + 25;
 	}
+	
 	SDL_Surface *msg = TTF_RenderText_Blended(display->font,message,color);
 	SDL_BlitSurface(msg, NULL, display->screen, &position);
 	SDL_FreeSurface(msg);
@@ -274,7 +274,7 @@ int Display_Message(SDisplay	*display, char	*message, SDL_Rect position, SDL_Col
 	return 0;
 }
 
-void Display_Double(SDisplay *display, SGame* game)
+void Display_Double(SDisplay* display, SGame* game)
 {
 	if(game->withDouble)
 	{
@@ -296,7 +296,7 @@ void Display_Double(SDisplay *display, SGame* game)
 	}
 }
 		
-void Display_Exit(SDisplay *display)
+void Display_Exit(SDisplay* display)
 {
 	int i;
 	
@@ -315,11 +315,12 @@ void Display_Exit(SDisplay *display)
 	SDL_FreeSurface(display->possibility13_24);
 	SDL_FreeSurface(display->possibility_out);
 
-	for( i=0; i<6; i++ )
+	for(i=0;i<6;i++)
 	{
 		SDL_FreeSurface(display->die[i]);
 		SDL_FreeSurface(display->die_played[i]);
 	}
+	
 	SDL_FreeSurface(display->screen);
 	
 	TTF_CloseFont(display->font);
@@ -328,10 +329,10 @@ void Display_Exit(SDisplay *display)
 	SDL_Quit();
 }
 
-void Display_Clear(SDisplay *display)
+void Display_Clear(SDisplay* display)
 {
 	// Rechargement du background
-	char *temp_path;
+	char* temp_path;
 	temp_path = (char*)malloc(100*sizeof(char));
 	strcpy(temp_path, display->img_path);
 	strcat(temp_path, "background.png");
@@ -348,7 +349,7 @@ void Display_Clear(SDisplay *display)
 	free(temp_path);
 }
 
-void Display_RefreshGameBoard(SDisplay *display, SGameState *gameState, SGame *game)
+void Display_RefreshGameBoard(SDisplay* display, SGameState* gameState, SGame* game)
 {
 	// Rechargement du plateau de jeu
 	char *temp_path;
@@ -366,38 +367,17 @@ void Display_RefreshGameBoard(SDisplay *display, SGameState *gameState, SGame *g
 	Display_DrawBar(display, gameState, game);
 	
 	// Raffraichissement des dés
-	//Display_Die(display,gameState, game);
+	Display_Die(display,gameState, game);
 	
 	// Affichage du videau
 	Display_Double(display, game);
 	
 	SDL_Flip(display->screen);
 }
-/*
-void calculateScore(SGameState *gameState)
-{
-	int i;
-	int scoreP1 = 0;
-	int scoreP2 = 0;
-	// Calcul du score du joueur 1
-	for(i=0;i<24;i++)
-	{
-		if(gameState->zones[i].player == EPlayer1)
-			scoreP1 += gameState->zones[i].nb_checkers*i;
-	}
-	// Calcul du score du joueur 2
-	for(i=0;i<24;i++)
-	{
-		if(gameState->zones[i].player == EPlayer2)
-			scoreP2 += gameState->zones[i].nb_checkers*i;
-	}
-	printf("SCORE P1=%d SCORE P2=%d\n",scoreP1,scoreP2);
-	gameState->score = scoreP1;
-	gameState->scoreP2 = scoreP2;
-}*/
+
 void Display_Score(SDisplay *display, SGameState *gameState, SGame* game)
 {
-	SDL_Rect pos;
+	/*SDL_Rect pos;
 	SDL_Surface *erase = SDL_CreateRGBSurface(SDL_HWSURFACE, 250, 100, 32, 0, 0, 0, 0);
 	pos.x = 108; pos.y = 40;
 	SDL_BlitSurface(erase, NULL,display->screen,&pos);
@@ -422,18 +402,19 @@ void Display_Score(SDisplay *display, SGameState *gameState, SGame* game)
 	free(scoreP1);
 	free(scoreP2);
 	SDL_FreeSurface(erase);
-	//calculateScore(gameState);
+	*/
 }
 
 
-void Display_Die(SDisplay *display,SGameState *gameState, SGame* game)
+void Display_Die(SDisplay* display, SGameState* gameState, SGame* game)
 {
 	SDL_Rect new_pos;
 	
-	if( gameState->die1 == gameState->die2 ) // Si c'est un double, on affiche 4 fois le dé
+	if(gameState->die1 == gameState->die2) // Si c'est un double, on affiche 4 fois le dé
 	{
 		new_pos.x = (display->die1_position).x - 40;
 		new_pos.y = (display->die1_position).y;
+		
 		if(game->die_To_Play[0]) // S'il n'a pas été déjà joué
 			SDL_BlitSurface(display->die[gameState->die1-1], NULL,display->screen, &new_pos);
 		else
@@ -472,9 +453,9 @@ void Display_Die(SDisplay *display,SGameState *gameState, SGame* game)
 }
 
 
-void Display_CheckerDraw(SDisplay *display, SDL_Rect position, int player, SGame *game)
+void Display_CheckerDraw(SDisplay* display, SDL_Rect position, int player, SGame* game)
 {
-	if( player==0)
+	if(player==0)
 	{
 		if(game->player1_checker == GREEN)
 			SDL_BlitSurface(display->green_checker, NULL,display->screen, &position);
@@ -490,7 +471,7 @@ void Display_CheckerDraw(SDisplay *display, SDL_Rect position, int player, SGame
 	}
 }
 
-void Display_DrawOut(SDisplay *display, SGameState *gameState, SGame *game)
+void Display_DrawOut(SDisplay* display, SGameState* gameState, SGame* game)
 {
 	SDL_Rect pos;
 	unsigned int i;
@@ -516,7 +497,7 @@ void Display_DrawOut(SDisplay *display, SGameState *gameState, SGame *game)
 	}
 }
 
-void Display_DrawBar(SDisplay *display, SGameState *gameState, SGame *game)
+void Display_DrawBar(SDisplay* display, SGameState* gameState, SGame* game)
 {
 	SDL_Rect pos;
 	unsigned int i;
@@ -541,7 +522,7 @@ void Display_DrawBar(SDisplay *display, SGameState *gameState, SGame *game)
 			SDL_BlitSurface(display->white_checker, NULL,display->screen, &pos);
 	}
 }		
-void Display_Checkers(SDisplay *display, SGameState *gameState, SGame *game)
+void Display_Checkers(SDisplay* display, SGameState* gameState, SGame* game)
 {
 	unsigned int i,j;
 	SDL_Rect new_pos;
@@ -549,35 +530,38 @@ void Display_Checkers(SDisplay *display, SGameState *gameState, SGame *game)
 	char* tmp = (char*)malloc(2*sizeof(char));
 	SDL_Color color = {0, 0, 0, 0};
 	
-	for( i=0 ; i<24; i++ )
+	for(i=0 ; i<24; i++)
 	{
-		for( j=0; j<gameState->zones[i].nb_checkers; j++)
+		if(gameState->zones[i].nb_checkers>0)
 		{
-			if(j>5)
+			for(j=0; j<gameState->zones[i].nb_checkers; j++)
 			{
+				if(j>5)
+				{
 			
-				if(gameState->zones[i].nb_checkers>9) // Pour centrer l'affichage en cas de plus de 10 jetons
-				{
-					new_pos.x += 5;
-				}else
-				{
-					new_pos.x += 8;
+					if(gameState->zones[i].nb_checkers>9) // Pour centrer l'affichage en cas de plus de 10 jetons
+					{
+						new_pos.x += 5;
+					}else
+					{
+						new_pos.x += 8;
+					}
+					sprintf(tmp, "%d", gameState->zones[i].nb_checkers);
+					num = TTF_RenderText_Blended(display->font,tmp,color);
+					SDL_BlitSurface(num, NULL, display->screen, &new_pos);
+					SDL_FreeSurface(num);
+					break;
 				}
-				sprintf(tmp, "%d", gameState->zones[i].nb_checkers);
-				num = TTF_RenderText_Blended(display->font,tmp,color);
-				SDL_BlitSurface(num, NULL, display->screen, &new_pos);
-				SDL_FreeSurface(num);
-				break;
-			}
-			else
-			{
-				new_pos.x = display->positions[i].x;
-				if( i<12)
-					new_pos.y = display->positions[i].y - j*20;
 				else
-					new_pos.y = display->positions[i].y + j*20;
-				Display_CheckerDraw(display,new_pos,gameState->zones[i].player,game);
+				{
+					new_pos.x = display->positions[i].x;
+					if(i<12)
+						new_pos.y = display->positions[i].y - j*20;
+					else
+						new_pos.y = display->positions[i].y + j*20;
+					Display_CheckerDraw(display,new_pos,gameState->zones[i].player,game);
 			
+				}
 			}
 		}
 	}
@@ -586,7 +570,7 @@ void Display_Checkers(SDisplay *display, SGameState *gameState, SGame *game)
 
 
 
-void Display_CheckerMove(SDisplay *display, SGameState* gameState, SMove *move, SGame *game)
+void Display_CheckerMove(SDisplay* display, SGameState* gameState, SMove* move, SGame* game)
 {
 	/* Calcul de la droite passant par les deux zones */
 	int pos_src_x;
@@ -631,10 +615,6 @@ void Display_CheckerMove(SDisplay *display, SGameState* gameState, SMove *move, 
 	double a = (double)(pos_src_y-pos_dest_y)/(pos_src_x - pos_dest_x);
 	double b = pos_dest_y - a*pos_dest_x;
 	
-	/*printf("SRC = fleche %d x=%d y=%d\n",move->src_point,pos_src_x,pos_src_y);
-	printf("DEST = fleche %d x=%d y=%d\n",move->dest_point,pos_dest_x,pos_dest_y);
-	printf("a=%f b=%f\n",a,b);*/
-	
 	int pas = VITESSE; // Vitesse de deplacement du pion 1=lentement 8=rapide
 	int numCas;
 	
@@ -675,14 +655,13 @@ void Display_CheckerMove(SDisplay *display, SGameState* gameState, SMove *move, 
 		numCas=8;
 		pas = -pas;
 	}
-	printf("Cas n°%d\n",numCas);
-	
 	SDL_Rect new_pos;
 	new_pos.x = pos_src_x;
 	new_pos.y = pos_src_y;
 	int depassement = 0;
 	gameState->zones[move->src_point-1].nb_checkers--;
-	while( !depassement )
+	
+	while(!depassement)
 	{
 		new_pos.x = new_pos.x + pas;
 		new_pos.y = (int)(a*new_pos.x + b);
@@ -728,7 +707,7 @@ void Display_CheckerMove(SDisplay *display, SGameState* gameState, SMove *move, 
 				break;
 		}
 	}
-	if(gameState->zones[move->dest_point-1].nb_checkers==1 && (gameState->zones[move->src_point-1].player != gameState->zones[move->dest_point-1].player) ) // Si il y a qu'un pion sur la flèche destinatrice et que les couleurs sont différentes
+	if(gameState->zones[move->dest_point-1].nb_checkers==1 && (gameState->zones[move->src_point-1].player != gameState->zones[move->dest_point-1].player)) // Si il y a qu'un pion sur la flèche destinatrice et que les couleurs sont différentes
 	{
 		if(gameState->zones[move->src_point-1].player == EPlayer1 && gameState->zones[move->dest_point-1].player == EPlayer2)
 		{
@@ -790,14 +769,11 @@ int CheckerWithScreenPosition(int x, int y, EPosition *pos)
 	
 	if(x>=323 && x<=554)//Barre de 1 à 6 ou de 19 à 24
 	{
-		
 		if(y>=423 && y<=590)// Barre de 1 à 6
 		{
-			
 			EPosition tmpPos=5;
 			for(i=1; i<=6; i++)
 			{
-				
 				if(x<=(323+(i*40)))
 				{	
 					*pos=tmpPos;
@@ -808,7 +784,6 @@ int CheckerWithScreenPosition(int x, int y, EPosition *pos)
 		}
 		else if(y>=142 && y<=303)//Barre de 19 à 24
 		{
-			
 			EPosition tmpPos=18;
 			for(i=1; i<=6; i++)
 			{
@@ -819,7 +794,6 @@ int CheckerWithScreenPosition(int x, int y, EPosition *pos)
 				}
 				tmpPos++;
 			}
-			
 		}
 	}
 	else if(x>=59 && x<=289)//Barre 7 à 12 ou de 13 à 18
@@ -853,21 +827,17 @@ int CheckerWithScreenPosition(int x, int y, EPosition *pos)
 			}
 		}
 	}
-	
-	
 	return 0;
-
 }
 
 
-void colorChecker(SDisplay *display, SGameState* game, EPosition pos)
+void colorChecker(SDisplay* display, SGameState* game, EPosition pos)
 {
 	
 	SDL_Rect posSelectedChecker;
 	SZone selectedZone = game->zones[pos];
 	posSelectedChecker=display->positions[pos];
-	//lprintf("E_POS:%d\tNB_CHECKER:%d\tY:%d\n",pos,selectedZone.nb_checkers,posSelectedChecker.y);
-	if( pos < 12)
+	if(pos < 12)
 		if(selectedZone.nb_checkers > 6)
 			posSelectedChecker.y -= 5*20; //mise a jour de y pour selectionner le pion du haut
 		else
@@ -905,7 +875,7 @@ int allInJan( SGameState* gameState, EPlayer player)
 }
 
 				
-int Display_CheckersPossibilities(SDisplay *display, SGameState *gameState, EPlayer player, SGame *game)
+int Display_CheckersPossibilities( SDisplay* display, SGameState* gameState, EPlayer player, SGame* game)
 {
 	int i=0;
 	int tab[28];
@@ -917,27 +887,24 @@ int Display_CheckersPossibilities(SDisplay *display, SGameState *gameState, EPla
 	
 	if(gameState->die1 != gameState->die2) // Si dés différents
 	{
-		for( i=0; i<24; i++) // Pour chaque flèche
+		for(i=0;i<24;i++) // Pour chaque flèche
 		{
 			if(gameState->zones[i].nb_checkers>0 && gameState->zones[i].player==player)
 			{
-				if( (i+gameState->die1)<=28 && (i+gameState->die1)!=26 && (i+gameState->die1)!=28 && (gameState->zones[i+gameState->die1].nb_checkers==1 || gameState->zones[i+gameState->die1].nb_checkers==0 || gameState->zones[i+gameState->die1].player==player) )
+				if((i+gameState->die1)<=28 && (i+gameState->die1)!=26 && (i+gameState->die1)!=28 && (gameState->zones[i+gameState->die1].nb_checkers==1 || gameState->zones[i+gameState->die1].nb_checkers==0 || gameState->zones[i+gameState->die1].player==player))
 				{
-					printf("Possibilite sur fleche %d avec de1 et pion sur fleche %d\n",i+1+gameState->die1,i+1);
 					colorChecker(display,gameState,i);
 					tab[cpt]=i;
 					cpt++;
 				}
-				if( (i+gameState->die2)<=28 && (i+gameState->die2)!=26 && (i+gameState->die2)!=28 && (gameState->zones[i+gameState->die2].nb_checkers==0 || gameState->zones[i+gameState->die2].nb_checkers==1 || gameState->zones[i+gameState->die2].player==player) )
+				if((i+gameState->die2)<=28 && (i+gameState->die2)!=26 && (i+gameState->die2)!=28 && (gameState->zones[i+gameState->die2].nb_checkers==0 || gameState->zones[i+gameState->die2].nb_checkers==1 || gameState->zones[i+gameState->die2].player==player))
 				{
-					printf("Possibilite sur fleche %d avec de2 et pion sur fleche %d\n",i+1+gameState->die2,i+1);
 					colorChecker(display,gameState,i);
 					tab[cpt]=i;
 					cpt++;
 				}
-				if( (i+gameState->die1+gameState->die2)<=28 && (i+gameState->die1+gameState->die2)!=26 && (i+gameState->die1+gameState->die2)!=28 &&(gameState->zones[i+gameState->die1+gameState->die2].nb_checkers==1 || gameState->zones[i+gameState->die1+gameState->die2].nb_checkers==0 || gameState->zones[i+gameState->die1+gameState->die2].player==player) )
+				if((i+gameState->die1+gameState->die2)<=28 && (i+gameState->die1+gameState->die2)!=26 && (i+gameState->die1+gameState->die2)!=28 &&(gameState->zones[i+gameState->die1+gameState->die2].nb_checkers==1 || gameState->zones[i+gameState->die1+gameState->die2].nb_checkers==0 || gameState->zones[i+gameState->die1+gameState->die2].player==player))
 				{
-					printf("Possibilite sur fleche %d avec de1+de2 et pion sur fleche %d\n",i+1+gameState->die1+gameState->die2,i+1);
 					colorChecker(display,gameState,i);
 					tab[cpt]=i;
 					cpt++;
@@ -950,7 +917,7 @@ int Display_CheckersPossibilities(SDisplay *display, SGameState *gameState, EPla
 			msg_position.x = 80;
 			msg_position.y = 325;
 			SDL_Color msg_color = {255, 255, 255, 0};
-			Display_Message( display, "Pas de mouvement possible!", msg_position, msg_color,1, 0);
+			Display_Message(display, "Pas de mouvement possible!", msg_position, msg_color,1, 0);
 			SDL_Flip(display->screen);
 			SDL_Delay(10000);
 			return 1;
@@ -1046,7 +1013,7 @@ int* Display_Arrow_Possibilities(SDisplay *display, SGameState *gameState, EPlay
 		unsigned int arrowWithDie1=0;
 		unsigned int arrowWithDie2=0;
 		
-		if(ArriveeAvecDE1.player == player ||  ArriveeAvecDE1.nb_checkers == 0 || (ArriveeAvecDE1.player != player &&  ArriveeAvecDE1.nb_checkers == 1) )
+		if(ArriveeAvecDE1.player == player ||  ArriveeAvecDE1.nb_checkers == 0 || (ArriveeAvecDE1.player != player &&  ArriveeAvecDE1.nb_checkers == 1))
 		{
 			//on dessine sur la zone ArriveeAvecDE1
 			Display_DrawSelectedArrow(display, depart+(gameState->die1)*sens);
@@ -1063,7 +1030,7 @@ int* Display_Arrow_Possibilities(SDisplay *display, SGameState *gameState, EPlay
 			arriveesPossibles[cpt]= depart+(gameState->die2*sens);
 			cpt++;
 		}
-		if( (ArriveeAvecDE1ETDE2.player == player ||  ArriveeAvecDE1ETDE2.nb_checkers == 0 || (ArriveeAvecDE1ETDE2.player != player &&  ArriveeAvecDE1ETDE2.nb_checkers == 1 )) && (arrowWithDie1 || arrowWithDie2) )
+		if((ArriveeAvecDE1ETDE2.player == player ||  ArriveeAvecDE1ETDE2.nb_checkers == 0 || (ArriveeAvecDE1ETDE2.player != player &&  ArriveeAvecDE1ETDE2.nb_checkers == 1)) && (arrowWithDie1 || arrowWithDie2))
 		{
 			//on dessine sur la zone ArriveeAvecDE1ETDE2
 			Display_DrawSelectedArrow(display, depart+(gameState->die1)*sens+(gameState->die2)*sens);
@@ -1106,7 +1073,7 @@ void Display_DrawSelectedArrow(SDisplay *display, EPosition pos)
 		posArrow.y = posArrow.y - 128;
 		SDL_BlitSurface(display->possibility1_12, NULL,display->screen, &posArrow);
 	}
-	else if( pos < 24)
+	else if(pos < 24)
 	{
 		posArrow.y = 145; 
 		SDL_BlitSurface(display->possibility13_24, NULL,display->screen, &posArrow);
@@ -1196,7 +1163,7 @@ int Display_GameActions(SDisplay *display, SGameState* gameState, SGame *game, E
 							SDL_Flip(display->screen);
 						}
 					}
-					if((event.button.x>=630 && event.button.x<=790 && event.button.y>=250 && event.button.y<=295) ) // Lancer
+					if((event.button.x>=630 && event.button.x<=790 && event.button.y>=250 && event.button.y<=295)) // Lancer
 					{
 						Game_LaunchDie(gameState, game);
 						pos.x = 630;

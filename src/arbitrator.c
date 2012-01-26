@@ -28,7 +28,7 @@ int Arbitrator_AuthorizedDeplacement(SGameState* gameState, SMove *move, EPlayer
  		printf("i=%d -> %d -> %d\n",i,(game->zones)[i].player,(game->zones)[i].nb_checkers);*/
 	SZone zoneArrivee = (gameState->zones)[posArrivee]; // zone d arrivee
 	// si le joueur ne joue pas le pion en prison, alors qu'il y en a un, le coup est incorrect
-	if( (Arbitrator_Nb_Pion_Prison(gameState,player) > 0) && ( ((posDepart != EPos_BarP1) && (player == EPlayer1)) || ((posDepart != EPos_BarP2) && (player == EPlayer2)) ) )
+	if((Arbitrator_Nb_Pion_Prison(gameState,player) > 0) && (((posDepart != EPos_BarP1) && (player == EPlayer1)) || ((posDepart != EPos_BarP2) && (player == EPlayer2))))
 	{
 		printf("PION EN PRISON !! %d\n",Arbitrator_Nb_Pion_Prison(gameState,player));
 		return 0;
@@ -41,7 +41,7 @@ int Arbitrator_AuthorizedDeplacement(SGameState* gameState, SMove *move, EPlayer
 		unsigned int nb_sauts = Arbitrator_Get_Distance(posDepart,posArrivee);
 		printf("DISTANCE : %u\n",nb_sauts);
 		// Si le mouvement correspont au nombre d'un des dés
-		if(Arbitrator_Taille_Mouvement_Correcte(nb_sauts, game, gameState ))
+		if(Arbitrator_Taille_Mouvement_Correcte(nb_sauts, game, gameState))
 		{
 
 			//on regarde si le sens de rotation est correct pour le joueur			
@@ -51,8 +51,8 @@ int Arbitrator_AuthorizedDeplacement(SGameState* gameState, SMove *move, EPlayer
 				if(Arbitrator_PlayerArrays(zoneArrivee, player) || Arbitrator_Case_Appartenant_Joueur_Adverse_Avec_Un_Pion(zoneArrivee, player) || Arbitrator_EmptyPosition(zoneArrivee))
 				{
 					//si le joueur joue en out
-					if( (	(posArrivee == EPos_OutP1 && player == EPlayer1) || (posArrivee == EPos_OutP2 && player == EPlayer2)	) 
-						&& (!Arbitrator_Jeu_Out_Possible(gameState, player)) )
+					if((	(posArrivee == EPos_OutP1 && player == EPlayer1) || (posArrivee == EPos_OutP2 && player == EPlayer2)	) 
+						&& (!Arbitrator_Jeu_Out_Possible(gameState, player)))
 					{
 						return 0;
 					}
@@ -116,7 +116,7 @@ unsigned int Arbitrator_Get_Distance(EPosition depart, EPosition arrivee)
 	
 
 	if(((int)(depart) - (int)(arrivee)) < 0)
-		return (unsigned int)( -1*((int)(depart) - (int)(arrivee)));
+		return (unsigned int)(-1*((int)(depart) - (int)(arrivee)));
 	else return ((depart) - (arrivee));
 }
 int Arbitrator_Sens_rotation_correct(EPlayer joueur, EPosition depart, EPosition arrivee)
@@ -154,7 +154,7 @@ int Arbitrator_Pion_Depart_Autorise(int x, int y, EPlayer player, SGameState* ga
 	{
 		
 		SZone zoneCliquee = game->zones[posDepart];
-		if( (zoneCliquee.player == player) && (zoneCliquee.nb_checkers >= 1) )
+		if((zoneCliquee.player == player) && (zoneCliquee.nb_checkers >= 1))
 		{
 			return 1;
 		}		
@@ -180,13 +180,13 @@ int Arbitrator_Jeu_Out_Possible(SGameState* game, EPlayer player)
 {
 	unsigned int cpt=0;
 	EPosition temp = EPos_nopos;
-	if(player == EPlayer1) // carré final ( 19/24 )
+	if(player == EPlayer1) // carré final (19/24)
 	{
 		 temp = EPos_19;
 		
-		while( temp <= EPos_24 )
+		while(temp <= EPos_24)
 		{
-			if( ((game->zones[temp]).player == player) )
+			if(((game->zones[temp]).player == player))
 				cpt += (game->zones[temp]).nb_checkers;
 			temp++;
 		}
@@ -194,13 +194,13 @@ int Arbitrator_Jeu_Out_Possible(SGameState* game, EPlayer player)
 		if(cpt == 15) return 1;
 		
 	}
-	else // carré final ( 1/6 )
+	else // carré final (1/6)
 	{
 		temp = EPos_1;
 		
-		while( temp <= EPos_6 )
+		while(temp <= EPos_6)
 		{
-			if( ((game->zones[temp]).player == player) )
+			if(((game->zones[temp]).player == player))
 				cpt += (game->zones[temp]).nb_checkers;
 			temp++;
 		}
@@ -262,7 +262,7 @@ int Arbitrator_Player_Can_Play(SGameState *gameState, SGame *game, EPlayer playe
 		}
 			for(int i=0; i<24;i++) // pour toutes les fleches
 			{
-				if(  (gameState->zones[i].player == player)  &&  (gameState->zones[i].nb_checkers > 0)  ) // si la zone lui appartient
+				if((gameState->zones[i].player == player)  &&  (gameState->zones[i].nb_checkers > 0) ) // si la zone lui appartient
 				{
 					if(Nb_Des_Encore_Jouables == 1)// un seul dé jouable
 					{
@@ -287,7 +287,7 @@ int Arbitrator_Player_Can_Play(SGameState *gameState, SGame *game, EPlayer playe
 								}
 							}
 						} 
-						if( (i+(sens*de) <= EPos_24)  &&  (i+(sens*de) >= EPos_1) ) // si le dé permet de jouer sur une fleche (pas en out)
+						if((i+(sens*de) <= EPos_24)  &&  (i+(sens*de) >= EPos_1)) // si le dé permet de jouer sur une fleche (pas en out)
 						{
 							if(Arbitrator_Zone_Accessible(gameState, player, i+(sens*de)))
 							{
@@ -324,7 +324,7 @@ int Arbitrator_Player_Can_Play(SGameState *gameState, SGame *game, EPlayer playe
 						if(de2 == 0)
 							de2 = gameState->die1;
 								
-						if((i+(sens*de1) <= EPos_24)  &&  (i+(sens*de1) >= EPos_1) ) // si le dé permet de jouer sur une fleche (pas en out)
+						if((i+(sens*de1) <= EPos_24)  &&  (i+(sens*de1) >= EPos_1)) // si le dé permet de jouer sur une fleche (pas en out)
 						{
 							if(Arbitrator_Zone_Accessible(gameState, player, i+(sens*de1)))
 							{
@@ -332,7 +332,7 @@ int Arbitrator_Player_Can_Play(SGameState *gameState, SGame *game, EPlayer playe
 								return 1;
 							}
 						}
-						if((i+(sens*de2) <= EPos_24)  &&  (i+(sens*de2) >= EPos_1) ) // si le dé permet de jouer sur une fleche (pas en out)
+						if((i+(sens*de2) <= EPos_24)  &&  (i+(sens*de2) >= EPos_1)) // si le dé permet de jouer sur une fleche (pas en out)
 						{
 							if(Arbitrator_Zone_Accessible(gameState, player, i+(sens*de2)))
 							{
@@ -340,7 +340,7 @@ int Arbitrator_Player_Can_Play(SGameState *gameState, SGame *game, EPlayer playe
 								return 1;
 							}
 						}
-						if((i+(sens*(de1+de2)) <= EPos_24)  &&  (i+(sens*(de1+de2)) >= EPos_1) ) // si le dé permet de jouer sur une fleche (pas en out)
+						if((i+(sens*(de1+de2)) <= EPos_24)  &&  (i+(sens*(de1+de2)) >= EPos_1)) // si le dé permet de jouer sur une fleche (pas en out)
 						{
 							if(Arbitrator_Zone_Accessible(gameState, player, i+(sens*(de1+de2))))
 							{
@@ -354,7 +354,7 @@ int Arbitrator_Player_Can_Play(SGameState *gameState, SGame *game, EPlayer playe
 					{
 						int de = gameState->die1; // 3 dés jouables, donc de1 = de2 = de3 = de4
 						
-						if((i+(sens*de) <= EPos_24)  &&  (i+(sens*de) >= EPos_1) ) // si le dé permet de jouer sur une fleche (pas en out)
+						if((i+(sens*de) <= EPos_24)  &&  (i+(sens*de) >= EPos_1)) // si le dé permet de jouer sur une fleche (pas en out)
 						{
 							if(Arbitrator_Zone_Accessible(gameState, player, i+(sens*de)))
 							{
@@ -362,7 +362,7 @@ int Arbitrator_Player_Can_Play(SGameState *gameState, SGame *game, EPlayer playe
 								return 1;
 							}
 						}
-						if((i+(2*(sens*de)) <= EPos_24)  &&  (i+(2*(sens*de)) >= EPos_1) ) // si le dé permet de jouer sur une fleche (pas en out)
+						if((i+(2*(sens*de)) <= EPos_24)  &&  (i+(2*(sens*de)) >= EPos_1)) // si le dé permet de jouer sur une fleche (pas en out)
 						{
 							if(Arbitrator_Zone_Accessible(gameState, player, i+(2*(sens*de))))
 							{
@@ -370,7 +370,7 @@ int Arbitrator_Player_Can_Play(SGameState *gameState, SGame *game, EPlayer playe
 								return 1;
 							}
 						}
-						if((i+(3*(sens*de)) <= EPos_24)  &&  (i+(3*(sens*de)) >= EPos_1) ) // si le dé permet de jouer sur une fleche (pas en out)
+						if((i+(3*(sens*de)) <= EPos_24)  &&  (i+(3*(sens*de)) >= EPos_1)) // si le dé permet de jouer sur une fleche (pas en out)
 						{
 							if(Arbitrator_Zone_Accessible(gameState, player, i+(3*(sens*de))))
 							{
@@ -380,7 +380,7 @@ int Arbitrator_Player_Can_Play(SGameState *gameState, SGame *game, EPlayer playe
 						}
 						if(Nb_Des_Encore_Jouables > 3)
 						{
-							if((i+(4*(sens*de)) <= EPos_24)  &&  (i+(4*(sens*de)) >= EPos_1) ) // si le dé permet de jouer sur une fleche (pas en out)
+							if((i+(4*(sens*de)) <= EPos_24)  &&  (i+(4*(sens*de)) >= EPos_1)) // si le dé permet de jouer sur une fleche (pas en out)
 						{
 							if(Arbitrator_Zone_Accessible(gameState, player, i+(4*(sens*de))))
 							{
@@ -394,7 +394,7 @@ int Arbitrator_Player_Can_Play(SGameState *gameState, SGame *game, EPlayer playe
 			
 			}
 /************************		TEST POUR UNE POSSIBILITE EN SORTIE DE BAR		***************************************************/
-			if(  ( (player == EPlayer1) && (gameState->zones[EPos_BarP1].nb_checkers > 0) )  ||  ( (player == EPlayer2) && (gameState->zones[EPos_BarP2].nb_checkers > 0) )  )
+			if(((player == EPlayer1) && (gameState->zones[EPos_BarP1].nb_checkers > 0))  ||  ((player == EPlayer2) && (gameState->zones[EPos_BarP2].nb_checkers > 0)) )
 			{
 				int pos_IN=EPos_1;
 				if(player == EPlayer2)
@@ -422,7 +422,7 @@ int Arbitrator_Player_Can_Play(SGameState *gameState, SGame *game, EPlayer playe
 							}
 						}
 					} 
-					if( (pos_IN+(sens*de) <= EPos_24)  &&  (pos_IN+(sens*de) >= EPos_1) ) // si le dé permet de jouer sur une fleche (pas en out)
+					if((pos_IN+(sens*de) <= EPos_24)  &&  (pos_IN+(sens*de) >= EPos_1)) // si le dé permet de jouer sur une fleche (pas en out)
 					{
 						if(Arbitrator_Zone_Accessible(gameState, player, pos_IN+(sens*de)))
 						{
@@ -459,7 +459,7 @@ int Arbitrator_Player_Can_Play(SGameState *gameState, SGame *game, EPlayer playe
 					if(de2 == 0)
 						de2 = gameState->die1;
 							
-					if((pos_IN+(sens*de1) <= EPos_24)  &&  (pos_IN+(sens*de1) >= EPos_1) ) // si le dé permet de jouer sur une fleche (pas en out)
+					if((pos_IN+(sens*de1) <= EPos_24)  &&  (pos_IN+(sens*de1) >= EPos_1)) // si le dé permet de jouer sur une fleche (pas en out)
 					{
 						if(Arbitrator_Zone_Accessible(gameState, player, pos_IN+(sens*de1)))
 						{
@@ -467,7 +467,7 @@ int Arbitrator_Player_Can_Play(SGameState *gameState, SGame *game, EPlayer playe
 							return 1;
 						}
 					}
-					if((pos_IN+(sens*de2) <= EPos_24)  &&  (pos_IN+(sens*de2) >= EPos_1) ) // si le dé permet de jouer sur une fleche (pas en out)
+					if((pos_IN+(sens*de2) <= EPos_24)  &&  (pos_IN+(sens*de2) >= EPos_1)) // si le dé permet de jouer sur une fleche (pas en out)
 					{
 						if(Arbitrator_Zone_Accessible(gameState, player, pos_IN+(sens*de2)))
 						{
@@ -475,7 +475,7 @@ int Arbitrator_Player_Can_Play(SGameState *gameState, SGame *game, EPlayer playe
 							return 1;
 						}
 					}
-					if((pos_IN+(sens*(de1+de2)) <= EPos_24)  &&  (pos_IN+(sens*(de1+de2)) >= EPos_1) ) // si le dé permet de jouer sur une fleche (pas en out)
+					if((pos_IN+(sens*(de1+de2)) <= EPos_24)  &&  (pos_IN+(sens*(de1+de2)) >= EPos_1)) // si le dé permet de jouer sur une fleche (pas en out)
 					{
 						if(Arbitrator_Zone_Accessible(gameState, player, pos_IN+(sens*(de1+de2))))
 						{
@@ -489,7 +489,7 @@ int Arbitrator_Player_Can_Play(SGameState *gameState, SGame *game, EPlayer playe
 				{
 					int de = gameState->die1; // 3 dés jouables, donc de1 = de2 = de3 = de4
 					
-					if((pos_IN+(sens*de) <= EPos_24)  &&  (pos_IN+(sens*de) >= EPos_1) ) // si le dé permet de jouer sur une fleche (pas en out)
+					if((pos_IN+(sens*de) <= EPos_24)  &&  (pos_IN+(sens*de) >= EPos_1)) // si le dé permet de jouer sur une fleche (pas en out)
 					{
 						if(Arbitrator_Zone_Accessible(gameState, player, pos_IN+(sens*de)))
 						{
@@ -497,7 +497,7 @@ int Arbitrator_Player_Can_Play(SGameState *gameState, SGame *game, EPlayer playe
 							return 1;
 						}
 					}
-					if((pos_IN+(2*(sens*de)) <= EPos_24)  &&  (pos_IN+(2*(sens*de)) >= EPos_1) ) // si le dé permet de jouer sur une fleche (pas en out)
+					if((pos_IN+(2*(sens*de)) <= EPos_24)  &&  (pos_IN+(2*(sens*de)) >= EPos_1)) // si le dé permet de jouer sur une fleche (pas en out)
 					{
 						if(Arbitrator_Zone_Accessible(gameState, player, pos_IN+(2*(sens*de))))
 						{
@@ -505,7 +505,7 @@ int Arbitrator_Player_Can_Play(SGameState *gameState, SGame *game, EPlayer playe
 							return 1;
 						}
 					}
-					if((pos_IN+(3*(sens*de)) <= EPos_24)  &&  (pos_IN+(3*(sens*de)) >= EPos_1) ) // si le dé permet de jouer sur une fleche (pas en out)
+					if((pos_IN+(3*(sens*de)) <= EPos_24)  &&  (pos_IN+(3*(sens*de)) >= EPos_1)) // si le dé permet de jouer sur une fleche (pas en out)
 					{
 						if(Arbitrator_Zone_Accessible(gameState, player, pos_IN+(3*(sens*de))))
 						{
@@ -515,7 +515,7 @@ int Arbitrator_Player_Can_Play(SGameState *gameState, SGame *game, EPlayer playe
 					}
 					if(Nb_Des_Encore_Jouables > 3)
 					{
-						if((pos_IN+(4*(sens*de)) <= EPos_24)  &&  (pos_IN+(4*(sens*de)) >= EPos_1) ) // si le dé permet de jouer sur une fleche (pas en out)
+						if((pos_IN+(4*(sens*de)) <= EPos_24)  &&  (pos_IN+(4*(sens*de)) >= EPos_1)) // si le dé permet de jouer sur une fleche (pas en out)
 					{
 						if(Arbitrator_Zone_Accessible(gameState, player, pos_IN+(4*(sens*de))))
 						{
@@ -537,7 +537,7 @@ int Arbitrator_Player_Can_Play(SGameState *gameState, SGame *game, EPlayer playe
 				}
 				for(int i=1;i <= 6 ;i++)
 				{
-					if(  (gameState->zones[deb_zone_out+(sens*i)-1].player == player)  &&  (gameState->zones[deb_zone_out+(sens*i)-1].nb_checkers > 0)  ) // si la zone lui appartient
+					if((gameState->zones[deb_zone_out+(sens*i)-1].player == player)  &&  (gameState->zones[deb_zone_out+(sens*i)-1].nb_checkers > 0) ) // si la zone lui appartient
 					{
 						if(Nb_Des_Encore_Jouables == 1)// un seul dé jouable
 						{
@@ -658,9 +658,9 @@ int Arbitrator_Player_Can_Play(SGameState *gameState, SGame *game, EPlayer playe
 
 int Arbitrator_Zone_Accessible(SGameState *gameState, EPlayer player, int pos)
 {
-	if( (pos <= (int)EPos_OutP2) && (pos >= (int)EPos_1) )
+	if((pos <= (int)EPos_OutP2) && (pos >= (int)EPos_1))
 	{
-		if(  (gameState->zones[pos].player == player)  ||  (gameState->zones[pos].nb_checkers < 2)  )
+		if((gameState->zones[pos].player == player)  ||  (gameState->zones[pos].nb_checkers < 2) )
 			return 1;
 	}
 }

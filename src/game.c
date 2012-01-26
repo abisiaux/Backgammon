@@ -33,9 +33,9 @@ SGameState* Game_Init()
 	game->zones[23].nb_checkers=2;
 	
 	game->zones[11].player=EPlayer1;
-	game->zones[11].nb_checkers=8;//5
+	game->zones[11].nb_checkers=5;
 	game->zones[12].player=EPlayer2;
-	game->zones[12].nb_checkers=8;//5
+	game->zones[12].nb_checkers=5;
 	
 	game->zones[16].player=EPlayer1;
 	game->zones[16].nb_checkers=3;
@@ -57,7 +57,7 @@ void initScore(SGameState* gameState)
 	gameState->scoreP2 = 0;
 }
 
-int Game_FirstToPlay( SDisplay* display, EGameMode gameMode, SGame* game, SGameState *gameState)
+int Game_FirstToPlay(SDisplay* display, EGameMode gameMode, SGame* game, SGameState *gameState)
 {
 	SDL_Event event;
 	
@@ -78,8 +78,8 @@ int Game_FirstToPlay( SDisplay* display, EGameMode gameMode, SGame* game, SGameS
 		switch(gameMode)
 		{
 			case HUMAN_HUMAN:
-				sprintf( tmp, "%s, lance les des !", game->player1_name);
-				quit = Display_Message( display, tmp, msg_position, msg_color,1,1);
+				sprintf(tmp, "%s, lance les des !", game->player1_name);
+				quit = Display_Message(display, tmp, msg_position, msg_color,1,1);
 				if(quit)
 				{
 					quit = 1;
@@ -92,7 +92,7 @@ int Game_FirstToPlay( SDisplay* display, EGameMode gameMode, SGame* game, SGameS
 				dieP1[1] = gameState->die2;
 			
 				sprintf(tmp,"%s, lance les des !", game->player2_name);
-				quit = Display_Message( display, tmp, msg_position, msg_color,1,1);
+				quit = Display_Message(display, tmp, msg_position, msg_color,1,1);
 				if(quit)
 				{
 					quit = 1;
@@ -121,14 +121,14 @@ int Game_FirstToPlay( SDisplay* display, EGameMode gameMode, SGame* game, SGameS
 				}
 				else
 				{
-					Display_Message( display, "Il y a egalite, on recommence !", msg_position, msg_color,1,0);
+					Display_Message(display, "Il y a egalite, on recommence !", msg_position, msg_color,1,0);
 					SDL_Flip(display->screen);
 					SDL_Delay(1500);
 				}
 				break;
 			case HUMAN_IA:
-				sprintf( tmp, "%s, lance les des !", game->player1_name);
-				quit = Display_Message( display, tmp, msg_position, msg_color,1,1);
+				sprintf(tmp, "%s, lance les des !", game->player1_name);
+				quit = Display_Message(display, tmp, msg_position, msg_color,1,1);
 				if(quit)
 				{
 					quit = 1;
@@ -141,7 +141,7 @@ int Game_FirstToPlay( SDisplay* display, EGameMode gameMode, SGame* game, SGameS
 				dieP1[1] = gameState->die2;
 			
 				sprintf(tmp,"%s, lance les des ...", game->player2_name);
-				Display_Message( display, tmp, msg_position, msg_color,1,0);
+				Display_Message(display, tmp, msg_position, msg_color,1,0);
 				Game_LaunchDie(gameState, game);
 				Display_RefreshGameBoard(display, gameState, game);
 				SDL_Delay(1500);
@@ -165,7 +165,7 @@ int Game_FirstToPlay( SDisplay* display, EGameMode gameMode, SGame* game, SGameS
 				}
 				else
 				{
-					Display_Message( display, "Il y a egalite, on recommence !", msg_position, msg_color,1,0);
+					Display_Message(display, "Il y a egalite, on recommence !", msg_position, msg_color,1,0);
 					SDL_Flip(display->screen);
 					SDL_Delay(1500);
 				}
@@ -273,7 +273,7 @@ int Game_AcceptDouble(SDisplay* display, EPlayer player, SGame* game)
 	}
 }
 		
-int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SIA_Functions* ia_struct)
+int Game_Play(SDisplay* display, EGameMode gameMode, SGame* game, SIA_Functions* ia_struct)
 {
 	
 	SGameState *gameState;
@@ -291,7 +291,6 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SIA_Functions
 	SGameState* copyGameS;
 	SMove mouvement; // Mouvement pour le joueur humain
 	
-	int Die_For_Play[7]={0,1,1,1,1,1,1}; // Nb dés à utiliser dans le tour ex : {0,1,0,0,1,0,0} Dés encore à jouer : 1 et 4
 	/** DECLARATIONS IA **/
 	SMove mvmt_ia[4]; // Tableau de mouvement a fournir à l'IA
 
@@ -302,10 +301,6 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SIA_Functions
 	msg_position.x = 80;
 	msg_position.y = 325;
 	SDL_Color msg_color = {255, 255, 255, 0};
-	
-	int cptAI[2]; // Compteur d'erreur des AI
-	cptAI[0] = 0; 
-	cptAI[1] = 0;
 	
 	if(gameMode == HUMAN_IA)
 	{
@@ -319,7 +314,7 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SIA_Functions
 	int nbTour = 0;
 	Display_Clear(display);
 	
-	while( gameState->score < game->scoreLimit && gameState->scoreP2 < game->scoreLimit && !quit ) // Boucle de jeu
+	while(gameState->score < game->scoreLimit && gameState->scoreP2 < game->scoreLimit && !quit) // Boucle de jeu
 	{
 		nbTour++;
 		gameState = Game_Init(); /* Initialisation de la partie */
@@ -339,7 +334,7 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SIA_Functions
 
 		
 		Display_Score(display,gameState,game);
-		Display_RefreshGameBoard(display, gameState, game); // PLANTE AU SECOND TOUR
+		Display_RefreshGameBoard(display, gameState, game);
 		printf("Match %d\n",nbTour);
 		SDL_Flip(display->screen);
 		Display_Message(display, "La partie commence !", msg_position, msg_color, 1,0);
@@ -350,20 +345,20 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SIA_Functions
 		
 		/*Détermination du joueur qui commence*/
 		int getFirst=1;
-		//getFirst = Game_FirstToPlay( display, gameMode, game, gameState);
+		//getFirst = Game_FirstToPlay(display, gameMode, game, gameState);
 		if(getFirst == 1)
 		{
 			curentP = EPlayer1;
-			sprintf( tmp, "%s, commence !", game->player1_name);
-			Display_Message( display, tmp, msg_position, msg_color,1,0);
+			sprintf(tmp, "%s, commence !", game->player1_name);
+			Display_Message(display, tmp, msg_position, msg_color,1,0);
 			SDL_Flip(display->screen);
 			SDL_Delay(1000);
 		}
 		else if(getFirst == 2)
 		{
 			curentP = EPlayer2;
-			sprintf( tmp, "%s, commence !", game->player2_name);
-			Display_Message( display, tmp, msg_position, msg_color,1,0);
+			sprintf(tmp, "%s, commence !", game->player2_name);
+			Display_Message(display, tmp, msg_position, msg_color,1,0);
 			SDL_Flip(display->screen);
 			SDL_Delay(1000);
 		}
@@ -381,8 +376,8 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SIA_Functions
 				case HUMAN_HUMAN :
 					if(curentP == EPlayer1)
 					{
-						sprintf( tmp, "%s, c'est ton tour !", game->player1_name);
-						Display_Message( display, tmp, msg_position, msg_color,1,0);
+						sprintf(tmp, "%s, c'est ton tour !", game->player1_name);
+						Display_Message(display, tmp, msg_position, msg_color,1,0);
 						SDL_Flip(display->screen);
 						action = Display_GameActions(display, gameState, game, curentP);
 						if(action == 1)
@@ -396,8 +391,7 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SIA_Functions
 							winner = EPlayer1;
 							break;
 						}
-						//wantDouble = 0;
-
+						
 						Display_RefreshGameBoard(display, gameState, game);
 						quit = Display_CheckersPossibilities(display, gameState, curentP, game);
 						printf("etat des dés : 1=>[%d]\t2=>[%d]\t3=>[%d]\t4=>[%d]\n", game->die_To_Play[0],game->die_To_Play[1],game->die_To_Play[2],game->die_To_Play[3]);
@@ -409,8 +403,8 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SIA_Functions
 					}
 					else
 					{
-						sprintf( tmp, "%s, c'est ton tour !", game->player2_name);
-						Display_Message( display, tmp, msg_position, msg_color,1,0);
+						sprintf(tmp, "%s, c'est ton tour !", game->player2_name);
+						Display_Message(display, tmp, msg_position, msg_color,1,0);
 						quit = Display_GameActions(display, gameState, game,curentP);
 						if(quit)
 						{
@@ -430,8 +424,8 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SIA_Functions
 				case HUMAN_IA :
 					if(curentP == EPlayer1)
 					{
-						sprintf( tmp, "%s, c'est ton tour !", game->player1_name);
-						Display_Message( display, tmp, msg_position, msg_color,1,0);
+						sprintf(tmp, "%s, c'est ton tour !", game->player1_name);
+						Display_Message(display, tmp, msg_position, msg_color,1,0);
 						SDL_Flip(display->screen);
 						quit = Display_GameActions(display, gameState, game,curentP);
 						if(quit)
@@ -469,7 +463,7 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SIA_Functions
 								printf("AI JOUE src = %d dest = %d\n",mvmt_ia[i].src_point + 1,mvmt_ia[i].dest_point + 1);
 								mvmt_ia[i].src_point += 1;
 								mvmt_ia[i].dest_point += 1;
-								//if(Arbitrator_AuthorizedDeplacement(gameState, mvmt_ia, curentP, game))
+								if(Arbitrator_AuthorizedDeplacement(gameState, mvmt_ia, curentP, game))
 									Display_CheckerMove(display, gameState, &mvmt_ia[i], game);
 							}
 						}
@@ -507,19 +501,19 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SIA_Functions
 		}
 		if(winner == EPlayer1)
 		{
-			sprintf( tmp, "%s gagne la manche !", game->player1_name);
+			sprintf(tmp, "%s gagne la manche !", game->player1_name);
 			gameState->score = gameState->score + 1;
 			printf("%s gagne SCORE = %d\n", game->player1_name,gameState->score);
 		}
 		else
 		{
-			sprintf( tmp, "%s gagne la manche !", game->player2_name);
+			sprintf(tmp, "%s gagne la manche !", game->player2_name);
 			gameState->scoreP2 = gameState->scoreP2 + 1;
 			printf("%s gagne SCORE = %d\n", game->player2_name,gameState->scoreP2);
 		}
 		finish = 0;
 			
-		Display_Message( display, tmp, msg_position, msg_color,1,0);
+		Display_Message(display, tmp, msg_position, msg_color,1,0);
 		
 		if(gameMode == HUMAN_IA)
 		{
@@ -553,7 +547,7 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SIA_Functions
 
 void Game_LaunchDie(SGameState *gameState, SGame *game) 
 {
-	srand( time(NULL) ); // Initialisation du generateur de nombre aleatoire
+	srand(time(NULL)); // Initialisation du generateur de nombre aleatoire
 	gameState->die1 = 1+(rand()/(float)RAND_MAX)*6; // Tirage aléatoire d'un chiffre entre 1 et 6
 	gameState->die2 = 1+(rand()/(float)RAND_MAX)*6; // Tirage aléatoire d'un chiffre entre 1 et 6
 	printf("Dé 1 : %d Dé 2 : %d\n",gameState->die1,gameState->die2);

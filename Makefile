@@ -2,7 +2,7 @@
 
 # Définition des variables
 CC=gcc
-CFLAGS=-W -Wall -std=c99 -Wswitch
+CFLAGS=-W -Wall -std=c99 -Wswitch -Wunused-parameter
 LDFLAGS=-lSDL -lSDL_image -lSDL_ttf -ldl -g
 EXEC=backgammon
 
