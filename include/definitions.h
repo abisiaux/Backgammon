@@ -161,7 +161,7 @@ typedef struct
 SGameState* Game_Init();
 
 /**
- * \fn int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SIA_Functions* IA_struct)
+ * \fn int Game_Play(SDisplay* display, EGameMode gameMode, SGame* game, SIA_Functions* IA_struct)
  * \brief Lance la boucle de jeu.
  * \param display Structure d'affichage
  * \param gameMode Mode de jeu
@@ -169,18 +169,18 @@ SGameState* Game_Init();
  * \param IA_struct Tableau de structures contenant les fonctions de l'AI
  *	\return Retourne 1 si quitter / 0 si bon déroulement
  */
-int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SIA_Functions* IA_struct);
+int Game_Play(SDisplay* display, EGameMode gameMode, SGame* game, SIA_Functions* IA_struct);
 
 /**
- * \fn void Game_LaunchDie( SGameState* gameState, SGame* game)
+ * \fn void Game_LaunchDie(SGameState* gameState, SGame* game)
  * \brief Lance les dés et réinitialise le tableau d'état des dés.
  * \param gameState Etat du jeu
  * \param game Informations sur le jeu (noms des joueurs, couleurs des pions des joueurs,...)
  */
-void Game_LaunchDie( SGameState* gameState, SGame* game);
+void Game_LaunchDie(SGameState* gameState, SGame* game);
 
 /**
- * \fn int Game_FirstToPlay( SDisplay* display, EGameMode gameMode, SGame* game, SGameState* gameState)
+ * \fn int Game_FirstToPlay(SDisplay* display, EGameMode gameMode, SGame* game, SGameState* gameState)
  * \brief Détermine quel joueur va commencer la partie par lancement des dés.
  * \param display Structure d'affichage
  * \param gameMode Mode de jeu
@@ -188,92 +188,102 @@ void Game_LaunchDie( SGameState* gameState, SGame* game);
  * \param gameState Etat du jeu
  *	\return Retourne 1 si joueur1 commence / 2 si joueur2 / autre si quitter
  */
-int Game_FirstToPlay( SDisplay* display, EGameMode gameMode, SGame* game, SGameState* gameState);
+int Game_FirstToPlay(SDisplay* display, EGameMode gameMode, SGame* game, SGameState* gameState);
 
 /**
- * \fn SGameState* copyGameState( SGameState* gameState, EPlayer player)
+ * \fn SGameState* copyGameState(SGameState* gameState, EPlayer player)
  * \brief Effectue une copie de l'état du jeu suivant le joueur à qui cette copie est destinée.
  * \param gameState Etat du jeu
  * \param player Joueur à qui est destinée cette copie
  *	\return Retourne une copie de l'état du jeu
  */
-SGameState* copyGameState( SGameState* gameState, EPlayer player);
+SGameState* copyGameState(SGameState* gameState, EPlayer player);
+
+/**
+ * \fn int Game_AcceptDouble(SDisplay* display, EPlayer player, SGame* game)
+ * \brief Demande d'acceptation du double.
+ * \param display Structure d'affichage
+ * \param player Joueur à qui on demande
+ * \param game Informations sur le jeu (noms des joueurs, couleurs des pions des joueurs,...)
+ *	\return Retourne 1 si acceptation, 0 si refus, -1 si quitter
+ */
+int Game_AcceptDouble(SDisplay* display, EPlayer player, SGame* game);
 
 /**************************** FIN SPECIFICATION MOTEUR DE JEU ******************************/
 
 /**************************** SPECIFICATION INTERFACE GRAPHIQUE ******************************/
 
 /**
- * \fn void Display_Init( SDisplay* display, SGame* game)
+ * \fn void Display_Init(SDisplay* display, SGame* game)
  * \brief Initialise la SDL, la structure d'affichage et la structure d'informations sur le jeu.
  * \param display Structure d'affichage
  * \param game Informations sur le jeu (noms des joueurs, couleurs des pions des joueurs,...)
  */
-void Display_Init( SDisplay* display, SGame* game);
+void Display_Init(SDisplay* display, SGame* game);
 
 /**
- * \fn void Display_Exit( SDisplay* display)
+ * \fn void Display_Exit(SDisplay* display)
  * \brief Libère les surfaces utilisées dans la structure d'affichage et quitte la SDL.
  * \param display Structure d'affichage
  */
-void Display_Exit( SDisplay* display);
+void Display_Exit(SDisplay* display);
 
 /**
- * \fn void Display_Checkers( SDisplay* display, SGameState* gameState, SGame* game)
+ * \fn void Display_Checkers(SDisplay* display, SGameState* gameState, SGame* game)
  * \brief Affiche les pions à l'écran.
  * \param display Structure d'affichage
  * \param gameState Etat du jeu
  * \param game Informations sur le jeu (noms des joueurs, couleurs des pions des joueurs,...)
  */
-void Display_Checkers( SDisplay* display, SGameState* gameState, SGame* game);
+void Display_Checkers(SDisplay* display, SGameState* gameState, SGame* game);
 
 /**
- * \fn void Display_Die( SDisplay* display, SGameState* gameState, SGame* game)
+ * \fn void Display_Die(SDisplay* display, SGameState* gameState, SGame* game)
  * \brief Affiche les dés à l'écran.
  * \param display Structure d'affichage
  * \param gameState Etat du jeu
  * \param game Informations sur le jeu (noms des joueurs, couleurs des pions des joueurs,...)
  */
-void Display_Die( SDisplay* display, SGameState* gameState, SGame* game);
+void Display_Die(SDisplay* display, SGameState* gameState, SGame* game);
 
 /**
- * \fn void Display_Score( SDisplay* display, SGameState* gameState, SGame* game);
+ * \fn void Display_Score(SDisplay* display, SGameState* gameState, SGame* game);
  * \brief Affiche les scores à l'écran.
  * \param display Structure d'affichage
  * \param gameState Etat du jeu
  * \param game Informations sur le jeu (noms des joueurs, couleurs des pions des joueurs,...)
  */
-void Display_Score( SDisplay* display, SGameState* gameState, SGame* game);
+void Display_Score(SDisplay* display, SGameState* gameState, SGame* game);
 
 /**
- * \fn void Display_Clear( SDisplay* display)
+ * \fn void Display_Clear(SDisplay* display)
  * \brief Réinitialise l'affichage.
  * \param display Structure d'affichage
  */
-void Display_Clear( SDisplay* display);
+void Display_Clear(SDisplay* display);
 
 /**
- * \fn void Display_CheckerDraw( SDisplay* display, SDL_Rect position, int player, SGame* game)
+ * \fn void Display_CheckerDraw(SDisplay* display, SDL_Rect position, int player, SGame* game)
  * \brief Dessine un pion d'un joueur à une position donnée.
  * \param display Structure d'affichage
  * \param position Position où l'on veut dessiner le pion
  * \param player Joueur possèdant ce pion
  * \param game Informations sur le jeu (noms des joueurs, couleurs des pions des joueurs,...)
  */
-void Display_CheckerDraw( SDisplay* display, SDL_Rect position, int player, SGame* game);
+void Display_CheckerDraw(SDisplay* display, SDL_Rect position, int player, SGame* game);
 
 /**
- * \fn void Display_CheckerMove( SDisplay* display, SGameState* gameState, SMove* move, SGame* game)
+ * \fn void Display_CheckerMove(SDisplay* display, SGameState* gameState, SMove* move, SGame* game)
  * \brief Effectue le déplacement d'un pion suivant un mouvement donné et met à jour l'état du jeu.
  * \param display Structure d'affichage
  * \param gameState Etat du jeu
  * \param move Mouvement à effectuer
  * \param game Informations sur le jeu (noms des joueurs, couleurs des pions des joueurs,...)
  */
-void Display_CheckerMove( SDisplay* display, SGameState* gameState, SMove* move, SGame* game);
+void Display_CheckerMove(SDisplay* display, SGameState* gameState, SMove* move, SGame* game);
 
 /**
- * \fn int Display_Message( SDisplay* display, char* message, SDL_Rect position, SDL_Color color, int box, int clic)
+ * \fn int Display_Message(SDisplay* display, char* message, SDL_Rect position, SDL_Color color, int box, int clic)
  * \brief Affiche un message à l'écran.
  * \param display Structure d'affichage
  * \param message Message à afficher
@@ -282,10 +292,10 @@ void Display_CheckerMove( SDisplay* display, SGameState* gameState, SMove* move,
  * \param box Présence ou non d'un cadre autour du message
  * \return Retourne 1 si quitter / 0 sinon
  */
-int Display_Message( SDisplay* display, char* message, SDL_Rect position, SDL_Color color, int box, int clic);
+int Display_Message(SDisplay* display, char* message, SDL_Rect position, SDL_Color color, int box, int clic);
 
 /**
- * \fn int* Display_Arrow_Possibilities( SDisplay* display, SGameState* gameState, EPlayer player, EPosition depart, SGame* game)
+ * \fn int* Display_Arrow_Possibilities(SDisplay* display, SGameState* gameState, EPlayer player, EPosition depart, SGame* game)
  * \brief Determine en fonction du pion d'un joueur les flèches qui sont possibles à atteindre.
  * \param display Structure d'affichage
  * \param gameState Etat du jeu
@@ -294,18 +304,18 @@ int Display_Message( SDisplay* display, char* message, SDL_Rect position, SDL_Co
  * \param game Informations sur le jeu (noms des joueurs, couleurs des pions des joueurs,...)
  *	\return Retourne un tableau contenant le numéro des flèches possibles à atteindre
  */
-int* Display_Arrow_Possibilities( SDisplay* display, SGameState* gameState, EPlayer player, EPosition depart, SGame* game);
+int* Display_Arrow_Possibilities(SDisplay* display, SGameState* gameState, EPlayer player, EPosition depart, SGame* game);
 
 /**
- * \fn void Display_DrawSelectedArrow( SDisplay* display, EPosition pos)
+ * \fn void Display_DrawSelectedArrow(SDisplay* display, EPosition pos)
  * \brief Colorie la flèche à la position pos en bleu.
  * \param display Structure d'affichage
  * \param pos Le numéro de la flèche à colorer
  */
-void Display_DrawSelectedArrow( SDisplay* display, EPosition pos);
+void Display_DrawSelectedArrow(SDisplay* display, EPosition pos);
 
 /**
- * \fn int Display_CheckersPossibilities( SDisplay* display, SGameState* gameState, EPlayer player, SGame* game)
+ * \fn int Display_CheckersPossibilities(SDisplay* display, SGameState* gameState, EPlayer player, SGame* game)
  * \brief Affiche à l'écran les pions qui peuvent être déplacé suivant l'état du jeu et le joueur courant.
  * \param display Structure d'affichage
  * \param gameState Etat du jeu
@@ -313,123 +323,131 @@ void Display_DrawSelectedArrow( SDisplay* display, EPosition pos);
  * \param game Informations sur le jeu (noms des joueurs, couleurs des pions des joueurs,...)
  *	\return Retourne 1 si quitter / 0 sinon
  */
-int Display_CheckersPossibilities( SDisplay* display, SGameState* gameState, EPlayer player, SGame* game);
+int Display_CheckersPossibilities(SDisplay* display, SGameState* gameState, EPlayer player, SGame* game);
 
 /**
- * \fn int CheckerWithScreenPosition( int x, int y, EPosition* pos)
+ * \fn int CheckerWithScreenPosition(int x, int y, EPosition* pos)
  * \brief Donne la position en fonction d'un clic sur le jeu dans le poiteur de EPosition pos.
  * \param x Position en abscisse
  * \param y Position en ordonnée
  * \param pos Position sur laquelle on veut savoir si on a cliqué dessus
  *	\return int Retourne Vrai si position trouve, faux sinon
  */
-int CheckerWithScreenPosition( int x, int y, EPosition* pos);
+int CheckerWithScreenPosition(int x, int y, EPosition* pos);
 
 /**
- * \fn void colorChecker( SDisplay* display, SGameState* gameState, EPosition pos)
+ * \fn void colorChecker(SDisplay* display, SGameState* gameState, EPosition pos)
  * \brief Colorie le dernier pion d'une flèche donnée.
  * \param display Structure d'affichage
  * \param gameState Etat du jeu
  * \param pos Position de la flèche sur lequel on veut colorier le dernier pion
  */
-void colorChecker( SDisplay* display, SGameState* gameState, EPosition pos);
+void colorChecker(SDisplay* display, SGameState* gameState, EPosition pos);
 
 /**
- * \fn void Display_RefreshGameBoard( SDisplay* display, SGameState* gameState, SGame* game)
- * \brief Raffraichit l'affichage du plateau de jeu( pions, dés et videau).
+ * \fn void Display_RefreshGameBoard(SDisplay* display, SGameState* gameState, SGame* game)
+ * \brief Raffraichit l'affichage du plateau de jeu(pions, dés et videau).
  * \param display Structure d'affichage
  * \param gameState Etat du jeu
  * \param game Informations sur le jeu (noms des joueurs, couleurs des pions des joueurs,...)
  */
-void Display_RefreshGameBoard( SDisplay* display, SGameState* gameState, SGame* game);
+void Display_RefreshGameBoard(SDisplay* display, SGameState* gameState, SGame* game);
 
 /**
- * \fn int inTab( EPosition p, int* tab)
+ * \fn int inTab(EPosition p, int* tab)
  * \brief Détermine si la position p est dans le tableau tab.
  * \param p Position recherchée
  * \param tab Tableau dans lequel on cherche
  * \return Retourne vrai si position trouvée, faux sinon
  */
-int inTab( EPosition p, int* tab);
+int inTab(EPosition p, int* tab);
 
 /**
- * \fn void Display_DrawOut( SDisplay* display, SGameState* gameState, SGame* game)
+ * \fn void Display_DrawOut(SDisplay* display, SGameState* gameState, SGame* game)
  * \brief Affiche les pions présents dans les zones de sorties.
  * \param display Structure d'affichage
  * \param gameState Etat du jeu
  * \param game Informations sur le jeu (noms des joueurs, couleurs des pions des joueurs,...)
  */
-void Display_DrawOut( SDisplay* display, SGameState* gameState, SGame* game);
+void Display_DrawOut(SDisplay* display, SGameState* gameState, SGame* game);
 
 /**
- * \fn void Display_DrawBar( SDisplay* display, SGameState* gameState, SGame* game)
+ * \fn void Display_DrawBar(SDisplay* display, SGameState* gameState, SGame* game)
  * \brief Affiche les pions présents dans les barres (prisonniers).
  * \param display Structure d'affichage
  * \param gameState Etat du jeu
  * \param game Informations sur le jeu (noms des joueurs, couleurs des pions des joueurs,...)
  */
-void Display_DrawBar( SDisplay* display, SGameState* gameState, SGame* game);
+void Display_DrawBar(SDisplay* display, SGameState* gameState, SGame* game);
 
 /**
- * \fn int Display_GameActions( SDisplay* display, SGameState* gameState, SGame* game)
- * \brief Affiche à l'écran les actions de jeu possibles ( doubler la mise, lancer les dés).
+ * \fn int Display_GameActions(SDisplay *display, SGameState* gameState, SGame *game, EPlayer player)
+ * \brief Affiche à l'écran les actions de jeu possibles (doubler la mise, lancer les dés).
  * \param display Structure d'affichage
  * \param gameState Etat du jeu
  * \param game Informations sur le jeu (noms des joueurs, couleurs des pions des joueurs,...)
+ * \param player Joueur courant
+ * \return Retourne 1 si quitter, 0 sinon
  */
-int Display_GameActions( SDisplay* display, SGameState* gameState, SGame* game);
+int Display_GameActions(SDisplay *display, SGameState* gameState, SGame *game, EPlayer player);
 
-
+/**
+ * \fn void Display_Double(SDisplay* display, SGame* game)
+ * \brief Affiche le videau
+ * \param display Structure d'affichage
+ * \param game Informations sur le jeu (noms des joueurs, couleurs des pions des joueurs,...)
+ */
+void Display_Double(SDisplay* display, SGame* game);
 /**************************** FIN SPECIFICATION INTERFACE GRAPHIQUE ******************************/
 
 
 /**************************** SPECIFICATION LE MENU ******************************/
 
 /**
- * \fn void Menu_Fill( SDisplay* display, EGameMode gameMode, SGame* game);
+ * \fn void Menu_Fill(SDisplay* display, EGameMode gameMode, SGame* game);
  * \brief Remplis le menu avec les options correspondants au mode de jeu.
  * \param display Structure d'affichage
  * \param gameMode Mode de jeu
  * \param game Informations sur le jeu (noms des joueurs, couleurs des pions des joueurs,...)
  */
-void Menu_Fill( SDisplay* display, EGameMode gameMode, SGame* game);
+void Menu_Fill(SDisplay* display, EGameMode gameMode, SGame* game);
 
 /**
- * \fn void Menu_TextInput( char* name, SDL_keysym key)
+ * \fn void Menu_TextInput(char* name, SDL_keysym key)
  * \brief Ajoute à une chaine de caractère un caractère obtenu par l'événement SDL_KEYUP.
  * \param name Chaine de caractère à modifier
  * \param key Symbole qui a été tapé au clavier
  */
-void Menu_TextInput( char* name, SDL_keysym key);
+void Menu_TextInput(char* name, SDL_keysym key);
 
 /**
- * \fn void Menu_Text( SDisplay* display, char* message, SDL_Rect position, SDL_Color color)
+ * \fn void Menu_Text(SDisplay* display, char* message, SDL_Rect position, SDL_Color color)
  * \brief Affiche un texte à une certaine position d'une certaine couleur.
  * \param display Structure d'affichage
  * \param message Message à afficher
  * \param position Position à laquelle on veut afficher le message
  * \param color Couleur dans laquelle on veut afficher le message
  */
-void Menu_Text( SDisplay* display, char* message, SDL_Rect position, SDL_Color color);
+void Menu_Text(SDisplay* display, char* message, SDL_Rect position, SDL_Color color);
 
 /**
- * \fn int Menu_Click( int x, int y)
+ * \fn int Menu_Click(int x, int y)
  * \brief Renvoie le code de l'élément cliqué sur le menu.
  * \param x Abscisse de la position du clic de souris
  * \param y Ordonnée de la position du clic de souris
  * \return Retourne code de l'élément cliqué, -1 si ne correspond à aucun élément du menu
  */
-int Menu_Click( int x, int y);
+int Menu_Click(int x, int y);
 
 /**
- * \fn int Menu_Display( SDisplay* display, EGameMode gameMode, SGame* game)
+ * \fn int Menu_Display(SDisplay* display, EGameMode gameMode, SGame* game)
  * \brief Affiche le menu.
  * \param display Structure d'affichage
  * \param gameMode Mode de jeu
  * \param game Informations sur le jeu (noms des joueurs, couleurs des pions des joueurs,...)
  * \return Retourne 0 si jouer, 1 si quitter
  */
-int Menu_Display( SDisplay* display, EGameMode gameMode, SGame* game);
+int Menu_Display(SDisplay* display, EGameMode gameMode, SGame* game);
 
 /**************************** FIN SPECIFICATION MENU ******************************/
 
@@ -443,38 +461,38 @@ int Menu_Display( SDisplay* display, EGameMode gameMode, SGame* game);
 SIA_Functions* Init_SAI();
 
 /**
- * \fn void Free_SAI( SIA_Functions* IA_struct)
+ * \fn void Free_SAI(SIA_Functions* IA_struct)
  * \brief Libère une structure SIA.
  * \param IA_struct Structure à libérer
  */
-void Free_SAI( SIA_Functions* IA_struct);
+void Free_SAI(SIA_Functions* IA_struct);
 
 /**
- * \fn int Load_API( char* path, SIA_Functions* IA_struct, int ind)
+ * \fn int Load_API(char* path, SIA_Functions* IA_struct, int ind)
  * \brief Charge la librairie passé en paramètre et initialise la structure IA.
  * \param path Chemin de la librairie à charger
  * \param IA_struct Structure à initialiser avec la librairie
  * \param ind Indice de la structure SIA
  * \return Retourne 1 si chargement effectué, 0 si erreur de chargement
  */
-int Load_API( char* path, SIA_Functions* IA_struct, int ind);
+int Load_API(char* path, SIA_Functions* IA_struct, int ind);
 
 /**
- * \fn EGameMode Check_Args( int argc, char** argv, SIA_Functions* IA_struct)
+ * \fn EGameMode Check_Args(int argc, char** argv, SIA_Functions* IA_struct)
  * \brief Parse les arguments et détermine ainsi le mode de jeu et les SIA à utiliser.
  * \param argc Nombre d'arguments
  * \param argv Liste des arguments
  * \param IA_struct Tableau de deux structures SIA
  * \return Retourne le mode de jeu
  */
-EGameMode Check_Args( int argc, char** argv, SIA_Functions* IA_struct);
+EGameMode Check_Args(int argc, char** argv, SIA_Functions* IA_struct);
 
 /**************************** FIN SPECIFICATION LIBRAIRIES ******************************/
 
 /**************************** SPECIFICATION ARBITRE ******************************/
 
 /**
- * \fn int Arbitrator_AuthorizedDeplacement( SGameState* gameState, SMove* move, EPlayer player, SGame* game)
+ * \fn int Arbitrator_AuthorizedDeplacement(SGameState* gameState, SMove* move, EPlayer player, SGame* game)
  * \brief Analyse la validité d'un mouvement.
  * \param gameState Etat du jeu
  * \param move Mouvement à analyser
@@ -482,19 +500,19 @@ EGameMode Check_Args( int argc, char** argv, SIA_Functions* IA_struct);
  * \param game Informations sur le jeu (noms des joueurs, couleurs des pions des joueurs,...)
  * \return Retourne vrai si le mouvement est autorisé, faux sinon.
  */
-int Arbitrator_AuthorizedDeplacement( SGameState* gameState, SMove* move, EPlayer player, SGame* game);
+int Arbitrator_AuthorizedDeplacement(SGameState* gameState, SMove* move, EPlayer player, SGame* game);
 
 /**
- * \fn int Arbitrator_PlayerArrays( SZone zone, EPlayer player)
+ * \fn int Arbitrator_PlayerArrays(SZone zone, EPlayer player)
  * \brief Détermine si une flèche est possédée par un joueur donné.
  * \param zone Flèche à analyser
  * \param player Joueur supposé détenir la flèche
  * \return Retourne vrai si la flèche est possédée par le joueur, faux sinon.
  */
-int Arbitrator_PlayerArrays( SZone zone, EPlayer player);
+int Arbitrator_PlayerArrays(SZone zone, EPlayer player);
 
 /**
- * \fn int Arbitrator_Case_Appartenant_Joueur_Adverse_Avec_Un_Pion()
+ * \fn int Arbitrator_Case_Appartenant_Joueur_Adverse_Avec_Un_Pion( SZone zone, EPlayer player)
  * \brief 
  * \param zone
  * \param player
@@ -503,15 +521,15 @@ int Arbitrator_PlayerArrays( SZone zone, EPlayer player);
 int Arbitrator_Case_Appartenant_Joueur_Adverse_Avec_Un_Pion( SZone zone, EPlayer player);
 
 /**
- * \fn int Arbitrator_EmptyPosition( SZone zone)
+ * \fn int Arbitrator_EmptyPosition(SZone zone)
  * \brief Détermine si une flèche est vide (sans pions).
  * \param zone Flèche à analyser
  * \return Retourne vrai si la flèche est vide, faux sinon.
  */
-int Arbitrator_EmptyPosition( SZone zone);
+int Arbitrator_EmptyPosition(SZone zone);
 
 /**
- * \fn unsigned int get_distance( EPosition depart, EPosition arrivee)
+ * \fn unsigned int get_distance(EPosition depart, EPosition arrivee)
  * \brief Détermine la distance entre une position de départ et une d'arrivée.
  * \param depart Position de départ
  * \param arrivee Position d'arrivee
@@ -519,18 +537,19 @@ int Arbitrator_EmptyPosition( SZone zone);
  */
 unsigned int Arbitrator_Get_Distance(EPosition depart, EPosition arrivee);
 
+
 /**
- * \fn int Arbitrator_Sens_rotation_correct( EPlayer player, EPosition depart, EPosition arrivee)
+ * \fn int Arbitrator_Sens_rotation_correct(EPlayer player, EPosition depart, EPosition arrivee)
  * \brief Détermine si le sens d'un mouvement est correct.
  * \param player Joueur faisant le mouvement
  * \param depart Position de départ
  * \param arrivee Position d'arrivee
  * \return Retourne vrai si le sens est correct, faux sinon.S
  */
-int Arbitrator_Sens_rotation_correct( EPlayer player, EPosition depart, EPosition arrivee);
+int Arbitrator_Sens_rotation_correct(EPlayer player, EPosition depart, EPosition arrivee);
 
 /**
- * \fn int Arbitrator_Pion_Depart_Autorise( int x, int y, EPlayer player, SGameState* game, EPosition posDepart)
+ * \fn int Arbitrator_Pion_Depart_Autorise(int x, int y, EPlayer player, SGameState* game, EPosition posDepart)
  * \brief Détermine si le joueur donné a cliqué sur une zone contenant un pion déplaçable par ce joueur.
  * \brief x Abscisse de la position du clic
  * \brief y Ordonnée de la position du clic
@@ -539,58 +558,78 @@ int Arbitrator_Sens_rotation_correct( EPlayer player, EPosition depart, EPositio
  * \param depart Position de départ
  * \return Retourne vrai si le joueur a cliqué sur une zone contenant un pion déplacable, faux sinon.
  */
-int Arbitrator_Pion_Depart_Autorise( int x, int y, EPlayer player, SGameState* game, EPosition posDepart);
+int Arbitrator_Pion_Depart_Autorise(int x, int y, EPlayer player, SGameState* game, EPosition posDepart);
 
 
 /**
- * \fn int Arbitrator_Taille_Mouvement_Correcte( unsigned int taille_mouvement, SGame* game, SGameState* gameState)
+ * \fn int Arbitrator_NumberOfDieForMove(SGameState* game, EPlayer player, SMove move)
+ * \brief Détermine le nombre de dés utilisés pour faire un mouvement.
+ * \param gameState Etat du jeu
+ * \param player Joueur voulant effectuer ce mouvement
+ * \param move Mouvement à analyser
+ * \return Retourne le nombre de dés utilisés
+ */
+int Arbitrator_NumberOfDieForMove(SGameState* game, EPlayer player, SMove move);
+
+/**
+ * \fn int Arbitrator_NumberOfDieCanPlay(SGameState* gameState, EPlayer player)
+ * \brief Détermine le nombre de dés qui peuvent être joués dans la partie (utile si le joueur est bloqué par exemple).
+ * \param gameState Etat du jeu
+ * \param player Joueur à analyser
+ * \return Retourne le nombre de dés pouvant être joués
+ */
+int Arbitrator_NumberOfDieCanPlay(SGameState* gameState, EPlayer player); // A IMPLEMENTER
+
+
+/**
+ * \fn int Arbitrator_Taille_Mouvement_Correcte(unsigned int taille_mouvement, SGame* game, SGameState* gameState)
  * \brief Détermine si le mouvement correspond à un des dés encore jouable.
  * \param taille_mouvement Taille du mouvement (Distance)
  * \param game Informations sur le jeu (noms des joueurs, couleurs des pions des joueurs,...)
  * \param gameState Etat du jeu
  * \return Retourne vrai si correspondance, faux sinon.
  */
-int Arbitrator_Taille_Mouvement_Correcte( unsigned int taille_mouvement, SGame* game, SGameState* gameState);
+int Arbitrator_Taille_Mouvement_Correcte(unsigned int taille_mouvement, SGame* game, SGameState* gameState);
 
 /*Retourne 1 si le joueur peut encore jouer dans le tour, 0 sinon*/
 /**
- * \fn int Player_Can_Play()
+ * \fn int Arbitrator_Player_Can_Play(SGameState *gameState, SGame *game, EPlayer player)
  * \brief Détermine si le joueur peut encore jouer dans le tour.
- * \param SGameState* gameState Etat du jeu
- * \param SGame* game Informations sur le jeu (noms des joueurs, couleurs des pions des joueurs,...)
- * \param EPlayer player Joueur à analyser
- * \return int Retourne vrai si un mouvement est encore possible, faux sinon.
+ * \param gameState Etat du jeu
+ * \param game Informations sur le jeu (noms des joueurs, couleurs des pions des joueurs,...)
+ * \param player Joueur à analyser
+ * \return Retourne vrai si un mouvement est encore possible, faux sinon.
  */
 int Arbitrator_Player_Can_Play(SGameState *gameState, SGame *game, EPlayer player);
 
 /*Retourne 1 si la zone est accessible au player*/
 /**
- * \fn int Arbitrator_Zone_Accessible()
+ * \fn int Arbitrator_Zone_Accessible(SGameState *gameState, EPlayer player, EPosition pos)
  * \brief Détermine si la case est accessible pour un joueur donné.
- * \param SGameState* gameState Etat du jeu
- * \param EPlayer player Joueur à analyser
- * \param EPosition pos position de destination
- * \return int Retourne vrai si case accessible, faux sinon.
+ * \param gameState Etat du jeu
+ * \param player Joueur à analyser
+ * \param pos position de destination
+ * \return Retourne vrai si case accessible, faux sinon.
  */
 int Arbitrator_Zone_Accessible(SGameState *gameState, EPlayer player, EPosition pos);
 
 /*Retourne le nombre de pions prisonniers pour un joueur donné*/
 /**
- * \fn int Arbitrator_Nb_Pion_Prison()
+ * \fn int Arbitrator_Nb_Pion_Prison(SGameState* game, EPlayer player)
  * \brief Retourne le nombre de pion prisonniers pour un joueur donné.
- * \param SGameState* gameState Etat du jeu
- * \param EPlayer player Joueur à analyser
- * \return int Nombre de pions prisonniers.
+ * \param gameState Etat du jeu
+ * \param player Joueur à analyser
+ * \return Nombre de pions prisonniers.
  */
 int Arbitrator_Nb_Pion_Prison(SGameState* game, EPlayer player);
 
 /*Retourne 1 si le joueur peut deplacer des pions dans le OUT*/
 /**
- * \fn int Arbitrator_Jeu_Out_Possible()
+ * \fn int Arbitrator_Jeu_Out_Possible(SGameState* game, EPlayer player)
  * \brief Détermine si un joueur peut envoyer des pions dans la zone OUT.
- * \param SGameState* gameState Etat du jeu
- * \param EPlayer player Joueur à analyser
- * \return int Retourne vrai si le joueur peut jouer en OUT, faux sinon.
+ * \param gameState Etat du jeu
+ * \param player Joueur à analyser
+ * \return Retourne vrai si le joueur peut jouer en OUT, faux sinon.
  */
 int Arbitrator_Jeu_Out_Possible(SGameState* game, EPlayer player);
 /**************************** FIN SPECIFICATION ARBITRE ******************************/
