@@ -1,3 +1,11 @@
+/**
+ * \file main.c
+ * \brief Contient le programme principal.
+ * \author Alexandre BISIAUX et Antonin BIRET
+ * \date 26 janvier 2012
+ *
+ */
+
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -29,11 +37,11 @@ int main(int argc, char **argv)
 			break;
 		case HUMAN_IA :
 			sprintf(game.player1_name,"Joueur");
-			sprintf(game.player2_name,"Ordinateur");
+			sprintf(game.player2_name,"%s",argv[1]);
 			break;
 		case IA_IA :
-			sprintf(game.player1_name,"Ordinateur1");
-			sprintf(game.player2_name,"Ordinateur2");
+			sprintf(game.player1_name,"%s",argv[1]);
+			sprintf(game.player2_name,"%s",argv[2]);
 			break;
 		default :
 			fprintf(stderr, "Les consignes d'utilisations du jeu sont definies dans le README.\n");

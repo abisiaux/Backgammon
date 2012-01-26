@@ -1,3 +1,11 @@
+/**
+ * \file game.c
+ * \brief Contient les fonctions du moteur de jeu.
+ * \author Alexandre BISIAUX et Antonin BIRET
+ * \date 26 janvier 2012
+ *
+ */
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
@@ -13,9 +21,6 @@ SGameState* Game_Init()
 	int i;
 	
 	game = (SGameState*)malloc(sizeof(SGameState));
-	
-	game->score = 0;
-	game->scoreP2 = 0;
 	
 	game->die1 = 0;
 	game->die2 = 0;
@@ -44,6 +49,12 @@ SGameState* Game_Init()
 	
 	
 	return game;
+}
+
+void initScore(SGameState* gameState)
+{
+	gameState->score = 0;
+	gameState->scoreP2 = 0;
 }
 
 int Game_FirstToPlay( SDisplay* display, EGameMode gameMode, SGame* game, SGameState *gameState)
@@ -250,7 +261,7 @@ int Game_AcceptDouble(SDisplay* display, EPlayer player, SGame* game)
 						Display_Message(display,tmp,msg_position,msg_color,1,0);
 						return 1;
 					}
-					if(event.button.x>=500 && event.button.x<=535 && event.button.y>=330 && event.button.y<=415) // Si clic sur non
+					if(event.button.x>=510 && event.button.x<=535 && event.button.y>=330 && event.button.y<=415) // Si clic sur non
 					{
 						printf("Clic non\n");
 						return 0;
@@ -267,6 +278,8 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SIA_Functions
 	
 	SGameState *gameState;
 	gameState = Game_Init(); /* Initialisation de la partie */
+	initScore(gameState);
+	
 	int i=0;
 	EPlayer curentP;
 	int action,accept;
@@ -304,6 +317,7 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SIA_Functions
 		(*ia_struct[1].IA_StartMatch)(game->scoreLimit);
 	}
 	int nbTour = 0;
+	Display_Clear(display);
 	
 	while( gameState->score < game->scoreLimit && gameState->scoreP2 < game->scoreLimit && !quit ) // Boucle de jeu
 	{
@@ -323,10 +337,8 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SIA_Functions
 		
 		SDL_WaitEvent(&event);
 
-		Display_Clear(display);
-		Display_RefreshGameBoard(display, gameState, game); // PLANTE AU SECOND TOUR
-		Display_Score(display,gameState,game);
 		
+		Display_Score(display,gameState,game);
 		Display_RefreshGameBoard(display, gameState, game); // PLANTE AU SECOND TOUR
 		printf("Match %d\n",nbTour);
 		SDL_Flip(display->screen);
@@ -495,13 +507,15 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SIA_Functions
 		}
 		if(winner == EPlayer1)
 		{
-			printf("%s gagne\n", game->player1_name);
 			sprintf( tmp, "%s gagne la manche !", game->player1_name);
+			gameState->score = gameState->score + 1;
+			printf("%s gagne SCORE = %d\n", game->player1_name,gameState->score);
 		}
 		else
 		{
-			printf("%s gagne\n", game->player2_name);
 			sprintf( tmp, "%s gagne la manche !", game->player2_name);
+			gameState->scoreP2 = gameState->scoreP2 + 1;
+			printf("%s gagne SCORE = %d\n", game->player2_name,gameState->scoreP2);
 		}
 		finish = 0;
 			

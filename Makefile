@@ -1,6 +1,4 @@
 #Makefile Backgammon
-# crée le 20/12/11 à 18h52 par Bibiz
-# à modifier avec l'ajout de la librairie
 
 # Définition des variables
 CC=gcc

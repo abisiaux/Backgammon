@@ -1,3 +1,10 @@
+/**
+ * \file arbitrator.c
+ * \brief Contient les fonctions de l'arbitre.
+ * \author Alexandre BISIAUX et Antonin BIRET
+ * \date 26 janvier 2012
+ *
+ */
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>

@@ -1,3 +1,11 @@
+/**
+ * \file gui.c
+ * \brief Contient les fonctions d'affichage.
+ * \author Alexandre BISIAUX et Antonin BIRET
+ * \date 26 janvier 2012
+ *
+ */
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -365,7 +373,7 @@ void Display_RefreshGameBoard(SDisplay *display, SGameState *gameState, SGame *g
 	
 	SDL_Flip(display->screen);
 }
-
+/*
 void calculateScore(SGameState *gameState)
 {
 	int i;
@@ -386,7 +394,7 @@ void calculateScore(SGameState *gameState)
 	printf("SCORE P1=%d SCORE P2=%d\n",scoreP1,scoreP2);
 	gameState->score = scoreP1;
 	gameState->scoreP2 = scoreP2;
-}
+}*/
 void Display_Score(SDisplay *display, SGameState *gameState, SGame* game)
 {
 	SDL_Rect pos;
@@ -414,7 +422,7 @@ void Display_Score(SDisplay *display, SGameState *gameState, SGame* game)
 	free(scoreP1);
 	free(scoreP2);
 	SDL_FreeSurface(erase);
-	calculateScore(gameState);
+	//calculateScore(gameState);
 }
 
 
