@@ -3,8 +3,6 @@
  * \brief Contient les signatures des fonctions et les différentes structures communes à la promotion.
  * \date 26 janvier 2012
  *
- *	Contient les signatures des fonctions et les différentes structures communes à la promotion.
- *
  */
 
 #ifndef BACKGAMMON_H

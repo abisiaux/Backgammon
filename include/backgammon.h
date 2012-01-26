@@ -91,19 +91,11 @@ EPosition dest_point;
 // Les prototypes en commentaires sont à implémenter dans la librairie
 // Les types pointeur de fonction dans l'application
 
-/**
- * \fn void InitLibrary()
- * \brief Initialiser la librairie
- * \param char name[50] Nom associé à la librairie
- */
+
 //void InitLibrary(char name[50]);
 typedef void (*pfInitLibrary)(char[50]);
 
-/**
- * \fn void StartMatch()
- * Initialiser l'IA pour un match
- * \param const unsigned int target_score Score cible pour gagner un match
- */
+
 //void StartMatch(const unsigned int target_score);
 typedef void (*pfStartMatch)(const unsigned int);
 
