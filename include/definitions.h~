@@ -176,7 +176,7 @@ int* Display_Arrow_Possibilities(SDisplay *display, SGameState *gameState, EPlay
 void Draw_Selected_Arrow(SDisplay *display, EPosition pos);
 
 //void Display_Possibilities(SDisplay *display, SGameState *gameState, EPlayer player); // A MODIFIER
-int Display_CheckersPossibilities(SDisplay *display, SGameState *gameState, EPlayer player, SGame *game, int Die_For_Play[7]);
+int Display_CheckersPossibilities(SDisplay *display, SGameState *gameState, EPlayer player, SGame *game);
 
 /*Donne la position en fonction d'un clic sur le jeu dans le poiteur de EPosition pos
 	Retourne Vrai si position trouve, faux sinon.*/
@@ -195,8 +195,8 @@ int inTab(EPosition p,int* tab);
 void Display_DrawOut(SDisplay *display, SGameState *gameState, SGame *game);
 void Display_DrawBar(SDisplay *display, SGameState *gameState, SGame *game);
 
-/* TEST*/
-int makeChoice(SDisplay *display, SGameState *gameState, SGame *game, int mat[28][28], EPlayer player);
+int Display_GameActions(SDisplay *display, SGameState* gameState, SGame *game);
+
 
 /**************************** FIN DEFINITIONS POUR L'INTERFACE GRAPHIQUE ******************************/
 
@@ -234,11 +234,11 @@ EGameMode Check_Args( int argc, char** argv, SAI_Functions* ai_struct);
 
 /**************************** DEFINITIONS POUR L'ARBITRE ******************************/
 
-int authorized_deplacement(SGameState* game, SMove *move, EPlayer player,int Die_For_Play[7]);
+int authorized_deplacement(SGameState* gameState, SMove *move, EPlayer player, SGame* game);
 int case_appartenant_au_joueur(SZone zone, EPlayer player);
 int case_appartenant_joueur_adverse_avec_un_pion(SZone zone, EPlayer player);
 int position_vide(SZone zone);
-unsigned int get_distance(EPosition depart, EPosition arrivee, EPlayer player);
+unsigned int get_distance(EPosition depart, EPosition arrivee);
 int sens_rotation_correct(EPlayer joueur, EPosition depart, EPosition arrivee);
 
 /*retourne vrai si le joueur a cliqué sur une zone contenant un pion déplacable*/
@@ -249,7 +249,7 @@ int numberOfDieForMove(SGameState* game, EPlayer player, SMove move);
 int numberOfDieCanPlay(SGameState* game, EPlayer player); // A IMPLEMENTER
 
 /*Retourne 1 si le mouvement correspond à un des dés encore jouable, 0 sinon*/
-int Taille_Mouvement_Correcte(unsigned int taille_mouvement, int Die_For_Play[7] );
+int Taille_Mouvement_Correcte(unsigned int taille_mouvement, SGame *game, SGameState *gameState);
 /**************************** FIN DEFINITIONS POUR L'ARBITRE ******************************/
 #endif
 

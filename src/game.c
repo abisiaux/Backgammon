@@ -206,7 +206,7 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 	
 	SGameState *gameState;
 	gameState = Game_Init(); /* Initialisation de la partie */
-	
+	int i=0;
 	EPlayer curentP;
 	
 	char* tmp = (char*)malloc(100*sizeof(char));
@@ -364,6 +364,12 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 						Display_RefreshGameBoard(display, gameState, game);
 						/* DEROULEMENT JEU AI */
 						/* DEMANDER DOUBLE PUIS MOUVEMENT*/
+						(*ai_struct[0].AI_MakeDecision)(copyGameState(gameState,EPlayer1), mvmt_ia, lastTimeError); // PENSER A ENVOYER COPIE DU GAMESTATE
+						for(i=0;i<4;i++)
+						{
+							//if(mvmt_ia[i] != NULL)
+							//Checker_Move(display, gameState, &mvmt_ia[i], game);
+						}
 						curentP = EPlayer1;
 					}
 					break;
@@ -442,4 +448,37 @@ void Game_LaunchDie(SGameState *gameState, SGame *game)
 		for(i=0;i<4;i++) game->die_To_Play[i]=1;
 	}
 }
-		
+
+SGameState* copyGameState(SGameState* gameState, EPlayer player)
+{
+	SGameState *toReturn = (SGameState*)malloc(sizeof(SGameState));
+	int i =0;
+	if(player == EPlayer1)
+	{
+		for(i=0;i<28;i++)
+		{
+			toReturn->zones[i].nb_checkers = gameState->zones[i].nb_checkers;
+			toReturn->zones[i].player = gameState->zones[i].player;
+		}
+	}
+	else
+	{
+		for(i=0;i<24;i++)
+		{
+			toReturn->zones[i].nb_checkers = gameState->zones[23-i].nb_checkers;
+			toReturn->zones[i].player = gameState->zones[23-i].player;
+		}
+		toReturn->zones[24] = gameState->zones[26];
+		toReturn->zones[25] = gameState->zones[27];
+		toReturn->zones[26] = gameState->zones[24];
+		toReturn->zones[27] = gameState->zones[25];
+	}
+	toReturn->die1 = gameState->die1;
+	toReturn->die2 = gameState->die2;
+	toReturn->score = gameState->score;
+	toReturn->scoreP2 = gameState->scoreP2;
+	toReturn->stake = gameState->stake;
+	
+	return toReturn;
+}
+

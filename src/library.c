@@ -45,20 +45,20 @@ void Free_SAI( SAI_Functions* ai_struct)
 
 int Load_API( char* path, SAI_Functions* ai_struct, int ind)
 {
-	if((ai_struct[ind].AI_Handle = dlopen(path,RTLD_LAZY)) == NULL)
+	if((ai_struct[ind].AI_Handle = dlopen("../lib/libSimon.so",RTLD_LAZY)) == NULL)
 	{
 		fprintf(stderr, "Erreur lors du chargement de l'API\nInformations sur l'erreur :\n%s\n\n",dlerror());
 		return 0;
 	}
 	
-	 if ((ai_struct[ind].AI_InitLibrary = (pfInitLibrary)dlsym(ai_struct[ind].AI_Handle, "InitLibrary")) == NULL) return 0;
-    if ((ai_struct[ind].AI_StartMatch = (pfStartMatch)dlsym(ai_struct[ind].AI_Handle, "StartMatch")) == NULL) return 0;
-    if ((ai_struct[ind].AI_StartGame = (pfStartGame)dlsym(ai_struct[ind].AI_Handle, "StartGame")) == NULL) return 0;
-    if ((ai_struct[ind].AI_EndGame = (pfEndGame)dlsym(ai_struct[ind].AI_Handle, "EndGame")) == NULL) return 0;
-    if ((ai_struct[ind].AI_EndMatch = (pfEndMatch)dlsym(ai_struct[ind].AI_Handle, "EndMatch")) == NULL) return 0;
-    if ((ai_struct[ind].AI_DoubleStack = (pfDoubleStack)dlsym(ai_struct[ind].AI_Handle, "DoubleStack")) == NULL) return 0;
-    if ((ai_struct[ind].AI_TakeDouble = (pfTakeDouble)dlsym(ai_struct[ind].AI_Handle, "TakeDouble")) == NULL) return 0;
-    if ((ai_struct[ind].AI_MakeDecision = (pfMakeDecision)dlsym(ai_struct[ind].AI_Handle, "MakeDecision")) == NULL) return 0;
+	if ((ai_struct[ind].AI_InitLibrary = (pfInitLibrary)dlsym(ai_struct[ind].AI_Handle, "InitLibrary")) == NULL) return 0;
+	if ((ai_struct[ind].AI_StartMatch = (pfStartMatch)dlsym(ai_struct[ind].AI_Handle, "StartMatch")) == NULL) return 0;
+	if ((ai_struct[ind].AI_StartGame = (pfStartGame)dlsym(ai_struct[ind].AI_Handle, "StartGame")) == NULL) return 0;
+	if ((ai_struct[ind].AI_EndGame = (pfEndGame)dlsym(ai_struct[ind].AI_Handle, "EndGame")) == NULL) return 0;
+	//if ((ai_struct[ind].AI_EndMatch = (pfEndMatch)dlsym(ai_struct[ind].AI_Handle, "EndMatch")) == NULL) return 0;
+	//if ((ai_struct[ind].AI_DoubleStack = (pfDoubleStack)dlsym(ai_struct[ind].AI_Handle, "DoubleStack")) == NULL) return 0;
+	//if ((ai_struct[ind].AI_TakeDouble = (pfTakeDouble)dlsym(ai_struct[ind].AI_Handle, "TakeDouble")) == NULL) return 0;
+	if ((ai_struct[ind].AI_MakeDecision = (pfMakeDecision)dlsym(ai_struct[ind].AI_Handle, "MakeDecision")) == NULL) return 0;
 
     return 1;
 }

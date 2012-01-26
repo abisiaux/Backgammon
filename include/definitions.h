@@ -134,6 +134,8 @@ void Game_LaunchDie(SGameState *gameState, SGame *game);
 
 int Game_FirstToPlay( SDisplay* display, EGameMode gameMode, SGame* game, SGameState *gameState);
 
+SGameState* copyGameState(SGameState* gameState, EPlayer player);
+
 /**************************** FIN DEFINITIONS POUR LE MOTEUR DE JEU ******************************/
 
 /**************************** DEFINITIONS POUR L'INTERFACE GRAPHIQUE ******************************/
