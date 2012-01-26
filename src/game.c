@@ -364,11 +364,12 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 						Display_RefreshGameBoard(display, gameState, game);
 						/* DEROULEMENT JEU AI */
 						/* DEMANDER DOUBLE PUIS MOUVEMENT*/
-						(*ai_struct[0].AI_MakeDecision)(copyGameState(gameState,EPlayer1), mvmt_ia, lastTimeError); // PENSER A ENVOYER COPIE DU GAMESTATE
+						(*ai_struct[0].AI_MakeDecision)(copyGameState(gameState,curentP), mvmt_ia, lastTimeError); 
 						for(i=0;i<4;i++)
 						{
 							if(mvmt_ia[i].src_point != EPos_nopos && mvmt_ia[i].dest_point != EPos_nopos)
-								Checker_Move(display, gameState, &mvmt_ia[i], game);
+								//if(authorized_deplacement(gameState, mvmt_ia, curentP, game))
+									Checker_Move(display, gameState, &mvmt_ia[i], game);
 						}
 						curentP = EPlayer1;
 					}
