@@ -199,7 +199,16 @@ int Game_FirstToPlay( SDisplay* display, EGameMode gameMode, SGame* game, SGameS
 	free(tmp);
 	return -1;
 }
-			
+
+void initMvmt_ia(SMove mvmt_ia[4])
+{
+	int i=0;
+	for(i=0;i<4;i++)
+	{
+		mvmt_ia[i].src_point = EPos_nopos;
+		mvmt_ia[i].dest_point = EPos_nopos;
+	}
+}			
 		
 int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions* ai_struct)
 {
@@ -220,6 +229,7 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 	int Die_For_Play[7]={0,1,1,1,1,1,1}; // Nb dés à utiliser dans le tour ex : {0,1,0,0,1,0,0} Dés encore à jouer : 1 et 4
 	/** DECLARATIONS IA **/
 	SMove mvmt_ia[4]; // Tableau de mouvement a fournir à l'IA
+
 	unsigned int lastTimeError=0; // 
 	
 	
@@ -364,12 +374,24 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 						Display_RefreshGameBoard(display, gameState, game);
 						/* DEROULEMENT JEU AI */
 						/* DEMANDER DOUBLE PUIS MOUVEMENT*/
+						
+						for(i=0;i<4;i++)
+						{
+							mvmt_ia[i].src_point = EPos_nopos;
+							mvmt_ia[i].dest_point = EPos_nopos;
+						}
+						
 						(*ai_struct[0].AI_MakeDecision)(copyGameState(gameState,curentP), mvmt_ia, lastTimeError); 
 						for(i=0;i<4;i++)
 						{
 							if(mvmt_ia[i].src_point != EPos_nopos && mvmt_ia[i].dest_point != EPos_nopos)
+							{
+								printf("AI JOUE src = %d dest = %d\n",mvmt_ia[i].src_point + 1,mvmt_ia[i].dest_point + 1);
+								mvmt_ia[i].src_point += 1;
+								mvmt_ia[i].dest_point += 1;
 								if(authorized_deplacement(gameState, mvmt_ia, curentP, game))
 									Checker_Move(display, gameState, &mvmt_ia[i], game);
+							}
 						}
 						curentP = EPlayer1;
 					}
