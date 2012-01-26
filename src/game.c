@@ -304,11 +304,13 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SIA_Functions
 		(*ia_struct[1].IA_StartMatch)(game->scoreLimit);
 	}
 	int nbTour = 0;
+	
 	while( gameState->score < game->scoreLimit && gameState->scoreP2 < game->scoreLimit && !quit ) // Boucle de jeu
 	{
 		nbTour++;
 		gameState = Game_Init(); /* Initialisation de la partie */
-	
+		Display_Score(display,gameState,game);
+		
 		if(gameMode == HUMAN_IA)
 		{
 			(*ia_struct[0].IA_StartGame)();
@@ -322,6 +324,7 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SIA_Functions
 		SDL_WaitEvent(&event);
 
 		Display_Clear(display);
+		Display_RefreshGameBoard(display, gameState, game); // PLANTE AU SECOND TOUR
 		Display_Score(display,gameState,game);
 		
 		Display_RefreshGameBoard(display, gameState, game); // PLANTE AU SECOND TOUR

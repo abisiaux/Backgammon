@@ -358,7 +358,7 @@ void Display_RefreshGameBoard(SDisplay *display, SGameState *gameState, SGame *g
 	Display_DrawBar(display, gameState, game);
 	
 	// Raffraichissement des dés
-	Display_Die(display,gameState, game);
+	//Display_Die(display,gameState, game);
 	
 	// Affichage du videau
 	Display_Double(display, game);
@@ -366,13 +366,38 @@ void Display_RefreshGameBoard(SDisplay *display, SGameState *gameState, SGame *g
 	SDL_Flip(display->screen);
 }
 
+void calculateScore(SGameState *gameState)
+{
+	int i;
+	int scoreP1 = 0;
+	int scoreP2 = 0;
+	// Calcul du score du joueur 1
+	for(i=0;i<24;i++)
+	{
+		if(gameState->zones[i].player == EPlayer1)
+			scoreP1 += gameState->zones[i].nb_checkers*i;
+	}
+	// Calcul du score du joueur 2
+	for(i=0;i<24;i++)
+	{
+		if(gameState->zones[i].player == EPlayer2)
+			scoreP2 += gameState->zones[i].nb_checkers*i;
+	}
+	printf("SCORE P1=%d SCORE P2=%d\n",scoreP1,scoreP2);
+	gameState->score = scoreP1;
+	gameState->scoreP2 = scoreP2;
+}
 void Display_Score(SDisplay *display, SGameState *gameState, SGame* game)
 {
 	SDL_Rect pos;
+	SDL_Surface *erase = SDL_CreateRGBSurface(SDL_HWSURFACE, 250, 100, 32, 0, 0, 0, 0);
+	pos.x = 108; pos.y = 40;
+	SDL_BlitSurface(erase, NULL,display->screen,&pos);
 	char *scoreP1 = (char*)malloc(3*(sizeof(char)));
 	char *scoreP2 = (char*)malloc(3*(sizeof(char)));
 	SDL_Color c = {255, 255, 255, 0};
 	
+
 	sprintf(scoreP1, "%d", gameState->score);
 	sprintf(scoreP2, "%d", gameState->scoreP2);
 	
@@ -388,6 +413,8 @@ void Display_Score(SDisplay *display, SGameState *gameState, SGame* game)
 	
 	free(scoreP1);
 	free(scoreP2);
+	SDL_FreeSurface(erase);
+	calculateScore(gameState);
 }
 
 
@@ -745,8 +772,8 @@ void Display_CheckerMove(SDisplay *display, SGameState* gameState, SMove *move, 
 					break;	
 			}
 		}
-	}	
-	
+	}
+	Display_Score(display,gameState,game); // On met à jour le score
 }
 
 int CheckerWithScreenPosition(int x, int y, EPosition *pos)
@@ -1158,6 +1185,7 @@ int Display_GameActions(SDisplay *display, SGameState* gameState, SGame *game, E
 						{
 							game->doubleValue *= 2;
 							Display_Double(display, game);
+							SDL_Flip(display->screen);
 						}
 					}
 					if((event.button.x>=630 && event.button.x<=790 && event.button.y>=250 && event.button.y<=295) ) // Lancer
