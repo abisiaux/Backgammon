@@ -1,0 +1,211 @@
+\begin{theindex}
+
+  \item {Arbitrator\_\discretionary {-}{}{}AuthorizedDeplacement}
+    \subitem {definitions.h}, \hyperpage{17}
+  \item {Arbitrator\_\discretionary {-}{}{}EmptyPosition}
+    \subitem {definitions.h}, \hyperpage{17}
+  \item {Arbitrator\_\discretionary {-}{}{}NumberOfDieCanPlay}
+    \subitem {definitions.h}, \hyperpage{17}
+  \item {Arbitrator\_\discretionary {-}{}{}NumberOfDieForMove}
+    \subitem {definitions.h}, \hyperpage{18}
+  \item {Arbitrator\_\discretionary {-}{}{}Pion\_\discretionary {-}{}{}Depart\_\discretionary {-}{}{}Autorise}
+    \subitem {definitions.h}, \hyperpage{18}
+  \item {Arbitrator\_\discretionary {-}{}{}PlayerArrays}
+    \subitem {definitions.h}, \hyperpage{18}
+  \item {Arbitrator\_\discretionary {-}{}{}Sens\_\discretionary {-}{}{}rotation\_\discretionary {-}{}{}correct}
+    \subitem {definitions.h}, \hyperpage{19}
+  \item {Arbitrator\_\discretionary {-}{}{}Taille\_\discretionary {-}{}{}Mouvement\_\discretionary {-}{}{}Correcte}
+    \subitem {definitions.h}, \hyperpage{19}
+
+  \indexspace
+
+  \item {backgammon.h}, \hyperpage{11}
+    \subitem {pfDoubleStack}, \hyperpage{12}
+    \subitem {pfEndGame}, \hyperpage{12}
+    \subitem {pfEndMatch}, \hyperpage{12}
+    \subitem {pfMakeDecision}, \hyperpage{12}
+    \subitem {pfStartGame}, \hyperpage{13}
+    \subitem {pfTakeDouble}, \hyperpage{13}
+
+  \indexspace
+
+  \item {case\_\discretionary {-}{}{}appartenant\_\discretionary {-}{}{}joueur\_\discretionary {-}{}{}adverse\_\discretionary {-}{}{}avec\_\discretionary {-}{}{}un\_\discretionary {-}{}{}pion}
+    \subitem {definitions.h}, \hyperpage{19}
+  \item {Check\_\discretionary {-}{}{}Args}
+    \subitem {definitions.h}, \hyperpage{20}
+  \item {CheckerWithScreenPosition}
+    \subitem {definitions.h}, \hyperpage{20}
+  \item {colorChecker}
+    \subitem {definitions.h}, \hyperpage{20}
+  \item {copyGameState}
+    \subitem {definitions.h}, \hyperpage{20}
+
+  \indexspace
+
+  \item {definitions.h}, \hyperpage{13}
+    \subitem {Arbitrator\_\discretionary {-}{}{}AuthorizedDeplacement}, 
+		\hyperpage{17}
+    \subitem {Arbitrator\_\discretionary {-}{}{}EmptyPosition}, 
+		\hyperpage{17}
+    \subitem {Arbitrator\_\discretionary {-}{}{}NumberOfDieCanPlay}, 
+		\hyperpage{17}
+    \subitem {Arbitrator\_\discretionary {-}{}{}NumberOfDieForMove}, 
+		\hyperpage{18}
+    \subitem {Arbitrator\_\discretionary {-}{}{}Pion\_\discretionary {-}{}{}Depart\_\discretionary {-}{}{}Autorise}, 
+		\hyperpage{18}
+    \subitem {Arbitrator\_\discretionary {-}{}{}PlayerArrays}, 
+		\hyperpage{18}
+    \subitem {Arbitrator\_\discretionary {-}{}{}Sens\_\discretionary {-}{}{}rotation\_\discretionary {-}{}{}correct}, 
+		\hyperpage{19}
+    \subitem {Arbitrator\_\discretionary {-}{}{}Taille\_\discretionary {-}{}{}Mouvement\_\discretionary {-}{}{}Correcte}, 
+		\hyperpage{19}
+    \subitem {case\_\discretionary {-}{}{}appartenant\_\discretionary {-}{}{}joueur\_\discretionary {-}{}{}adverse\_\discretionary {-}{}{}avec\_\discretionary {-}{}{}un\_\discretionary {-}{}{}pion}, 
+		\hyperpage{19}
+    \subitem {Check\_\discretionary {-}{}{}Args}, \hyperpage{20}
+    \subitem {CheckerWithScreenPosition}, \hyperpage{20}
+    \subitem {colorChecker}, \hyperpage{20}
+    \subitem {copyGameState}, \hyperpage{20}
+    \subitem {Display\_\discretionary {-}{}{}Arrow\_\discretionary {-}{}{}Possibilities}, 
+		\hyperpage{21}
+    \subitem {Display\_\discretionary {-}{}{}CheckerDraw}, 
+		\hyperpage{21}
+    \subitem {Display\_\discretionary {-}{}{}CheckerMove}, 
+		\hyperpage{21}
+    \subitem {Display\_\discretionary {-}{}{}Checkers}, \hyperpage{22}
+    \subitem {Display\_\discretionary {-}{}{}CheckersPossibilities}, 
+		\hyperpage{22}
+    \subitem {Display\_\discretionary {-}{}{}Clear}, \hyperpage{22}
+    \subitem {Display\_\discretionary {-}{}{}Die}, \hyperpage{22}
+    \subitem {Display\_\discretionary {-}{}{}DrawBar}, \hyperpage{23}
+    \subitem {Display\_\discretionary {-}{}{}DrawOut}, \hyperpage{23}
+    \subitem {Display\_\discretionary {-}{}{}DrawSelectedArrow}, 
+		\hyperpage{23}
+    \subitem {Display\_\discretionary {-}{}{}Exit}, \hyperpage{23}
+    \subitem {Display\_\discretionary {-}{}{}GameActions}, 
+		\hyperpage{24}
+    \subitem {Display\_\discretionary {-}{}{}Init}, \hyperpage{24}
+    \subitem {Display\_\discretionary {-}{}{}Message}, \hyperpage{24}
+    \subitem {Display\_\discretionary {-}{}{}RefreshGameBoard}, 
+		\hyperpage{24}
+    \subitem {Display\_\discretionary {-}{}{}Score}, \hyperpage{25}
+    \subitem {EGameMode}, \hyperpage{17}
+    \subitem {Free\_\discretionary {-}{}{}SAI}, \hyperpage{25}
+    \subitem {Game\_\discretionary {-}{}{}FirstToPlay}, \hyperpage{25}
+    \subitem {Game\_\discretionary {-}{}{}Init}, \hyperpage{26}
+    \subitem {Game\_\discretionary {-}{}{}LaunchDie}, \hyperpage{26}
+    \subitem {Game\_\discretionary {-}{}{}Play}, \hyperpage{26}
+    \subitem {get\_\discretionary {-}{}{}distance}, \hyperpage{26}
+    \subitem {Init\_\discretionary {-}{}{}SAI}, \hyperpage{27}
+    \subitem {inTab}, \hyperpage{27}
+    \subitem {Load\_\discretionary {-}{}{}API}, \hyperpage{27}
+    \subitem {Menu\_\discretionary {-}{}{}Click}, \hyperpage{27}
+    \subitem {Menu\_\discretionary {-}{}{}Display}, \hyperpage{28}
+    \subitem {Menu\_\discretionary {-}{}{}Fill}, \hyperpage{28}
+    \subitem {Menu\_\discretionary {-}{}{}Text}, \hyperpage{28}
+    \subitem {Menu\_\discretionary {-}{}{}TextInput}, \hyperpage{28}
+  \item {Display\_\discretionary {-}{}{}Arrow\_\discretionary {-}{}{}Possibilities}
+    \subitem {definitions.h}, \hyperpage{21}
+  \item {Display\_\discretionary {-}{}{}CheckerDraw}
+    \subitem {definitions.h}, \hyperpage{21}
+  \item {Display\_\discretionary {-}{}{}CheckerMove}
+    \subitem {definitions.h}, \hyperpage{21}
+  \item {Display\_\discretionary {-}{}{}Checkers}
+    \subitem {definitions.h}, \hyperpage{22}
+  \item {Display\_\discretionary {-}{}{}CheckersPossibilities}
+    \subitem {definitions.h}, \hyperpage{22}
+  \item {Display\_\discretionary {-}{}{}Clear}
+    \subitem {definitions.h}, \hyperpage{22}
+  \item {Display\_\discretionary {-}{}{}Die}
+    \subitem {definitions.h}, \hyperpage{22}
+  \item {Display\_\discretionary {-}{}{}DrawBar}
+    \subitem {definitions.h}, \hyperpage{23}
+  \item {Display\_\discretionary {-}{}{}DrawOut}
+    \subitem {definitions.h}, \hyperpage{23}
+  \item {Display\_\discretionary {-}{}{}DrawSelectedArrow}
+    \subitem {definitions.h}, \hyperpage{23}
+  \item {Display\_\discretionary {-}{}{}Exit}
+    \subitem {definitions.h}, \hyperpage{23}
+  \item {Display\_\discretionary {-}{}{}GameActions}
+    \subitem {definitions.h}, \hyperpage{24}
+  \item {Display\_\discretionary {-}{}{}Init}
+    \subitem {definitions.h}, \hyperpage{24}
+  \item {Display\_\discretionary {-}{}{}Message}
+    \subitem {definitions.h}, \hyperpage{24}
+  \item {Display\_\discretionary {-}{}{}RefreshGameBoard}
+    \subitem {definitions.h}, \hyperpage{24}
+  \item {Display\_\discretionary {-}{}{}Score}
+    \subitem {definitions.h}, \hyperpage{25}
+
+  \indexspace
+
+  \item {EGameMode}
+    \subitem {definitions.h}, \hyperpage{17}
+
+  \indexspace
+
+  \item {Free\_\discretionary {-}{}{}SAI}
+    \subitem {definitions.h}, \hyperpage{25}
+
+  \indexspace
+
+  \item {Game\_\discretionary {-}{}{}FirstToPlay}
+    \subitem {definitions.h}, \hyperpage{25}
+  \item {Game\_\discretionary {-}{}{}Init}
+    \subitem {definitions.h}, \hyperpage{26}
+  \item {Game\_\discretionary {-}{}{}LaunchDie}
+    \subitem {definitions.h}, \hyperpage{26}
+  \item {Game\_\discretionary {-}{}{}Play}
+    \subitem {definitions.h}, \hyperpage{26}
+  \item {get\_\discretionary {-}{}{}distance}
+    \subitem {definitions.h}, \hyperpage{26}
+
+  \indexspace
+
+  \item {Init\_\discretionary {-}{}{}SAI}
+    \subitem {definitions.h}, \hyperpage{27}
+  \item {inTab}
+    \subitem {definitions.h}, \hyperpage{27}
+
+  \indexspace
+
+  \item {Load\_\discretionary {-}{}{}API}
+    \subitem {definitions.h}, \hyperpage{27}
+
+  \indexspace
+
+  \item {Menu\_\discretionary {-}{}{}Click}
+    \subitem {definitions.h}, \hyperpage{27}
+  \item {Menu\_\discretionary {-}{}{}Display}
+    \subitem {definitions.h}, \hyperpage{28}
+  \item {Menu\_\discretionary {-}{}{}Fill}
+    \subitem {definitions.h}, \hyperpage{28}
+  \item {Menu\_\discretionary {-}{}{}Text}
+    \subitem {definitions.h}, \hyperpage{28}
+  \item {Menu\_\discretionary {-}{}{}TextInput}
+    \subitem {definitions.h}, \hyperpage{28}
+
+  \indexspace
+
+  \item {pfDoubleStack}
+    \subitem {backgammon.h}, \hyperpage{12}
+  \item {pfEndGame}
+    \subitem {backgammon.h}, \hyperpage{12}
+  \item {pfEndMatch}
+    \subitem {backgammon.h}, \hyperpage{12}
+  \item {pfMakeDecision}
+    \subitem {backgammon.h}, \hyperpage{12}
+  \item {pfStartGame}
+    \subitem {backgammon.h}, \hyperpage{13}
+  \item {pfTakeDouble}
+    \subitem {backgammon.h}, \hyperpage{13}
+
+  \indexspace
+
+  \item {SDisplay}, \hyperpage{5}
+  \item {SGame}, \hyperpage{6}
+  \item {SGameState}, \hyperpage{7}
+  \item {SIA\_\discretionary {-}{}{}Functions}, \hyperpage{7}
+  \item {SMove}, \hyperpage{8}
+  \item {SZone}, \hyperpage{8}
+
+\end{theindex}

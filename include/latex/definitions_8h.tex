@@ -1,0 +1,1213 @@
+\hypertarget{definitions_8h}{
+\section{definitions.h File Reference}
+\label{definitions_8h}\index{definitions.h@{definitions.h}}
+}
+
+
+Contient les signatures des fonctions et les différentes structures.  
+
+
+{\ttfamily \#include \char`\"{}backgammon.h\char`\"{}}\par
+{\ttfamily \#include $<$SDL/SDL.h$>$}\par
+{\ttfamily \#include $<$SDL/SDL\_\-ttf.h$>$}\par
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structSGame}{SGame}
+\begin{DoxyCompactList}\small\item\em Structure contenant les informations du jeu. \end{DoxyCompactList}\item 
+struct \hyperlink{structSDisplay}{SDisplay}
+\begin{DoxyCompactList}\small\item\em Structure d'affichage. \end{DoxyCompactList}\item 
+struct \hyperlink{structSIA__Functions}{SIA\_\-Functions}
+\begin{DoxyCompactList}\small\item\em Structure des fonctions de l'IA. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Defines}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{definitions_8h_a87b537f5fa5c109d3c05c13d6b18f382}{
+\#define {\bfseries WHITE}~1}
+\label{definitions_8h_a87b537f5fa5c109d3c05c13d6b18f382}
+
+\item 
+\hypertarget{definitions_8h_acfbc006ea433ad708fdee3e82996e721}{
+\#define {\bfseries GREEN}~0}
+\label{definitions_8h_acfbc006ea433ad708fdee3e82996e721}
+
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{definitions_8h_afbba7561dbe9f9afe5efd361cff9b496}{EGameMode} \{ {\bfseries HUMAN\_\-HUMAN}, 
+{\bfseries HUMAN\_\-IA}, 
+{\bfseries IA\_\-IA}, 
+{\bfseries ERROR} = -\/1
+ \}
+\begin{DoxyCompactList}\small\item\em Enumération des modes de jeu. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structSGameState}{SGameState} $\ast$ \hyperlink{definitions_8h_a48859f4f5201dec75f20cc9b3d26a196}{Game\_\-Init} ()
+\begin{DoxyCompactList}\small\item\em Fonction qui permet d'initialiser l'état du jeu (disposition des jetons au début de la partie). \end{DoxyCompactList}\item 
+int \hyperlink{definitions_8h_ae0ba808f86fa6ddc2799d3073640543b}{Game\_\-Play} (\hyperlink{structSDisplay}{SDisplay} $\ast$display, \hyperlink{definitions_8h_afbba7561dbe9f9afe5efd361cff9b496}{EGameMode} gameMode, \hyperlink{structSGame}{SGame} $\ast$game, \hyperlink{structSIA__Functions}{SIA\_\-Functions} $\ast$IA\_\-struct)
+\begin{DoxyCompactList}\small\item\em Lance la boucle de jeu. \end{DoxyCompactList}\item 
+void \hyperlink{definitions_8h_a3e231e47a02a2be17c23de949c91baff}{Game\_\-LaunchDie} (\hyperlink{structSGameState}{SGameState} $\ast$gameState, \hyperlink{structSGame}{SGame} $\ast$game)
+\begin{DoxyCompactList}\small\item\em Lance les dés et réinitialise le tableau d'état des dés. \end{DoxyCompactList}\item 
+int \hyperlink{definitions_8h_aeeaf9244b982d8ad4ac1298eb2a96210}{Game\_\-FirstToPlay} (\hyperlink{structSDisplay}{SDisplay} $\ast$display, \hyperlink{definitions_8h_afbba7561dbe9f9afe5efd361cff9b496}{EGameMode} gameMode, \hyperlink{structSGame}{SGame} $\ast$game, \hyperlink{structSGameState}{SGameState} $\ast$gameState)
+\begin{DoxyCompactList}\small\item\em Détermine quel joueur va commencer la partie par lancement des dés. \end{DoxyCompactList}\item 
+\hyperlink{structSGameState}{SGameState} $\ast$ \hyperlink{definitions_8h_a972039d93c3c3f63462487344b4cba55}{copyGameState} (\hyperlink{structSGameState}{SGameState} $\ast$gameState, \hyperlink{backgammon_8h_a30ddbd351c82b617f2a84ae629bd981b}{EPlayer} player)
+\begin{DoxyCompactList}\small\item\em Effectue une copie de l'état du jeu suivant le joueur à qui cette copie est destinée. \end{DoxyCompactList}\item 
+void \hyperlink{definitions_8h_a1292490ab3ee9bf7a089ce982120f2cd}{Display\_\-Init} (\hyperlink{structSDisplay}{SDisplay} $\ast$display, \hyperlink{structSGame}{SGame} $\ast$game)
+\begin{DoxyCompactList}\small\item\em Initialise la SDL, la structure d'affichage et la structure d'informations sur le jeu. \end{DoxyCompactList}\item 
+void \hyperlink{definitions_8h_a6bb2fd2eeabcf4453318a3c598bbe495}{Display\_\-Exit} (\hyperlink{structSDisplay}{SDisplay} $\ast$display)
+\begin{DoxyCompactList}\small\item\em Libère les surfaces utilisées dans la structure d'affichage et quitte la SDL. \end{DoxyCompactList}\item 
+void \hyperlink{definitions_8h_ab6760975f58e69b9f3a4737815cd8579}{Display\_\-Checkers} (\hyperlink{structSDisplay}{SDisplay} $\ast$display, \hyperlink{structSGameState}{SGameState} $\ast$gameState, \hyperlink{structSGame}{SGame} $\ast$game)
+\begin{DoxyCompactList}\small\item\em Affiche les pions à l'écran. \end{DoxyCompactList}\item 
+void \hyperlink{definitions_8h_a5e2480329b4b8c3085fb429f0688d7ef}{Display\_\-Die} (\hyperlink{structSDisplay}{SDisplay} $\ast$display, \hyperlink{structSGameState}{SGameState} $\ast$gameState, \hyperlink{structSGame}{SGame} $\ast$game)
+\begin{DoxyCompactList}\small\item\em Affiche les dés à l'écran. \end{DoxyCompactList}\item 
+void \hyperlink{definitions_8h_a8b73e117126ac6098446120ea4691249}{Display\_\-Score} (\hyperlink{structSDisplay}{SDisplay} $\ast$display, \hyperlink{structSGameState}{SGameState} $\ast$gameState, \hyperlink{structSGame}{SGame} $\ast$game)
+\begin{DoxyCompactList}\small\item\em Affiche les scores à l'écran. \end{DoxyCompactList}\item 
+void \hyperlink{definitions_8h_a8ce54e218fb04c38a3a61abef921fcdd}{Display\_\-Clear} (\hyperlink{structSDisplay}{SDisplay} $\ast$display)
+\begin{DoxyCompactList}\small\item\em Réinitialise l'affichage. \end{DoxyCompactList}\item 
+void \hyperlink{definitions_8h_a84f25e99fe1c7a0d4d4da011428aa579}{Display\_\-CheckerDraw} (\hyperlink{structSDisplay}{SDisplay} $\ast$display, SDL\_\-Rect position, int player, \hyperlink{structSGame}{SGame} $\ast$game)
+\begin{DoxyCompactList}\small\item\em Dessine un pion d'un joueur à une position donnée. \end{DoxyCompactList}\item 
+void \hyperlink{definitions_8h_ae6a9fe610c86dcac76053e92a66b887d}{Display\_\-CheckerMove} (\hyperlink{structSDisplay}{SDisplay} $\ast$display, \hyperlink{structSGameState}{SGameState} $\ast$gameState, \hyperlink{structSMove}{SMove} $\ast$move, \hyperlink{structSGame}{SGame} $\ast$game)
+\begin{DoxyCompactList}\small\item\em Effectue le déplacement d'un pion suivant un mouvement donné et met à jour l'état du jeu. \end{DoxyCompactList}\item 
+int \hyperlink{definitions_8h_a5a4d36fc342b7900e779cdcaa0fea780}{Display\_\-Message} (\hyperlink{structSDisplay}{SDisplay} $\ast$display, char $\ast$message, SDL\_\-Rect position, SDL\_\-Color color, int box, int clic)
+\begin{DoxyCompactList}\small\item\em Affiche un message à l'écran. \end{DoxyCompactList}\item 
+int $\ast$ \hyperlink{definitions_8h_a6a287727dfb0c2a7cb7edf7916f85445}{Display\_\-Arrow\_\-Possibilities} (\hyperlink{structSDisplay}{SDisplay} $\ast$display, \hyperlink{structSGameState}{SGameState} $\ast$gameState, \hyperlink{backgammon_8h_a30ddbd351c82b617f2a84ae629bd981b}{EPlayer} player, \hyperlink{backgammon_8h_a9247f6215e9419cfc6a8a7e914f2520d}{EPosition} depart, \hyperlink{structSGame}{SGame} $\ast$game)
+\begin{DoxyCompactList}\small\item\em Determine en fonction du pion d'un joueur les flèches qui sont possibles à atteindre. \end{DoxyCompactList}\item 
+void \hyperlink{definitions_8h_a868004c3b8ce3b57c22b0733a46c287e}{Display\_\-DrawSelectedArrow} (\hyperlink{structSDisplay}{SDisplay} $\ast$display, \hyperlink{backgammon_8h_a9247f6215e9419cfc6a8a7e914f2520d}{EPosition} pos)
+\begin{DoxyCompactList}\small\item\em Colorie la flèche à la position pos en bleu. \end{DoxyCompactList}\item 
+int \hyperlink{definitions_8h_a266e224142ea27bfaf3be1b57c7e42aa}{Display\_\-CheckersPossibilities} (\hyperlink{structSDisplay}{SDisplay} $\ast$display, \hyperlink{structSGameState}{SGameState} $\ast$gameState, \hyperlink{backgammon_8h_a30ddbd351c82b617f2a84ae629bd981b}{EPlayer} player, \hyperlink{structSGame}{SGame} $\ast$game)
+\begin{DoxyCompactList}\small\item\em Affiche à l'écran les pions qui peuvent être déplacé suivant l'état du jeu et le joueur courant. \end{DoxyCompactList}\item 
+int \hyperlink{definitions_8h_a8ebc9f2d8d49446849b5dd7d042e5d27}{CheckerWithScreenPosition} (int x, int y, \hyperlink{backgammon_8h_a9247f6215e9419cfc6a8a7e914f2520d}{EPosition} $\ast$pos)
+\begin{DoxyCompactList}\small\item\em Donne la position en fonction d'un clic sur le jeu dans le poiteur de EPosition pos. \end{DoxyCompactList}\item 
+void \hyperlink{definitions_8h_a40c4c3e963568393dc24b4c75ae8755e}{colorChecker} (\hyperlink{structSDisplay}{SDisplay} $\ast$display, \hyperlink{structSGameState}{SGameState} $\ast$gameState, \hyperlink{backgammon_8h_a9247f6215e9419cfc6a8a7e914f2520d}{EPosition} pos)
+\begin{DoxyCompactList}\small\item\em Colorie le dernier pion d'une flèche donnée. \end{DoxyCompactList}\item 
+void \hyperlink{definitions_8h_a5e43befe99bdb4ce9d7601e6af348e21}{Display\_\-RefreshGameBoard} (\hyperlink{structSDisplay}{SDisplay} $\ast$display, \hyperlink{structSGameState}{SGameState} $\ast$gameState, \hyperlink{structSGame}{SGame} $\ast$game)
+\begin{DoxyCompactList}\small\item\em Raffraichit l'affichage du plateau de jeu( pions, dés et videau). \end{DoxyCompactList}\item 
+int \hyperlink{definitions_8h_a48c20b4c902732157cfee1b2942024de}{inTab} (\hyperlink{backgammon_8h_a9247f6215e9419cfc6a8a7e914f2520d}{EPosition} p, int $\ast$tab)
+\begin{DoxyCompactList}\small\item\em Détermine si la position p est dans le tableau tab. \end{DoxyCompactList}\item 
+void \hyperlink{definitions_8h_ae18b8f9af299df190e0fa4527fdaf6e6}{Display\_\-DrawOut} (\hyperlink{structSDisplay}{SDisplay} $\ast$display, \hyperlink{structSGameState}{SGameState} $\ast$gameState, \hyperlink{structSGame}{SGame} $\ast$game)
+\begin{DoxyCompactList}\small\item\em Affiche les pions présents dans les zones de sorties. \end{DoxyCompactList}\item 
+void \hyperlink{definitions_8h_a2086642c6f833ae17c1a310b50314ecd}{Display\_\-DrawBar} (\hyperlink{structSDisplay}{SDisplay} $\ast$display, \hyperlink{structSGameState}{SGameState} $\ast$gameState, \hyperlink{structSGame}{SGame} $\ast$game)
+\begin{DoxyCompactList}\small\item\em Affiche les pions présents dans les barres (prisonniers). \end{DoxyCompactList}\item 
+int \hyperlink{definitions_8h_ad6d861194d59aa8d3c6d38dc280872ad}{Display\_\-GameActions} (\hyperlink{structSDisplay}{SDisplay} $\ast$display, \hyperlink{structSGameState}{SGameState} $\ast$gameState, \hyperlink{structSGame}{SGame} $\ast$game)
+\begin{DoxyCompactList}\small\item\em Affiche à l'écran les actions de jeu possibles ( doubler la mise, lancer les dés). \end{DoxyCompactList}\item 
+void \hyperlink{definitions_8h_abc7f727ee43eff11085f6d7b06b7e97f}{Menu\_\-Fill} (\hyperlink{structSDisplay}{SDisplay} $\ast$display, \hyperlink{definitions_8h_afbba7561dbe9f9afe5efd361cff9b496}{EGameMode} gameMode, \hyperlink{structSGame}{SGame} $\ast$game)
+\begin{DoxyCompactList}\small\item\em Remplis le menu avec les options correspondants au mode de jeu. \end{DoxyCompactList}\item 
+void \hyperlink{definitions_8h_a4d2cb84c66f0078c3d272c2bec8e4695}{Menu\_\-TextInput} (char $\ast$name, SDL\_\-keysym key)
+\begin{DoxyCompactList}\small\item\em Ajoute à une chaine de caractère un caractère obtenu par l'événement SDL\_\-KEYUP. \end{DoxyCompactList}\item 
+void \hyperlink{definitions_8h_a828671a92def541c27c2bc7511136989}{Menu\_\-Text} (\hyperlink{structSDisplay}{SDisplay} $\ast$display, char $\ast$message, SDL\_\-Rect position, SDL\_\-Color color)
+\begin{DoxyCompactList}\small\item\em Affiche un texte à une certaine position d'une certaine couleur. \end{DoxyCompactList}\item 
+int \hyperlink{definitions_8h_ab4adcf732c21c2a2c9fe82a7f172a4d6}{Menu\_\-Click} (int x, int y)
+\begin{DoxyCompactList}\small\item\em Renvoie le code de l'élément cliqué sur le menu. \end{DoxyCompactList}\item 
+int \hyperlink{definitions_8h_acdc2f6f5accb1213aef6917256e44e73}{Menu\_\-Display} (\hyperlink{structSDisplay}{SDisplay} $\ast$display, \hyperlink{definitions_8h_afbba7561dbe9f9afe5efd361cff9b496}{EGameMode} gameMode, \hyperlink{structSGame}{SGame} $\ast$game)
+\begin{DoxyCompactList}\small\item\em Affiche le menu. \end{DoxyCompactList}\item 
+\hyperlink{structSIA__Functions}{SIA\_\-Functions} $\ast$ \hyperlink{definitions_8h_a1d8e95aa672e5215010bfed9c744a901}{Init\_\-SAI} ()
+\begin{DoxyCompactList}\small\item\em Retourne une structure de fonctions de l'IA initialisée. \end{DoxyCompactList}\item 
+void \hyperlink{definitions_8h_aa5d3202dc8dd422ae6ad1c5a90d16711}{Free\_\-SAI} (\hyperlink{structSIA__Functions}{SIA\_\-Functions} $\ast$IA\_\-struct)
+\begin{DoxyCompactList}\small\item\em Libère une structure SIA. \end{DoxyCompactList}\item 
+int \hyperlink{definitions_8h_af70a7e0cb18924f28a6aa38b16c3ba8c}{Load\_\-API} (char $\ast$path, \hyperlink{structSIA__Functions}{SIA\_\-Functions} $\ast$IA\_\-struct, int ind)
+\begin{DoxyCompactList}\small\item\em Charge la librairie passé en paramètre et initialise la structure IA. \end{DoxyCompactList}\item 
+\hyperlink{definitions_8h_afbba7561dbe9f9afe5efd361cff9b496}{EGameMode} \hyperlink{definitions_8h_a1384cb9251c9e0de6224926c16592930}{Check\_\-Args} (int argc, char $\ast$$\ast$argv, \hyperlink{structSIA__Functions}{SIA\_\-Functions} $\ast$IA\_\-struct)
+\begin{DoxyCompactList}\small\item\em Parse les arguments et détermine ainsi le mode de jeu et les SIA à utiliser. \end{DoxyCompactList}\item 
+int \hyperlink{definitions_8h_a5af2d51a864970f556ee0083922bcdcb}{Arbitrator\_\-AuthorizedDeplacement} (\hyperlink{structSGameState}{SGameState} $\ast$gameState, \hyperlink{structSMove}{SMove} $\ast$move, \hyperlink{backgammon_8h_a30ddbd351c82b617f2a84ae629bd981b}{EPlayer} player, \hyperlink{structSGame}{SGame} $\ast$game)
+\begin{DoxyCompactList}\small\item\em Analyse la validité d'un mouvement. \end{DoxyCompactList}\item 
+int \hyperlink{definitions_8h_a5e8cce91cf589a360bbe0b9c926a493a}{Arbitrator\_\-PlayerArrays} (\hyperlink{structSZone}{SZone} zone, \hyperlink{backgammon_8h_a30ddbd351c82b617f2a84ae629bd981b}{EPlayer} player)
+\begin{DoxyCompactList}\small\item\em Détermine si une flèche est possédée par un joueur donné. \end{DoxyCompactList}\item 
+int \hyperlink{definitions_8h_a8ec7e2b31117a21f67e57d29409b95e3}{case\_\-appartenant\_\-joueur\_\-adverse\_\-avec\_\-un\_\-pion} (\hyperlink{structSZone}{SZone} zone, \hyperlink{backgammon_8h_a30ddbd351c82b617f2a84ae629bd981b}{EPlayer} player)
+\item 
+int \hyperlink{definitions_8h_a1c642fdd08c3917bea1eb2c67effde62}{Arbitrator\_\-EmptyPosition} (\hyperlink{structSZone}{SZone} zone)
+\begin{DoxyCompactList}\small\item\em Détermine si une flèche est vide (sans pions). \end{DoxyCompactList}\item 
+unsigned int \hyperlink{definitions_8h_ac3ef865999e210617383437010d523ef}{get\_\-distance} (\hyperlink{backgammon_8h_a9247f6215e9419cfc6a8a7e914f2520d}{EPosition} depart, \hyperlink{backgammon_8h_a9247f6215e9419cfc6a8a7e914f2520d}{EPosition} arrivee)
+\begin{DoxyCompactList}\small\item\em Détermine la distance entre une position de départ et une d'arrivée. \end{DoxyCompactList}\item 
+int \hyperlink{definitions_8h_afa3b2cc7cf9f63750ab8baa8f97fe774}{Arbitrator\_\-Sens\_\-rotation\_\-correct} (\hyperlink{backgammon_8h_a30ddbd351c82b617f2a84ae629bd981b}{EPlayer} player, \hyperlink{backgammon_8h_a9247f6215e9419cfc6a8a7e914f2520d}{EPosition} depart, \hyperlink{backgammon_8h_a9247f6215e9419cfc6a8a7e914f2520d}{EPosition} arrivee)
+\begin{DoxyCompactList}\small\item\em Détermine si le sens d'un mouvement est correct. \end{DoxyCompactList}\item 
+int \hyperlink{definitions_8h_a745333c18110f8898a6fde305d312ae2}{Arbitrator\_\-Pion\_\-Depart\_\-Autorise} (int x, int y, \hyperlink{backgammon_8h_a30ddbd351c82b617f2a84ae629bd981b}{EPlayer} player, \hyperlink{structSGameState}{SGameState} $\ast$game, \hyperlink{backgammon_8h_a9247f6215e9419cfc6a8a7e914f2520d}{EPosition} posDepart)
+\begin{DoxyCompactList}\small\item\em Détermine si le joueur donné a cliqué sur une zone contenant un pion déplaçable par ce joueur. \end{DoxyCompactList}\item 
+int \hyperlink{definitions_8h_a1d0c22f468d70543747d68213ad90dae}{Arbitrator\_\-NumberOfDieForMove} (\hyperlink{structSGameState}{SGameState} $\ast$game, \hyperlink{backgammon_8h_a30ddbd351c82b617f2a84ae629bd981b}{EPlayer} player, \hyperlink{structSMove}{SMove} move)
+\begin{DoxyCompactList}\small\item\em Détermine le nombre de dés utilisés pour faire un mouvement. \end{DoxyCompactList}\item 
+int \hyperlink{definitions_8h_a208c8f82929f7e59c83601985ac58040}{Arbitrator\_\-NumberOfDieCanPlay} (\hyperlink{structSGameState}{SGameState} $\ast$gameState, \hyperlink{backgammon_8h_a30ddbd351c82b617f2a84ae629bd981b}{EPlayer} player)
+\begin{DoxyCompactList}\small\item\em Détermine le nombre de dés qui peuvent être joués dans la partie ( utile si le joueur est bloqué par exemple). \end{DoxyCompactList}\item 
+int \hyperlink{definitions_8h_a3c3134150d2f1590b482269c8db73163}{Arbitrator\_\-Taille\_\-Mouvement\_\-Correcte} (unsigned int taille\_\-mouvement, \hyperlink{structSGame}{SGame} $\ast$game, \hyperlink{structSGameState}{SGameState} $\ast$gameState)
+\begin{DoxyCompactList}\small\item\em Détermine si le mouvement correspond à un des dés encore jouable. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Contient les signatures des fonctions et les différentes structures. \begin{DoxyAuthor}{Author}
+Alexandre BISIAUX et Antonin BIRET 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+26 janvier 2012 
+\end{DoxyDate}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{definitions_8h_afbba7561dbe9f9afe5efd361cff9b496}{
+\index{definitions.h@{definitions.h}!EGameMode@{EGameMode}}
+\index{EGameMode@{EGameMode}!definitions.h@{definitions.h}}
+\subsubsection[{EGameMode}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf EGameMode}}}
+\label{definitions_8h_afbba7561dbe9f9afe5efd361cff9b496}
+
+
+Enumération des modes de jeu. 
+
+4 Modes de jeu : 1) Humain contre Humain 2) Humain contre IA 3) IA contre IA 4) Invalide 
+
+\subsection{Function Documentation}
+\hypertarget{definitions_8h_a5af2d51a864970f556ee0083922bcdcb}{
+\index{definitions.h@{definitions.h}!Arbitrator\_\-AuthorizedDeplacement@{Arbitrator\_\-AuthorizedDeplacement}}
+\index{Arbitrator\_\-AuthorizedDeplacement@{Arbitrator\_\-AuthorizedDeplacement}!definitions.h@{definitions.h}}
+\subsubsection[{Arbitrator\_\-AuthorizedDeplacement}]{\setlength{\rightskip}{0pt plus 5cm}int Arbitrator\_\-AuthorizedDeplacement (
+\begin{DoxyParamCaption}
+\item[{{\bf SGameState} $\ast$}]{gameState, }
+\item[{{\bf SMove} $\ast$}]{move, }
+\item[{{\bf EPlayer}}]{player, }
+\item[{{\bf SGame} $\ast$}]{game}
+\end{DoxyParamCaption}
+)}}
+\label{definitions_8h_a5af2d51a864970f556ee0083922bcdcb}
+
+
+Analyse la validité d'un mouvement. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em gameState} & Etat du jeu \\
+\hline
+{\em move} & Mouvement à analyser \\
+\hline
+{\em player} & Joueur voulant effectuer ce mouvement \\
+\hline
+{\em game} & Informations sur le jeu (noms des joueurs, couleurs des pions des joueurs,...) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Retourne vrai si le mouvement est autorisé, faux sinon. 
+\end{DoxyReturn}
+\hypertarget{definitions_8h_a1c642fdd08c3917bea1eb2c67effde62}{
+\index{definitions.h@{definitions.h}!Arbitrator\_\-EmptyPosition@{Arbitrator\_\-EmptyPosition}}
+\index{Arbitrator\_\-EmptyPosition@{Arbitrator\_\-EmptyPosition}!definitions.h@{definitions.h}}
+\subsubsection[{Arbitrator\_\-EmptyPosition}]{\setlength{\rightskip}{0pt plus 5cm}int Arbitrator\_\-EmptyPosition (
+\begin{DoxyParamCaption}
+\item[{{\bf SZone}}]{zone}
+\end{DoxyParamCaption}
+)}}
+\label{definitions_8h_a1c642fdd08c3917bea1eb2c67effde62}
+
+
+Détermine si une flèche est vide (sans pions). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em zone} & Flèche à analyser \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Retourne vrai si la flèche est vide, faux sinon. 
+\end{DoxyReturn}
+\hypertarget{definitions_8h_a208c8f82929f7e59c83601985ac58040}{
+\index{definitions.h@{definitions.h}!Arbitrator\_\-NumberOfDieCanPlay@{Arbitrator\_\-NumberOfDieCanPlay}}
+\index{Arbitrator\_\-NumberOfDieCanPlay@{Arbitrator\_\-NumberOfDieCanPlay}!definitions.h@{definitions.h}}
+\subsubsection[{Arbitrator\_\-NumberOfDieCanPlay}]{\setlength{\rightskip}{0pt plus 5cm}int Arbitrator\_\-NumberOfDieCanPlay (
+\begin{DoxyParamCaption}
+\item[{{\bf SGameState} $\ast$}]{gameState, }
+\item[{{\bf EPlayer}}]{player}
+\end{DoxyParamCaption}
+)}}
+\label{definitions_8h_a208c8f82929f7e59c83601985ac58040}
+
+
+Détermine le nombre de dés qui peuvent être joués dans la partie ( utile si le joueur est bloqué par exemple). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em gameState} & Etat du jeu \\
+\hline
+{\em player} & Joueur à analyser \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Retourne le nombre de dés pouvant être joués 
+\end{DoxyReturn}
+\hypertarget{definitions_8h_a1d0c22f468d70543747d68213ad90dae}{
+\index{definitions.h@{definitions.h}!Arbitrator\_\-NumberOfDieForMove@{Arbitrator\_\-NumberOfDieForMove}}
+\index{Arbitrator\_\-NumberOfDieForMove@{Arbitrator\_\-NumberOfDieForMove}!definitions.h@{definitions.h}}
+\subsubsection[{Arbitrator\_\-NumberOfDieForMove}]{\setlength{\rightskip}{0pt plus 5cm}int Arbitrator\_\-NumberOfDieForMove (
+\begin{DoxyParamCaption}
+\item[{{\bf SGameState} $\ast$}]{game, }
+\item[{{\bf EPlayer}}]{player, }
+\item[{{\bf SMove}}]{move}
+\end{DoxyParamCaption}
+)}}
+\label{definitions_8h_a1d0c22f468d70543747d68213ad90dae}
+
+
+Détermine le nombre de dés utilisés pour faire un mouvement. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em gameState} & Etat du jeu \\
+\hline
+{\em player} & Joueur voulant effectuer ce mouvement \\
+\hline
+{\em move} & Mouvement à analyser \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Retourne le nombre de dés utilisés 
+\end{DoxyReturn}
+\hypertarget{definitions_8h_a745333c18110f8898a6fde305d312ae2}{
+\index{definitions.h@{definitions.h}!Arbitrator\_\-Pion\_\-Depart\_\-Autorise@{Arbitrator\_\-Pion\_\-Depart\_\-Autorise}}
+\index{Arbitrator\_\-Pion\_\-Depart\_\-Autorise@{Arbitrator\_\-Pion\_\-Depart\_\-Autorise}!definitions.h@{definitions.h}}
+\subsubsection[{Arbitrator\_\-Pion\_\-Depart\_\-Autorise}]{\setlength{\rightskip}{0pt plus 5cm}int Arbitrator\_\-Pion\_\-Depart\_\-Autorise (
+\begin{DoxyParamCaption}
+\item[{int}]{x, }
+\item[{int}]{y, }
+\item[{{\bf EPlayer}}]{player, }
+\item[{{\bf SGameState} $\ast$}]{game, }
+\item[{{\bf EPosition}}]{posDepart}
+\end{DoxyParamCaption}
+)}}
+\label{definitions_8h_a745333c18110f8898a6fde305d312ae2}
+
+
+Détermine si le joueur donné a cliqué sur une zone contenant un pion déplaçable par ce joueur. 
+
+x Abscisse de la position du clic y Ordonnée de la position du clic 
+\begin{DoxyParams}{Parameters}
+{\em player} & Joueur voulant effectuer ce mouvement \\
+\hline
+{\em game} & Informations sur le jeu (noms des joueurs, couleurs des pions des joueurs,...) \\
+\hline
+{\em depart} & Position de départ \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Retourne vrai si le joueur a cliqué sur une zone contenant un pion déplacable, faux sinon. 
+\end{DoxyReturn}
+\hypertarget{definitions_8h_a5e8cce91cf589a360bbe0b9c926a493a}{
+\index{definitions.h@{definitions.h}!Arbitrator\_\-PlayerArrays@{Arbitrator\_\-PlayerArrays}}
+\index{Arbitrator\_\-PlayerArrays@{Arbitrator\_\-PlayerArrays}!definitions.h@{definitions.h}}
+\subsubsection[{Arbitrator\_\-PlayerArrays}]{\setlength{\rightskip}{0pt plus 5cm}int Arbitrator\_\-PlayerArrays (
+\begin{DoxyParamCaption}
+\item[{{\bf SZone}}]{zone, }
+\item[{{\bf EPlayer}}]{player}
+\end{DoxyParamCaption}
+)}}
+\label{definitions_8h_a5e8cce91cf589a360bbe0b9c926a493a}
+
+
+Détermine si une flèche est possédée par un joueur donné. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em zone} & Flèche à analyser \\
+\hline
+{\em player} & Joueur supposé détenir la flèche \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Retourne vrai si la flèche est possédée par le joueur, faux sinon. 
+\end{DoxyReturn}
+\hypertarget{definitions_8h_afa3b2cc7cf9f63750ab8baa8f97fe774}{
+\index{definitions.h@{definitions.h}!Arbitrator\_\-Sens\_\-rotation\_\-correct@{Arbitrator\_\-Sens\_\-rotation\_\-correct}}
+\index{Arbitrator\_\-Sens\_\-rotation\_\-correct@{Arbitrator\_\-Sens\_\-rotation\_\-correct}!definitions.h@{definitions.h}}
+\subsubsection[{Arbitrator\_\-Sens\_\-rotation\_\-correct}]{\setlength{\rightskip}{0pt plus 5cm}int Arbitrator\_\-Sens\_\-rotation\_\-correct (
+\begin{DoxyParamCaption}
+\item[{{\bf EPlayer}}]{player, }
+\item[{{\bf EPosition}}]{depart, }
+\item[{{\bf EPosition}}]{arrivee}
+\end{DoxyParamCaption}
+)}}
+\label{definitions_8h_afa3b2cc7cf9f63750ab8baa8f97fe774}
+
+
+Détermine si le sens d'un mouvement est correct. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em player} & Joueur faisant le mouvement \\
+\hline
+{\em depart} & Position de départ \\
+\hline
+{\em arrivee} & Position d'arrivee \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Retourne vrai si le sens est correct, faux sinon.S 
+\end{DoxyReturn}
+\hypertarget{definitions_8h_a3c3134150d2f1590b482269c8db73163}{
+\index{definitions.h@{definitions.h}!Arbitrator\_\-Taille\_\-Mouvement\_\-Correcte@{Arbitrator\_\-Taille\_\-Mouvement\_\-Correcte}}
+\index{Arbitrator\_\-Taille\_\-Mouvement\_\-Correcte@{Arbitrator\_\-Taille\_\-Mouvement\_\-Correcte}!definitions.h@{definitions.h}}
+\subsubsection[{Arbitrator\_\-Taille\_\-Mouvement\_\-Correcte}]{\setlength{\rightskip}{0pt plus 5cm}int Arbitrator\_\-Taille\_\-Mouvement\_\-Correcte (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{taille\_\-mouvement, }
+\item[{{\bf SGame} $\ast$}]{game, }
+\item[{{\bf SGameState} $\ast$}]{gameState}
+\end{DoxyParamCaption}
+)}}
+\label{definitions_8h_a3c3134150d2f1590b482269c8db73163}
+
+
+Détermine si le mouvement correspond à un des dés encore jouable. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em taille\_\-mouvement} & Taille du mouvement (Distance) \\
+\hline
+{\em game} & Informations sur le jeu (noms des joueurs, couleurs des pions des joueurs,...) \\
+\hline
+{\em gameState} & Etat du jeu \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Retourne vrai si correspondance, faux sinon. 
+\end{DoxyReturn}
+\hypertarget{definitions_8h_a8ec7e2b31117a21f67e57d29409b95e3}{
+\index{definitions.h@{definitions.h}!case\_\-appartenant\_\-joueur\_\-adverse\_\-avec\_\-un\_\-pion@{case\_\-appartenant\_\-joueur\_\-adverse\_\-avec\_\-un\_\-pion}}
+\index{case\_\-appartenant\_\-joueur\_\-adverse\_\-avec\_\-un\_\-pion@{case\_\-appartenant\_\-joueur\_\-adverse\_\-avec\_\-un\_\-pion}!definitions.h@{definitions.h}}
+\subsubsection[{case\_\-appartenant\_\-joueur\_\-adverse\_\-avec\_\-un\_\-pion}]{\setlength{\rightskip}{0pt plus 5cm}int case\_\-appartenant\_\-joueur\_\-adverse\_\-avec\_\-un\_\-pion (
+\begin{DoxyParamCaption}
+\item[{{\bf SZone}}]{zone, }
+\item[{{\bf EPlayer}}]{player}
+\end{DoxyParamCaption}
+)}}
+\label{definitions_8h_a8ec7e2b31117a21f67e57d29409b95e3}
+
+\begin{DoxyParams}{Parameters}
+{\em zone} & \\
+\hline
+{\em player} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\hypertarget{definitions_8h_a1384cb9251c9e0de6224926c16592930}{
+\index{definitions.h@{definitions.h}!Check\_\-Args@{Check\_\-Args}}
+\index{Check\_\-Args@{Check\_\-Args}!definitions.h@{definitions.h}}
+\subsubsection[{Check\_\-Args}]{\setlength{\rightskip}{0pt plus 5cm}{\bf EGameMode} Check\_\-Args (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$$\ast$}]{argv, }
+\item[{{\bf SIA\_\-Functions} $\ast$}]{IA\_\-struct}
+\end{DoxyParamCaption}
+)}}
+\label{definitions_8h_a1384cb9251c9e0de6224926c16592930}
+
+
+Parse les arguments et détermine ainsi le mode de jeu et les SIA à utiliser. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & Nombre d'arguments \\
+\hline
+{\em argv} & Liste des arguments \\
+\hline
+{\em IA\_\-struct} & Tableau de deux structures SIA \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Retourne le mode de jeu 
+\end{DoxyReturn}
+\hypertarget{definitions_8h_a8ebc9f2d8d49446849b5dd7d042e5d27}{
+\index{definitions.h@{definitions.h}!CheckerWithScreenPosition@{CheckerWithScreenPosition}}
+\index{CheckerWithScreenPosition@{CheckerWithScreenPosition}!definitions.h@{definitions.h}}
+\subsubsection[{CheckerWithScreenPosition}]{\setlength{\rightskip}{0pt plus 5cm}int CheckerWithScreenPosition (
+\begin{DoxyParamCaption}
+\item[{int}]{x, }
+\item[{int}]{y, }
+\item[{{\bf EPosition} $\ast$}]{pos}
+\end{DoxyParamCaption}
+)}}
+\label{definitions_8h_a8ebc9f2d8d49446849b5dd7d042e5d27}
+
+
+Donne la position en fonction d'un clic sur le jeu dans le poiteur de EPosition pos. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Position en abscisse \\
+\hline
+{\em y} & Position en ordonnée \\
+\hline
+{\em pos} & Position sur laquelle on veut savoir si on a cliqué dessus \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int Retourne Vrai si position trouve, faux sinon 
+\end{DoxyReturn}
+\hypertarget{definitions_8h_a40c4c3e963568393dc24b4c75ae8755e}{
+\index{definitions.h@{definitions.h}!colorChecker@{colorChecker}}
+\index{colorChecker@{colorChecker}!definitions.h@{definitions.h}}
+\subsubsection[{colorChecker}]{\setlength{\rightskip}{0pt plus 5cm}void colorChecker (
+\begin{DoxyParamCaption}
+\item[{{\bf SDisplay} $\ast$}]{display, }
+\item[{{\bf SGameState} $\ast$}]{gameState, }
+\item[{{\bf EPosition}}]{pos}
+\end{DoxyParamCaption}
+)}}
+\label{definitions_8h_a40c4c3e963568393dc24b4c75ae8755e}
+
+
+Colorie le dernier pion d'une flèche donnée. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em display} & Structure d'affichage \\
+\hline
+{\em gameState} & Etat du jeu \\
+\hline
+{\em pos} & Position de la flèche sur lequel on veut colorier le dernier pion \\
+\hline
+\end{DoxyParams}
+\hypertarget{definitions_8h_a972039d93c3c3f63462487344b4cba55}{
+\index{definitions.h@{definitions.h}!copyGameState@{copyGameState}}
+\index{copyGameState@{copyGameState}!definitions.h@{definitions.h}}
+\subsubsection[{copyGameState}]{\setlength{\rightskip}{0pt plus 5cm}{\bf SGameState} $\ast$ copyGameState (
+\begin{DoxyParamCaption}
+\item[{{\bf SGameState} $\ast$}]{gameState, }
+\item[{{\bf EPlayer}}]{player}
+\end{DoxyParamCaption}
+)}}
+\label{definitions_8h_a972039d93c3c3f63462487344b4cba55}
+
+
+Effectue une copie de l'état du jeu suivant le joueur à qui cette copie est destinée. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em gameState} & Etat du jeu \\
+\hline
+{\em player} & Joueur à qui est destinée cette copie \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Retourne une copie de l'état du jeu 
+\end{DoxyReturn}
+\hypertarget{definitions_8h_a6a287727dfb0c2a7cb7edf7916f85445}{
+\index{definitions.h@{definitions.h}!Display\_\-Arrow\_\-Possibilities@{Display\_\-Arrow\_\-Possibilities}}
+\index{Display\_\-Arrow\_\-Possibilities@{Display\_\-Arrow\_\-Possibilities}!definitions.h@{definitions.h}}
+\subsubsection[{Display\_\-Arrow\_\-Possibilities}]{\setlength{\rightskip}{0pt plus 5cm}int $\ast$ Display\_\-Arrow\_\-Possibilities (
+\begin{DoxyParamCaption}
+\item[{{\bf SDisplay} $\ast$}]{display, }
+\item[{{\bf SGameState} $\ast$}]{gameState, }
+\item[{{\bf EPlayer}}]{player, }
+\item[{{\bf EPosition}}]{depart, }
+\item[{{\bf SGame} $\ast$}]{game}
+\end{DoxyParamCaption}
+)}}
+\label{definitions_8h_a6a287727dfb0c2a7cb7edf7916f85445}
+
+
+Determine en fonction du pion d'un joueur les flèches qui sont possibles à atteindre. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em display} & Structure d'affichage \\
+\hline
+{\em gameState} & Etat du jeu \\
+\hline
+{\em player} & Le joueur qui veut faire le déplacement \\
+\hline
+{\em depart} & Le numéro de la flèche où se trouve le pion à déplacer \\
+\hline
+{\em game} & Informations sur le jeu (noms des joueurs, couleurs des pions des joueurs,...) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Retourne un tableau contenant le numéro des flèches possibles à atteindre 
+\end{DoxyReturn}
+\hypertarget{definitions_8h_a84f25e99fe1c7a0d4d4da011428aa579}{
+\index{definitions.h@{definitions.h}!Display\_\-CheckerDraw@{Display\_\-CheckerDraw}}
+\index{Display\_\-CheckerDraw@{Display\_\-CheckerDraw}!definitions.h@{definitions.h}}
+\subsubsection[{Display\_\-CheckerDraw}]{\setlength{\rightskip}{0pt plus 5cm}void Display\_\-CheckerDraw (
+\begin{DoxyParamCaption}
+\item[{{\bf SDisplay} $\ast$}]{display, }
+\item[{SDL\_\-Rect}]{position, }
+\item[{int}]{player, }
+\item[{{\bf SGame} $\ast$}]{game}
+\end{DoxyParamCaption}
+)}}
+\label{definitions_8h_a84f25e99fe1c7a0d4d4da011428aa579}
+
+
+Dessine un pion d'un joueur à une position donnée. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em display} & Structure d'affichage \\
+\hline
+{\em position} & Position où l'on veut dessiner le pion \\
+\hline
+{\em player} & Joueur possèdant ce pion \\
+\hline
+{\em game} & Informations sur le jeu (noms des joueurs, couleurs des pions des joueurs,...) \\
+\hline
+\end{DoxyParams}
+\hypertarget{definitions_8h_ae6a9fe610c86dcac76053e92a66b887d}{
+\index{definitions.h@{definitions.h}!Display\_\-CheckerMove@{Display\_\-CheckerMove}}
+\index{Display\_\-CheckerMove@{Display\_\-CheckerMove}!definitions.h@{definitions.h}}
+\subsubsection[{Display\_\-CheckerMove}]{\setlength{\rightskip}{0pt plus 5cm}void Display\_\-CheckerMove (
+\begin{DoxyParamCaption}
+\item[{{\bf SDisplay} $\ast$}]{display, }
+\item[{{\bf SGameState} $\ast$}]{gameState, }
+\item[{{\bf SMove} $\ast$}]{move, }
+\item[{{\bf SGame} $\ast$}]{game}
+\end{DoxyParamCaption}
+)}}
+\label{definitions_8h_ae6a9fe610c86dcac76053e92a66b887d}
+
+
+Effectue le déplacement d'un pion suivant un mouvement donné et met à jour l'état du jeu. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em display} & Structure d'affichage \\
+\hline
+{\em gameState} & Etat du jeu \\
+\hline
+{\em move} & Mouvement à effectuer \\
+\hline
+{\em game} & Informations sur le jeu (noms des joueurs, couleurs des pions des joueurs,...) \\
+\hline
+\end{DoxyParams}
+\hypertarget{definitions_8h_ab6760975f58e69b9f3a4737815cd8579}{
+\index{definitions.h@{definitions.h}!Display\_\-Checkers@{Display\_\-Checkers}}
+\index{Display\_\-Checkers@{Display\_\-Checkers}!definitions.h@{definitions.h}}
+\subsubsection[{Display\_\-Checkers}]{\setlength{\rightskip}{0pt plus 5cm}void Display\_\-Checkers (
+\begin{DoxyParamCaption}
+\item[{{\bf SDisplay} $\ast$}]{display, }
+\item[{{\bf SGameState} $\ast$}]{gameState, }
+\item[{{\bf SGame} $\ast$}]{game}
+\end{DoxyParamCaption}
+)}}
+\label{definitions_8h_ab6760975f58e69b9f3a4737815cd8579}
+
+
+Affiche les pions à l'écran. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em display} & Structure d'affichage \\
+\hline
+{\em gameState} & Etat du jeu \\
+\hline
+{\em game} & Informations sur le jeu (noms des joueurs, couleurs des pions des joueurs,...) \\
+\hline
+\end{DoxyParams}
+\hypertarget{definitions_8h_a266e224142ea27bfaf3be1b57c7e42aa}{
+\index{definitions.h@{definitions.h}!Display\_\-CheckersPossibilities@{Display\_\-CheckersPossibilities}}
+\index{Display\_\-CheckersPossibilities@{Display\_\-CheckersPossibilities}!definitions.h@{definitions.h}}
+\subsubsection[{Display\_\-CheckersPossibilities}]{\setlength{\rightskip}{0pt plus 5cm}int Display\_\-CheckersPossibilities (
+\begin{DoxyParamCaption}
+\item[{{\bf SDisplay} $\ast$}]{display, }
+\item[{{\bf SGameState} $\ast$}]{gameState, }
+\item[{{\bf EPlayer}}]{player, }
+\item[{{\bf SGame} $\ast$}]{game}
+\end{DoxyParamCaption}
+)}}
+\label{definitions_8h_a266e224142ea27bfaf3be1b57c7e42aa}
+
+
+Affiche à l'écran les pions qui peuvent être déplacé suivant l'état du jeu et le joueur courant. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em display} & Structure d'affichage \\
+\hline
+{\em gameState} & Etat du jeu \\
+\hline
+{\em player} & Le joueur qui veut faire le déplacement \\
+\hline
+{\em game} & Informations sur le jeu (noms des joueurs, couleurs des pions des joueurs,...) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Retourne 1 si quitter / 0 sinon 
+\end{DoxyReturn}
+\hypertarget{definitions_8h_a8ce54e218fb04c38a3a61abef921fcdd}{
+\index{definitions.h@{definitions.h}!Display\_\-Clear@{Display\_\-Clear}}
+\index{Display\_\-Clear@{Display\_\-Clear}!definitions.h@{definitions.h}}
+\subsubsection[{Display\_\-Clear}]{\setlength{\rightskip}{0pt plus 5cm}void Display\_\-Clear (
+\begin{DoxyParamCaption}
+\item[{{\bf SDisplay} $\ast$}]{display}
+\end{DoxyParamCaption}
+)}}
+\label{definitions_8h_a8ce54e218fb04c38a3a61abef921fcdd}
+
+
+Réinitialise l'affichage. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em display} & Structure d'affichage \\
+\hline
+\end{DoxyParams}
+\hypertarget{definitions_8h_a5e2480329b4b8c3085fb429f0688d7ef}{
+\index{definitions.h@{definitions.h}!Display\_\-Die@{Display\_\-Die}}
+\index{Display\_\-Die@{Display\_\-Die}!definitions.h@{definitions.h}}
+\subsubsection[{Display\_\-Die}]{\setlength{\rightskip}{0pt plus 5cm}void Display\_\-Die (
+\begin{DoxyParamCaption}
+\item[{{\bf SDisplay} $\ast$}]{display, }
+\item[{{\bf SGameState} $\ast$}]{gameState, }
+\item[{{\bf SGame} $\ast$}]{game}
+\end{DoxyParamCaption}
+)}}
+\label{definitions_8h_a5e2480329b4b8c3085fb429f0688d7ef}
+
+
+Affiche les dés à l'écran. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em display} & Structure d'affichage \\
+\hline
+{\em gameState} & Etat du jeu \\
+\hline
+{\em game} & Informations sur le jeu (noms des joueurs, couleurs des pions des joueurs,...) \\
+\hline
+\end{DoxyParams}
+\hypertarget{definitions_8h_a2086642c6f833ae17c1a310b50314ecd}{
+\index{definitions.h@{definitions.h}!Display\_\-DrawBar@{Display\_\-DrawBar}}
+\index{Display\_\-DrawBar@{Display\_\-DrawBar}!definitions.h@{definitions.h}}
+\subsubsection[{Display\_\-DrawBar}]{\setlength{\rightskip}{0pt plus 5cm}void Display\_\-DrawBar (
+\begin{DoxyParamCaption}
+\item[{{\bf SDisplay} $\ast$}]{display, }
+\item[{{\bf SGameState} $\ast$}]{gameState, }
+\item[{{\bf SGame} $\ast$}]{game}
+\end{DoxyParamCaption}
+)}}
+\label{definitions_8h_a2086642c6f833ae17c1a310b50314ecd}
+
+
+Affiche les pions présents dans les barres (prisonniers). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em display} & Structure d'affichage \\
+\hline
+{\em gameState} & Etat du jeu \\
+\hline
+{\em game} & Informations sur le jeu (noms des joueurs, couleurs des pions des joueurs,...) \\
+\hline
+\end{DoxyParams}
+\hypertarget{definitions_8h_ae18b8f9af299df190e0fa4527fdaf6e6}{
+\index{definitions.h@{definitions.h}!Display\_\-DrawOut@{Display\_\-DrawOut}}
+\index{Display\_\-DrawOut@{Display\_\-DrawOut}!definitions.h@{definitions.h}}
+\subsubsection[{Display\_\-DrawOut}]{\setlength{\rightskip}{0pt plus 5cm}void Display\_\-DrawOut (
+\begin{DoxyParamCaption}
+\item[{{\bf SDisplay} $\ast$}]{display, }
+\item[{{\bf SGameState} $\ast$}]{gameState, }
+\item[{{\bf SGame} $\ast$}]{game}
+\end{DoxyParamCaption}
+)}}
+\label{definitions_8h_ae18b8f9af299df190e0fa4527fdaf6e6}
+
+
+Affiche les pions présents dans les zones de sorties. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em display} & Structure d'affichage \\
+\hline
+{\em gameState} & Etat du jeu \\
+\hline
+{\em game} & Informations sur le jeu (noms des joueurs, couleurs des pions des joueurs,...) \\
+\hline
+\end{DoxyParams}
+\hypertarget{definitions_8h_a868004c3b8ce3b57c22b0733a46c287e}{
+\index{definitions.h@{definitions.h}!Display\_\-DrawSelectedArrow@{Display\_\-DrawSelectedArrow}}
+\index{Display\_\-DrawSelectedArrow@{Display\_\-DrawSelectedArrow}!definitions.h@{definitions.h}}
+\subsubsection[{Display\_\-DrawSelectedArrow}]{\setlength{\rightskip}{0pt plus 5cm}void Display\_\-DrawSelectedArrow (
+\begin{DoxyParamCaption}
+\item[{{\bf SDisplay} $\ast$}]{display, }
+\item[{{\bf EPosition}}]{pos}
+\end{DoxyParamCaption}
+)}}
+\label{definitions_8h_a868004c3b8ce3b57c22b0733a46c287e}
+
+
+Colorie la flèche à la position pos en bleu. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em display} & Structure d'affichage \\
+\hline
+{\em pos} & Le numéro de la flèche à colorer \\
+\hline
+\end{DoxyParams}
+\hypertarget{definitions_8h_a6bb2fd2eeabcf4453318a3c598bbe495}{
+\index{definitions.h@{definitions.h}!Display\_\-Exit@{Display\_\-Exit}}
+\index{Display\_\-Exit@{Display\_\-Exit}!definitions.h@{definitions.h}}
+\subsubsection[{Display\_\-Exit}]{\setlength{\rightskip}{0pt plus 5cm}void Display\_\-Exit (
+\begin{DoxyParamCaption}
+\item[{{\bf SDisplay} $\ast$}]{display}
+\end{DoxyParamCaption}
+)}}
+\label{definitions_8h_a6bb2fd2eeabcf4453318a3c598bbe495}
+
+
+Libère les surfaces utilisées dans la structure d'affichage et quitte la SDL. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em display} & Structure d'affichage \\
+\hline
+\end{DoxyParams}
+\hypertarget{definitions_8h_ad6d861194d59aa8d3c6d38dc280872ad}{
+\index{definitions.h@{definitions.h}!Display\_\-GameActions@{Display\_\-GameActions}}
+\index{Display\_\-GameActions@{Display\_\-GameActions}!definitions.h@{definitions.h}}
+\subsubsection[{Display\_\-GameActions}]{\setlength{\rightskip}{0pt plus 5cm}int Display\_\-GameActions (
+\begin{DoxyParamCaption}
+\item[{{\bf SDisplay} $\ast$}]{display, }
+\item[{{\bf SGameState} $\ast$}]{gameState, }
+\item[{{\bf SGame} $\ast$}]{game}
+\end{DoxyParamCaption}
+)}}
+\label{definitions_8h_ad6d861194d59aa8d3c6d38dc280872ad}
+
+
+Affiche à l'écran les actions de jeu possibles ( doubler la mise, lancer les dés). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em display} & Structure d'affichage \\
+\hline
+{\em gameState} & Etat du jeu \\
+\hline
+{\em game} & Informations sur le jeu (noms des joueurs, couleurs des pions des joueurs,...) \\
+\hline
+\end{DoxyParams}
+\hypertarget{definitions_8h_a1292490ab3ee9bf7a089ce982120f2cd}{
+\index{definitions.h@{definitions.h}!Display\_\-Init@{Display\_\-Init}}
+\index{Display\_\-Init@{Display\_\-Init}!definitions.h@{definitions.h}}
+\subsubsection[{Display\_\-Init}]{\setlength{\rightskip}{0pt plus 5cm}void Display\_\-Init (
+\begin{DoxyParamCaption}
+\item[{{\bf SDisplay} $\ast$}]{display, }
+\item[{{\bf SGame} $\ast$}]{game}
+\end{DoxyParamCaption}
+)}}
+\label{definitions_8h_a1292490ab3ee9bf7a089ce982120f2cd}
+
+
+Initialise la SDL, la structure d'affichage et la structure d'informations sur le jeu. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em display} & Structure d'affichage \\
+\hline
+{\em game} & Informations sur le jeu (noms des joueurs, couleurs des pions des joueurs,...) \\
+\hline
+\end{DoxyParams}
+\hypertarget{definitions_8h_a5a4d36fc342b7900e779cdcaa0fea780}{
+\index{definitions.h@{definitions.h}!Display\_\-Message@{Display\_\-Message}}
+\index{Display\_\-Message@{Display\_\-Message}!definitions.h@{definitions.h}}
+\subsubsection[{Display\_\-Message}]{\setlength{\rightskip}{0pt plus 5cm}int Display\_\-Message (
+\begin{DoxyParamCaption}
+\item[{{\bf SDisplay} $\ast$}]{display, }
+\item[{char $\ast$}]{message, }
+\item[{SDL\_\-Rect}]{position, }
+\item[{SDL\_\-Color}]{color, }
+\item[{int}]{box, }
+\item[{int}]{clic}
+\end{DoxyParamCaption}
+)}}
+\label{definitions_8h_a5a4d36fc342b7900e779cdcaa0fea780}
+
+
+Affiche un message à l'écran. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em display} & Structure d'affichage \\
+\hline
+{\em message} & Message à afficher \\
+\hline
+{\em position} & Position du message \\
+\hline
+{\em color} & Couleur du message \\
+\hline
+{\em box} & Présence ou non d'un cadre autour du message \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Retourne 1 si quitter / 0 sinon 
+\end{DoxyReturn}
+\hypertarget{definitions_8h_a5e43befe99bdb4ce9d7601e6af348e21}{
+\index{definitions.h@{definitions.h}!Display\_\-RefreshGameBoard@{Display\_\-RefreshGameBoard}}
+\index{Display\_\-RefreshGameBoard@{Display\_\-RefreshGameBoard}!definitions.h@{definitions.h}}
+\subsubsection[{Display\_\-RefreshGameBoard}]{\setlength{\rightskip}{0pt plus 5cm}void Display\_\-RefreshGameBoard (
+\begin{DoxyParamCaption}
+\item[{{\bf SDisplay} $\ast$}]{display, }
+\item[{{\bf SGameState} $\ast$}]{gameState, }
+\item[{{\bf SGame} $\ast$}]{game}
+\end{DoxyParamCaption}
+)}}
+\label{definitions_8h_a5e43befe99bdb4ce9d7601e6af348e21}
+
+
+Raffraichit l'affichage du plateau de jeu( pions, dés et videau). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em display} & Structure d'affichage \\
+\hline
+{\em gameState} & Etat du jeu \\
+\hline
+{\em game} & Informations sur le jeu (noms des joueurs, couleurs des pions des joueurs,...) \\
+\hline
+\end{DoxyParams}
+\hypertarget{definitions_8h_a8b73e117126ac6098446120ea4691249}{
+\index{definitions.h@{definitions.h}!Display\_\-Score@{Display\_\-Score}}
+\index{Display\_\-Score@{Display\_\-Score}!definitions.h@{definitions.h}}
+\subsubsection[{Display\_\-Score}]{\setlength{\rightskip}{0pt plus 5cm}void Display\_\-Score (
+\begin{DoxyParamCaption}
+\item[{{\bf SDisplay} $\ast$}]{display, }
+\item[{{\bf SGameState} $\ast$}]{gameState, }
+\item[{{\bf SGame} $\ast$}]{game}
+\end{DoxyParamCaption}
+)}}
+\label{definitions_8h_a8b73e117126ac6098446120ea4691249}
+
+
+Affiche les scores à l'écran. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em display} & Structure d'affichage \\
+\hline
+{\em gameState} & Etat du jeu \\
+\hline
+{\em game} & Informations sur le jeu (noms des joueurs, couleurs des pions des joueurs,...) \\
+\hline
+\end{DoxyParams}
+\hypertarget{definitions_8h_aa5d3202dc8dd422ae6ad1c5a90d16711}{
+\index{definitions.h@{definitions.h}!Free\_\-SAI@{Free\_\-SAI}}
+\index{Free\_\-SAI@{Free\_\-SAI}!definitions.h@{definitions.h}}
+\subsubsection[{Free\_\-SAI}]{\setlength{\rightskip}{0pt plus 5cm}void Free\_\-SAI (
+\begin{DoxyParamCaption}
+\item[{{\bf SIA\_\-Functions} $\ast$}]{IA\_\-struct}
+\end{DoxyParamCaption}
+)}}
+\label{definitions_8h_aa5d3202dc8dd422ae6ad1c5a90d16711}
+
+
+Libère une structure SIA. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em IA\_\-struct} & Structure à libérer \\
+\hline
+\end{DoxyParams}
+\hypertarget{definitions_8h_aeeaf9244b982d8ad4ac1298eb2a96210}{
+\index{definitions.h@{definitions.h}!Game\_\-FirstToPlay@{Game\_\-FirstToPlay}}
+\index{Game\_\-FirstToPlay@{Game\_\-FirstToPlay}!definitions.h@{definitions.h}}
+\subsubsection[{Game\_\-FirstToPlay}]{\setlength{\rightskip}{0pt plus 5cm}int Game\_\-FirstToPlay (
+\begin{DoxyParamCaption}
+\item[{{\bf SDisplay} $\ast$}]{display, }
+\item[{{\bf EGameMode}}]{gameMode, }
+\item[{{\bf SGame} $\ast$}]{game, }
+\item[{{\bf SGameState} $\ast$}]{gameState}
+\end{DoxyParamCaption}
+)}}
+\label{definitions_8h_aeeaf9244b982d8ad4ac1298eb2a96210}
+
+
+Détermine quel joueur va commencer la partie par lancement des dés. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em display} & Structure d'affichage \\
+\hline
+{\em gameMode} & Mode de jeu \\
+\hline
+{\em game} & Informations sur le jeu (noms des joueurs, couleurs des pions des joueurs,...) \\
+\hline
+{\em gameState} & Etat du jeu \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Retourne 1 si joueur1 commence / 2 si joueur2 / autre si quitter 
+\end{DoxyReturn}
+\hypertarget{definitions_8h_a48859f4f5201dec75f20cc9b3d26a196}{
+\index{definitions.h@{definitions.h}!Game\_\-Init@{Game\_\-Init}}
+\index{Game\_\-Init@{Game\_\-Init}!definitions.h@{definitions.h}}
+\subsubsection[{Game\_\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf SGameState} $\ast$ Game\_\-Init (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{definitions_8h_a48859f4f5201dec75f20cc9b3d26a196}
+
+
+Fonction qui permet d'initialiser l'état du jeu (disposition des jetons au début de la partie). 
+
+\begin{DoxyReturn}{Returns}
+Structure d'état du jeu 
+\end{DoxyReturn}
+\hypertarget{definitions_8h_a3e231e47a02a2be17c23de949c91baff}{
+\index{definitions.h@{definitions.h}!Game\_\-LaunchDie@{Game\_\-LaunchDie}}
+\index{Game\_\-LaunchDie@{Game\_\-LaunchDie}!definitions.h@{definitions.h}}
+\subsubsection[{Game\_\-LaunchDie}]{\setlength{\rightskip}{0pt plus 5cm}void Game\_\-LaunchDie (
+\begin{DoxyParamCaption}
+\item[{{\bf SGameState} $\ast$}]{gameState, }
+\item[{{\bf SGame} $\ast$}]{game}
+\end{DoxyParamCaption}
+)}}
+\label{definitions_8h_a3e231e47a02a2be17c23de949c91baff}
+
+
+Lance les dés et réinitialise le tableau d'état des dés. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em gameState} & Etat du jeu \\
+\hline
+{\em game} & Informations sur le jeu (noms des joueurs, couleurs des pions des joueurs,...) \\
+\hline
+\end{DoxyParams}
+\hypertarget{definitions_8h_ae0ba808f86fa6ddc2799d3073640543b}{
+\index{definitions.h@{definitions.h}!Game\_\-Play@{Game\_\-Play}}
+\index{Game\_\-Play@{Game\_\-Play}!definitions.h@{definitions.h}}
+\subsubsection[{Game\_\-Play}]{\setlength{\rightskip}{0pt plus 5cm}int Game\_\-Play (
+\begin{DoxyParamCaption}
+\item[{{\bf SDisplay} $\ast$}]{display, }
+\item[{{\bf EGameMode}}]{gameMode, }
+\item[{{\bf SGame} $\ast$}]{game, }
+\item[{{\bf SIA\_\-Functions} $\ast$}]{IA\_\-struct}
+\end{DoxyParamCaption}
+)}}
+\label{definitions_8h_ae0ba808f86fa6ddc2799d3073640543b}
+
+
+Lance la boucle de jeu. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em display} & Structure d'affichage \\
+\hline
+{\em gameMode} & Mode de jeu \\
+\hline
+{\em game} & Informations sur le jeu (noms des joueurs, couleurs des pions des joueurs,...) \\
+\hline
+{\em IA\_\-struct} & Tableau de structures contenant les fonctions de l'AI \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Retourne 1 si quitter / 0 si bon déroulement 
+\end{DoxyReturn}
+\hypertarget{definitions_8h_ac3ef865999e210617383437010d523ef}{
+\index{definitions.h@{definitions.h}!get\_\-distance@{get\_\-distance}}
+\index{get\_\-distance@{get\_\-distance}!definitions.h@{definitions.h}}
+\subsubsection[{get\_\-distance}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int get\_\-distance (
+\begin{DoxyParamCaption}
+\item[{{\bf EPosition}}]{depart, }
+\item[{{\bf EPosition}}]{arrivee}
+\end{DoxyParamCaption}
+)}}
+\label{definitions_8h_ac3ef865999e210617383437010d523ef}
+
+
+Détermine la distance entre une position de départ et une d'arrivée. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em depart} & Position de départ \\
+\hline
+{\em arrivee} & Position d'arrivee \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Retourne la distance entre ces deux positions 
+\end{DoxyReturn}
+\hypertarget{definitions_8h_a1d8e95aa672e5215010bfed9c744a901}{
+\index{definitions.h@{definitions.h}!Init\_\-SAI@{Init\_\-SAI}}
+\index{Init\_\-SAI@{Init\_\-SAI}!definitions.h@{definitions.h}}
+\subsubsection[{Init\_\-SAI}]{\setlength{\rightskip}{0pt plus 5cm}{\bf SIA\_\-Functions} $\ast$ Init\_\-SAI (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{definitions_8h_a1d8e95aa672e5215010bfed9c744a901}
+
+
+Retourne une structure de fonctions de l'IA initialisée. 
+
+\begin{DoxyReturn}{Returns}
+Retourne une structure de fonctions d'une IA 
+\end{DoxyReturn}
+\hypertarget{definitions_8h_a48c20b4c902732157cfee1b2942024de}{
+\index{definitions.h@{definitions.h}!inTab@{inTab}}
+\index{inTab@{inTab}!definitions.h@{definitions.h}}
+\subsubsection[{inTab}]{\setlength{\rightskip}{0pt plus 5cm}int inTab (
+\begin{DoxyParamCaption}
+\item[{{\bf EPosition}}]{p, }
+\item[{int $\ast$}]{tab}
+\end{DoxyParamCaption}
+)}}
+\label{definitions_8h_a48c20b4c902732157cfee1b2942024de}
+
+
+Détermine si la position p est dans le tableau tab. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & Position recherchée \\
+\hline
+{\em tab} & Tableau dans lequel on cherche \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Retourne vrai si position trouvée, faux sinon 
+\end{DoxyReturn}
+\hypertarget{definitions_8h_af70a7e0cb18924f28a6aa38b16c3ba8c}{
+\index{definitions.h@{definitions.h}!Load\_\-API@{Load\_\-API}}
+\index{Load\_\-API@{Load\_\-API}!definitions.h@{definitions.h}}
+\subsubsection[{Load\_\-API}]{\setlength{\rightskip}{0pt plus 5cm}int Load\_\-API (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{path, }
+\item[{{\bf SIA\_\-Functions} $\ast$}]{IA\_\-struct, }
+\item[{int}]{ind}
+\end{DoxyParamCaption}
+)}}
+\label{definitions_8h_af70a7e0cb18924f28a6aa38b16c3ba8c}
+
+
+Charge la librairie passé en paramètre et initialise la structure IA. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & Chemin de la librairie à charger \\
+\hline
+{\em IA\_\-struct} & Structure à initialiser avec la librairie \\
+\hline
+{\em ind} & Indice de la structure SIA \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Retourne 1 si chargement effectué, 0 si erreur de chargement 
+\end{DoxyReturn}
+\hypertarget{definitions_8h_ab4adcf732c21c2a2c9fe82a7f172a4d6}{
+\index{definitions.h@{definitions.h}!Menu\_\-Click@{Menu\_\-Click}}
+\index{Menu\_\-Click@{Menu\_\-Click}!definitions.h@{definitions.h}}
+\subsubsection[{Menu\_\-Click}]{\setlength{\rightskip}{0pt plus 5cm}int Menu\_\-Click (
+\begin{DoxyParamCaption}
+\item[{int}]{x, }
+\item[{int}]{y}
+\end{DoxyParamCaption}
+)}}
+\label{definitions_8h_ab4adcf732c21c2a2c9fe82a7f172a4d6}
+
+
+Renvoie le code de l'élément cliqué sur le menu. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Abscisse de la position du clic de souris \\
+\hline
+{\em y} & Ordonnée de la position du clic de souris \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Retourne code de l'élément cliqué, -\/1 si ne correspond à aucun élément du menu 
+\end{DoxyReturn}
+\hypertarget{definitions_8h_acdc2f6f5accb1213aef6917256e44e73}{
+\index{definitions.h@{definitions.h}!Menu\_\-Display@{Menu\_\-Display}}
+\index{Menu\_\-Display@{Menu\_\-Display}!definitions.h@{definitions.h}}
+\subsubsection[{Menu\_\-Display}]{\setlength{\rightskip}{0pt plus 5cm}int Menu\_\-Display (
+\begin{DoxyParamCaption}
+\item[{{\bf SDisplay} $\ast$}]{display, }
+\item[{{\bf EGameMode}}]{gameMode, }
+\item[{{\bf SGame} $\ast$}]{game}
+\end{DoxyParamCaption}
+)}}
+\label{definitions_8h_acdc2f6f5accb1213aef6917256e44e73}
+
+
+Affiche le menu. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em display} & Structure d'affichage \\
+\hline
+{\em gameMode} & Mode de jeu \\
+\hline
+{\em game} & Informations sur le jeu (noms des joueurs, couleurs des pions des joueurs,...) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Retourne 0 si jouer, 1 si quitter 
+\end{DoxyReturn}
+\hypertarget{definitions_8h_abc7f727ee43eff11085f6d7b06b7e97f}{
+\index{definitions.h@{definitions.h}!Menu\_\-Fill@{Menu\_\-Fill}}
+\index{Menu\_\-Fill@{Menu\_\-Fill}!definitions.h@{definitions.h}}
+\subsubsection[{Menu\_\-Fill}]{\setlength{\rightskip}{0pt plus 5cm}void Menu\_\-Fill (
+\begin{DoxyParamCaption}
+\item[{{\bf SDisplay} $\ast$}]{display, }
+\item[{{\bf EGameMode}}]{gameMode, }
+\item[{{\bf SGame} $\ast$}]{game}
+\end{DoxyParamCaption}
+)}}
+\label{definitions_8h_abc7f727ee43eff11085f6d7b06b7e97f}
+
+
+Remplis le menu avec les options correspondants au mode de jeu. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em display} & Structure d'affichage \\
+\hline
+{\em gameMode} & Mode de jeu \\
+\hline
+{\em game} & Informations sur le jeu (noms des joueurs, couleurs des pions des joueurs,...) \\
+\hline
+\end{DoxyParams}
+\hypertarget{definitions_8h_a828671a92def541c27c2bc7511136989}{
+\index{definitions.h@{definitions.h}!Menu\_\-Text@{Menu\_\-Text}}
+\index{Menu\_\-Text@{Menu\_\-Text}!definitions.h@{definitions.h}}
+\subsubsection[{Menu\_\-Text}]{\setlength{\rightskip}{0pt plus 5cm}void Menu\_\-Text (
+\begin{DoxyParamCaption}
+\item[{{\bf SDisplay} $\ast$}]{display, }
+\item[{char $\ast$}]{message, }
+\item[{SDL\_\-Rect}]{position, }
+\item[{SDL\_\-Color}]{color}
+\end{DoxyParamCaption}
+)}}
+\label{definitions_8h_a828671a92def541c27c2bc7511136989}
+
+
+Affiche un texte à une certaine position d'une certaine couleur. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em display} & Structure d'affichage \\
+\hline
+{\em message} & Message à afficher \\
+\hline
+{\em position} & Position à laquelle on veut afficher le message \\
+\hline
+{\em color} & Couleur dans laquelle on veut afficher le message \\
+\hline
+\end{DoxyParams}
+\hypertarget{definitions_8h_a4d2cb84c66f0078c3d272c2bec8e4695}{
+\index{definitions.h@{definitions.h}!Menu\_\-TextInput@{Menu\_\-TextInput}}
+\index{Menu\_\-TextInput@{Menu\_\-TextInput}!definitions.h@{definitions.h}}
+\subsubsection[{Menu\_\-TextInput}]{\setlength{\rightskip}{0pt plus 5cm}void Menu\_\-TextInput (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{name, }
+\item[{SDL\_\-keysym}]{key}
+\end{DoxyParamCaption}
+)}}
+\label{definitions_8h_a4d2cb84c66f0078c3d272c2bec8e4695}
+
+
+Ajoute à une chaine de caractère un caractère obtenu par l'événement SDL\_\-KEYUP. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & Chaine de caractère à modifier \\
+\hline
+{\em key} & Symbole qui a été tapé au clavier \\
+\hline
+\end{DoxyParams}

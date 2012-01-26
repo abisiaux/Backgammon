@@ -1,0 +1,75 @@
+\contentsline {chapter}{\numberline {1}Class Index}{1}{chapter.1}
+\contentsline {section}{\numberline {1.1}Class List}{1}{section.1.1}
+\contentsline {chapter}{\numberline {2}File Index}{3}{chapter.2}
+\contentsline {section}{\numberline {2.1}File List}{3}{section.2.1}
+\contentsline {chapter}{\numberline {3}Class Documentation}{5}{chapter.3}
+\contentsline {section}{\numberline {3.1}SDisplay Struct Reference}{5}{section.3.1}
+\contentsline {subsection}{\numberline {3.1.1}Detailed Description}{6}{subsection.3.1.1}
+\contentsline {section}{\numberline {3.2}SGame Struct Reference}{6}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}Detailed Description}{6}{subsection.3.2.1}
+\contentsline {section}{\numberline {3.3}SGameState Struct Reference}{7}{section.3.3}
+\contentsline {subsection}{\numberline {3.3.1}Detailed Description}{7}{subsection.3.3.1}
+\contentsline {section}{\numberline {3.4}SIA\_\discretionary {-}{}{}Functions Struct Reference}{7}{section.3.4}
+\contentsline {subsection}{\numberline {3.4.1}Detailed Description}{8}{subsection.3.4.1}
+\contentsline {section}{\numberline {3.5}SMove Struct Reference}{8}{section.3.5}
+\contentsline {subsection}{\numberline {3.5.1}Detailed Description}{8}{subsection.3.5.1}
+\contentsline {section}{\numberline {3.6}SZone Struct Reference}{8}{section.3.6}
+\contentsline {subsection}{\numberline {3.6.1}Detailed Description}{8}{subsection.3.6.1}
+\contentsline {chapter}{\numberline {4}File Documentation}{11}{chapter.4}
+\contentsline {section}{\numberline {4.1}backgammon.h File Reference}{11}{section.4.1}
+\contentsline {subsection}{\numberline {4.1.1}Detailed Description}{12}{subsection.4.1.1}
+\contentsline {subsection}{\numberline {4.1.2}Typedef Documentation}{12}{subsection.4.1.2}
+\contentsline {subsubsection}{\numberline {4.1.2.1}pfDoubleStack}{12}{subsubsection.4.1.2.1}
+\contentsline {subsubsection}{\numberline {4.1.2.2}pfEndGame}{12}{subsubsection.4.1.2.2}
+\contentsline {subsubsection}{\numberline {4.1.2.3}pfEndMatch}{12}{subsubsection.4.1.2.3}
+\contentsline {subsubsection}{\numberline {4.1.2.4}pfMakeDecision}{13}{subsubsection.4.1.2.4}
+\contentsline {subsubsection}{\numberline {4.1.2.5}pfStartGame}{13}{subsubsection.4.1.2.5}
+\contentsline {subsubsection}{\numberline {4.1.2.6}pfTakeDouble}{13}{subsubsection.4.1.2.6}
+\contentsline {section}{\numberline {4.2}definitions.h File Reference}{13}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}Detailed Description}{16}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.2}Enumeration Type Documentation}{17}{subsection.4.2.2}
+\contentsline {subsubsection}{\numberline {4.2.2.1}EGameMode}{17}{subsubsection.4.2.2.1}
+\contentsline {subsection}{\numberline {4.2.3}Function Documentation}{17}{subsection.4.2.3}
+\contentsline {subsubsection}{\numberline {4.2.3.1}Arbitrator\_\discretionary {-}{}{}AuthorizedDeplacement}{17}{subsubsection.4.2.3.1}
+\contentsline {subsubsection}{\numberline {4.2.3.2}Arbitrator\_\discretionary {-}{}{}EmptyPosition}{17}{subsubsection.4.2.3.2}
+\contentsline {subsubsection}{\numberline {4.2.3.3}Arbitrator\_\discretionary {-}{}{}NumberOfDieCanPlay}{17}{subsubsection.4.2.3.3}
+\contentsline {subsubsection}{\numberline {4.2.3.4}Arbitrator\_\discretionary {-}{}{}NumberOfDieForMove}{18}{subsubsection.4.2.3.4}
+\contentsline {subsubsection}{\numberline {4.2.3.5}Arbitrator\_\discretionary {-}{}{}Pion\_\discretionary {-}{}{}Depart\_\discretionary {-}{}{}Autorise}{18}{subsubsection.4.2.3.5}
+\contentsline {subsubsection}{\numberline {4.2.3.6}Arbitrator\_\discretionary {-}{}{}PlayerArrays}{18}{subsubsection.4.2.3.6}
+\contentsline {subsubsection}{\numberline {4.2.3.7}Arbitrator\_\discretionary {-}{}{}Sens\_\discretionary {-}{}{}rotation\_\discretionary {-}{}{}correct}{19}{subsubsection.4.2.3.7}
+\contentsline {subsubsection}{\numberline {4.2.3.8}Arbitrator\_\discretionary {-}{}{}Taille\_\discretionary {-}{}{}Mouvement\_\discretionary {-}{}{}Correcte}{19}{subsubsection.4.2.3.8}
+\contentsline {subsubsection}{\numberline {4.2.3.9}case\_\discretionary {-}{}{}appartenant\_\discretionary {-}{}{}joueur\_\discretionary {-}{}{}adverse\_\discretionary {-}{}{}avec\_\discretionary {-}{}{}un\_\discretionary {-}{}{}pion}{19}{subsubsection.4.2.3.9}
+\contentsline {subsubsection}{\numberline {4.2.3.10}Check\_\discretionary {-}{}{}Args}{20}{subsubsection.4.2.3.10}
+\contentsline {subsubsection}{\numberline {4.2.3.11}CheckerWithScreenPosition}{20}{subsubsection.4.2.3.11}
+\contentsline {subsubsection}{\numberline {4.2.3.12}colorChecker}{20}{subsubsection.4.2.3.12}
+\contentsline {subsubsection}{\numberline {4.2.3.13}copyGameState}{20}{subsubsection.4.2.3.13}
+\contentsline {subsubsection}{\numberline {4.2.3.14}Display\_\discretionary {-}{}{}Arrow\_\discretionary {-}{}{}Possibilities}{21}{subsubsection.4.2.3.14}
+\contentsline {subsubsection}{\numberline {4.2.3.15}Display\_\discretionary {-}{}{}CheckerDraw}{21}{subsubsection.4.2.3.15}
+\contentsline {subsubsection}{\numberline {4.2.3.16}Display\_\discretionary {-}{}{}CheckerMove}{21}{subsubsection.4.2.3.16}
+\contentsline {subsubsection}{\numberline {4.2.3.17}Display\_\discretionary {-}{}{}Checkers}{22}{subsubsection.4.2.3.17}
+\contentsline {subsubsection}{\numberline {4.2.3.18}Display\_\discretionary {-}{}{}CheckersPossibilities}{22}{subsubsection.4.2.3.18}
+\contentsline {subsubsection}{\numberline {4.2.3.19}Display\_\discretionary {-}{}{}Clear}{22}{subsubsection.4.2.3.19}
+\contentsline {subsubsection}{\numberline {4.2.3.20}Display\_\discretionary {-}{}{}Die}{23}{subsubsection.4.2.3.20}
+\contentsline {subsubsection}{\numberline {4.2.3.21}Display\_\discretionary {-}{}{}DrawBar}{23}{subsubsection.4.2.3.21}
+\contentsline {subsubsection}{\numberline {4.2.3.22}Display\_\discretionary {-}{}{}DrawOut}{23}{subsubsection.4.2.3.22}
+\contentsline {subsubsection}{\numberline {4.2.3.23}Display\_\discretionary {-}{}{}DrawSelectedArrow}{23}{subsubsection.4.2.3.23}
+\contentsline {subsubsection}{\numberline {4.2.3.24}Display\_\discretionary {-}{}{}Exit}{24}{subsubsection.4.2.3.24}
+\contentsline {subsubsection}{\numberline {4.2.3.25}Display\_\discretionary {-}{}{}GameActions}{24}{subsubsection.4.2.3.25}
+\contentsline {subsubsection}{\numberline {4.2.3.26}Display\_\discretionary {-}{}{}Init}{24}{subsubsection.4.2.3.26}
+\contentsline {subsubsection}{\numberline {4.2.3.27}Display\_\discretionary {-}{}{}Message}{24}{subsubsection.4.2.3.27}
+\contentsline {subsubsection}{\numberline {4.2.3.28}Display\_\discretionary {-}{}{}RefreshGameBoard}{25}{subsubsection.4.2.3.28}
+\contentsline {subsubsection}{\numberline {4.2.3.29}Display\_\discretionary {-}{}{}Score}{25}{subsubsection.4.2.3.29}
+\contentsline {subsubsection}{\numberline {4.2.3.30}Free\_\discretionary {-}{}{}SAI}{25}{subsubsection.4.2.3.30}
+\contentsline {subsubsection}{\numberline {4.2.3.31}Game\_\discretionary {-}{}{}FirstToPlay}{25}{subsubsection.4.2.3.31}
+\contentsline {subsubsection}{\numberline {4.2.3.32}Game\_\discretionary {-}{}{}Init}{26}{subsubsection.4.2.3.32}
+\contentsline {subsubsection}{\numberline {4.2.3.33}Game\_\discretionary {-}{}{}LaunchDie}{26}{subsubsection.4.2.3.33}
+\contentsline {subsubsection}{\numberline {4.2.3.34}Game\_\discretionary {-}{}{}Play}{26}{subsubsection.4.2.3.34}
+\contentsline {subsubsection}{\numberline {4.2.3.35}get\_\discretionary {-}{}{}distance}{26}{subsubsection.4.2.3.35}
+\contentsline {subsubsection}{\numberline {4.2.3.36}Init\_\discretionary {-}{}{}SAI}{27}{subsubsection.4.2.3.36}
+\contentsline {subsubsection}{\numberline {4.2.3.37}inTab}{27}{subsubsection.4.2.3.37}
+\contentsline {subsubsection}{\numberline {4.2.3.38}Load\_\discretionary {-}{}{}API}{27}{subsubsection.4.2.3.38}
+\contentsline {subsubsection}{\numberline {4.2.3.39}Menu\_\discretionary {-}{}{}Click}{27}{subsubsection.4.2.3.39}
+\contentsline {subsubsection}{\numberline {4.2.3.40}Menu\_\discretionary {-}{}{}Display}{28}{subsubsection.4.2.3.40}
+\contentsline {subsubsection}{\numberline {4.2.3.41}Menu\_\discretionary {-}{}{}Fill}{28}{subsubsection.4.2.3.41}
+\contentsline {subsubsection}{\numberline {4.2.3.42}Menu\_\discretionary {-}{}{}Text}{28}{subsubsection.4.2.3.42}
+\contentsline {subsubsection}{\numberline {4.2.3.43}Menu\_\discretionary {-}{}{}TextInput}{28}{subsubsection.4.2.3.43}

@@ -1,0 +1,153 @@
+\hypertarget{backgammon_8h}{
+\section{backgammon.h File Reference}
+\label{backgammon_8h}\index{backgammon.h@{backgammon.h}}
+}
+
+
+Contient les signatures des fonctions et les différentes structures communes à la promotion.  
+
+
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structSZone}{SZone}
+\begin{DoxyCompactList}\small\item\em Structure de représentation d'une zone du jeu. \end{DoxyCompactList}\item 
+struct \hyperlink{structSGameState}{SGameState}
+\begin{DoxyCompactList}\small\item\em Structure de représentation du jeu avec son plateau et les dés. \end{DoxyCompactList}\item 
+struct \hyperlink{structSMove}{SMove}
+\begin{DoxyCompactList}\small\item\em Structure de représentation d'un mouvement. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{backgammon_8h_a25ec8ffa6f1c4be9e2eca54baf08aebc}{
+typedef void($\ast$ {\bfseries pfInitLibrary} )(char\mbox{[}50\mbox{]})}
+\label{backgammon_8h_a25ec8ffa6f1c4be9e2eca54baf08aebc}
+
+\item 
+\hypertarget{backgammon_8h_abdf71d66bcfa2dac12f4d6b42e99e901}{
+typedef void($\ast$ {\bfseries pfStartMatch} )(const unsigned int)}
+\label{backgammon_8h_abdf71d66bcfa2dac12f4d6b42e99e901}
+
+\item 
+typedef void($\ast$ \hyperlink{backgammon_8h_aa8f2f8105935134a0c17112672e4b44d}{pfStartGame} )()
+\item 
+typedef void($\ast$ \hyperlink{backgammon_8h_a20a1003aff74fb4fd370b6e5f4181c2d}{pfEndGame} )()
+\item 
+typedef void($\ast$ \hyperlink{backgammon_8h_a404e0ed0163af0c5c5fa9ab64245560f}{pfEndMatch} )()
+\item 
+typedef int($\ast$ \hyperlink{backgammon_8h_a83fca1969157bef7e9ba7497b5f7333c}{pfDoubleStack} )(const \hyperlink{structSGameState}{SGameState} $\ast$const)
+\item 
+typedef int($\ast$ \hyperlink{backgammon_8h_afe7dc2d94cf907e098b2da6d59118000}{pfTakeDouble} )(const \hyperlink{structSGameState}{SGameState} $\ast$const)
+\item 
+typedef void($\ast$ \hyperlink{backgammon_8h_a6d46036e7a9a9e5216f61e64e9c411ab}{pfMakeDecision} )(const \hyperlink{structSGameState}{SGameState} $\ast$const, \hyperlink{structSMove}{SMove}\mbox{[}4\mbox{]}, unsigned int)
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{backgammon_8h_a30ddbd351c82b617f2a84ae629bd981b}{EPlayer} \{ {\bfseries EPlayer1}, 
+{\bfseries EPlayer2}
+ \}
+\begin{DoxyCompactList}\small\item\em Représente un joueur. \end{DoxyCompactList}\item 
+enum \hyperlink{backgammon_8h_a9247f6215e9419cfc6a8a7e914f2520d}{EPosition} \{ \par
+{\bfseries EPos\_\-nopos} = -\/1, 
+{\bfseries EPos\_\-1} = 0, 
+{\bfseries EPos\_\-2}, 
+{\bfseries EPos\_\-3}, 
+\par
+{\bfseries EPos\_\-4}, 
+{\bfseries EPos\_\-5}, 
+{\bfseries EPos\_\-6}, 
+{\bfseries EPos\_\-7}, 
+\par
+{\bfseries EPos\_\-8}, 
+{\bfseries EPos\_\-9}, 
+{\bfseries EPos\_\-10}, 
+{\bfseries EPos\_\-11}, 
+\par
+{\bfseries EPos\_\-12}, 
+{\bfseries EPos\_\-13}, 
+{\bfseries EPos\_\-14}, 
+{\bfseries EPos\_\-15}, 
+\par
+{\bfseries EPos\_\-16}, 
+{\bfseries EPos\_\-17}, 
+{\bfseries EPos\_\-18}, 
+{\bfseries EPos\_\-19}, 
+\par
+{\bfseries EPos\_\-20}, 
+{\bfseries EPos\_\-21}, 
+{\bfseries EPos\_\-22}, 
+{\bfseries EPos\_\-23}, 
+\par
+{\bfseries EPos\_\-24}, 
+{\bfseries EPos\_\-OutP1}, 
+{\bfseries EPos\_\-BarP1}, 
+{\bfseries EPos\_\-OutP2}, 
+\par
+{\bfseries EPos\_\-BarP2}
+ \}
+\begin{DoxyCompactList}\small\item\em Enumeration des zones pour le tableau points. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Contient les signatures des fonctions et les différentes structures communes à la promotion. \begin{DoxyDate}{Date}
+26 janvier 2012 
+\end{DoxyDate}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{backgammon_8h_a83fca1969157bef7e9ba7497b5f7333c}{
+\index{backgammon.h@{backgammon.h}!pfDoubleStack@{pfDoubleStack}}
+\index{pfDoubleStack@{pfDoubleStack}!backgammon.h@{backgammon.h}}
+\subsubsection[{pfDoubleStack}]{\setlength{\rightskip}{0pt plus 5cm}typedef int($\ast$ {\bf pfDoubleStack})(const {\bf SGameState} $\ast$const)}}
+\label{backgammon_8h_a83fca1969157bef7e9ba7497b5f7333c}
+Doubler la mise 
+\begin{DoxyParams}{Parameters}
+{\em const} & \hyperlink{structSGameState}{SGameState} $\ast$ const gameState l'état du jeu courant \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int vrai si on propose de doubler : faux sinon 
+\end{DoxyReturn}
+\hypertarget{backgammon_8h_a20a1003aff74fb4fd370b6e5f4181c2d}{
+\index{backgammon.h@{backgammon.h}!pfEndGame@{pfEndGame}}
+\index{pfEndGame@{pfEndGame}!backgammon.h@{backgammon.h}}
+\subsubsection[{pfEndGame}]{\setlength{\rightskip}{0pt plus 5cm}typedef void($\ast$ {\bf pfEndGame})()}}
+\label{backgammon_8h_a20a1003aff74fb4fd370b6e5f4181c2d}
+Fin d'une manche (d'un match) \hypertarget{backgammon_8h_a404e0ed0163af0c5c5fa9ab64245560f}{
+\index{backgammon.h@{backgammon.h}!pfEndMatch@{pfEndMatch}}
+\index{pfEndMatch@{pfEndMatch}!backgammon.h@{backgammon.h}}
+\subsubsection[{pfEndMatch}]{\setlength{\rightskip}{0pt plus 5cm}typedef void($\ast$ {\bf pfEndMatch})()}}
+\label{backgammon_8h_a404e0ed0163af0c5c5fa9ab64245560f}
+Fin d'un match \hypertarget{backgammon_8h_a6d46036e7a9a9e5216f61e64e9c411ab}{
+\index{backgammon.h@{backgammon.h}!pfMakeDecision@{pfMakeDecision}}
+\index{pfMakeDecision@{pfMakeDecision}!backgammon.h@{backgammon.h}}
+\subsubsection[{pfMakeDecision}]{\setlength{\rightskip}{0pt plus 5cm}typedef void($\ast$ {\bf pfMakeDecision})(const {\bf SGameState} $\ast$const, {\bf SMove}\mbox{[}4\mbox{]}, unsigned int)}}
+\label{backgammon_8h_a6d46036e7a9a9e5216f61e64e9c411ab}
+Prise de décision de la part de l'IA 
+\begin{DoxyParams}{Parameters}
+{\em const} & \hyperlink{structSGameState}{SGameState} $\ast$ const gameState l'état du jeu courant \\
+\hline
+{\em \hyperlink{structSMove}{SMove}} & moves\mbox{[}4\mbox{]} tableau des mouvements à effectuer par l'IA \\
+\hline
+{\em unsigned} & int lastTimeError vrai si la dernière action a causée une erreur \\
+\hline
+\end{DoxyParams}
+\hypertarget{backgammon_8h_aa8f2f8105935134a0c17112672e4b44d}{
+\index{backgammon.h@{backgammon.h}!pfStartGame@{pfStartGame}}
+\index{pfStartGame@{pfStartGame}!backgammon.h@{backgammon.h}}
+\subsubsection[{pfStartGame}]{\setlength{\rightskip}{0pt plus 5cm}typedef void($\ast$ {\bf pfStartGame})()}}
+\label{backgammon_8h_aa8f2f8105935134a0c17112672e4b44d}
+Initialiser l'IA pour une manche (d'un match) \hypertarget{backgammon_8h_afe7dc2d94cf907e098b2da6d59118000}{
+\index{backgammon.h@{backgammon.h}!pfTakeDouble@{pfTakeDouble}}
+\index{pfTakeDouble@{pfTakeDouble}!backgammon.h@{backgammon.h}}
+\subsubsection[{pfTakeDouble}]{\setlength{\rightskip}{0pt plus 5cm}typedef int($\ast$ {\bf pfTakeDouble})(const {\bf SGameState} $\ast$const)}}
+\label{backgammon_8h_afe7dc2d94cf907e098b2da6d59118000}
+Accepter ou refuser la nouvelle mise 
+\begin{DoxyParams}{Parameters}
+{\em const} & \hyperlink{structSGameState}{SGameState} $\ast$ const gameState l'état du jeu courant \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int vrai si on accepte la nouvelle mise ; faux sinon 
+\end{DoxyReturn}

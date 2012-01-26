@@ -1,0 +1,108 @@
+\indexentry{SDisplay@{SDisplay}|hyperpage}{5}
+\indexentry{SGame@{SGame}|hyperpage}{6}
+\indexentry{SGameState@{SGameState}|hyperpage}{7}
+\indexentry{SIA\_\discretionary {-}{}{}Functions@{SIA\_\discretionary {-}{}{}Functions}|hyperpage}{7}
+\indexentry{SMove@{SMove}|hyperpage}{8}
+\indexentry{SZone@{SZone}|hyperpage}{8}
+\indexentry{backgammon.h@{backgammon.h}|hyperpage}{11}
+\indexentry{backgammon.h@{backgammon.h}!pfDoubleStack@{pfDoubleStack}|hyperpage}{12}
+\indexentry{pfDoubleStack@{pfDoubleStack}!backgammon.h@{backgammon.h}|hyperpage}{12}
+\indexentry{backgammon.h@{backgammon.h}!pfEndGame@{pfEndGame}|hyperpage}{12}
+\indexentry{pfEndGame@{pfEndGame}!backgammon.h@{backgammon.h}|hyperpage}{12}
+\indexentry{backgammon.h@{backgammon.h}!pfEndMatch@{pfEndMatch}|hyperpage}{12}
+\indexentry{pfEndMatch@{pfEndMatch}!backgammon.h@{backgammon.h}|hyperpage}{12}
+\indexentry{backgammon.h@{backgammon.h}!pfMakeDecision@{pfMakeDecision}|hyperpage}{12}
+\indexentry{pfMakeDecision@{pfMakeDecision}!backgammon.h@{backgammon.h}|hyperpage}{12}
+\indexentry{backgammon.h@{backgammon.h}!pfStartGame@{pfStartGame}|hyperpage}{13}
+\indexentry{pfStartGame@{pfStartGame}!backgammon.h@{backgammon.h}|hyperpage}{13}
+\indexentry{backgammon.h@{backgammon.h}!pfTakeDouble@{pfTakeDouble}|hyperpage}{13}
+\indexentry{pfTakeDouble@{pfTakeDouble}!backgammon.h@{backgammon.h}|hyperpage}{13}
+\indexentry{definitions.h@{definitions.h}|hyperpage}{13}
+\indexentry{definitions.h@{definitions.h}!EGameMode@{EGameMode}|hyperpage}{17}
+\indexentry{EGameMode@{EGameMode}!definitions.h@{definitions.h}|hyperpage}{17}
+\indexentry{definitions.h@{definitions.h}!Arbitrator\_\discretionary {-}{}{}AuthorizedDeplacement@{Arbitrator\_\discretionary {-}{}{}AuthorizedDeplacement}|hyperpage}{17}
+\indexentry{Arbitrator\_\discretionary {-}{}{}AuthorizedDeplacement@{Arbitrator\_\discretionary {-}{}{}AuthorizedDeplacement}!definitions.h@{definitions.h}|hyperpage}{17}
+\indexentry{definitions.h@{definitions.h}!Arbitrator\_\discretionary {-}{}{}EmptyPosition@{Arbitrator\_\discretionary {-}{}{}EmptyPosition}|hyperpage}{17}
+\indexentry{Arbitrator\_\discretionary {-}{}{}EmptyPosition@{Arbitrator\_\discretionary {-}{}{}EmptyPosition}!definitions.h@{definitions.h}|hyperpage}{17}
+\indexentry{definitions.h@{definitions.h}!Arbitrator\_\discretionary {-}{}{}NumberOfDieCanPlay@{Arbitrator\_\discretionary {-}{}{}NumberOfDieCanPlay}|hyperpage}{17}
+\indexentry{Arbitrator\_\discretionary {-}{}{}NumberOfDieCanPlay@{Arbitrator\_\discretionary {-}{}{}NumberOfDieCanPlay}!definitions.h@{definitions.h}|hyperpage}{17}
+\indexentry{definitions.h@{definitions.h}!Arbitrator\_\discretionary {-}{}{}NumberOfDieForMove@{Arbitrator\_\discretionary {-}{}{}NumberOfDieForMove}|hyperpage}{18}
+\indexentry{Arbitrator\_\discretionary {-}{}{}NumberOfDieForMove@{Arbitrator\_\discretionary {-}{}{}NumberOfDieForMove}!definitions.h@{definitions.h}|hyperpage}{18}
+\indexentry{definitions.h@{definitions.h}!Arbitrator\_\discretionary {-}{}{}Pion\_\discretionary {-}{}{}Depart\_\discretionary {-}{}{}Autorise@{Arbitrator\_\discretionary {-}{}{}Pion\_\discretionary {-}{}{}Depart\_\discretionary {-}{}{}Autorise}|hyperpage}{18}
+\indexentry{Arbitrator\_\discretionary {-}{}{}Pion\_\discretionary {-}{}{}Depart\_\discretionary {-}{}{}Autorise@{Arbitrator\_\discretionary {-}{}{}Pion\_\discretionary {-}{}{}Depart\_\discretionary {-}{}{}Autorise}!definitions.h@{definitions.h}|hyperpage}{18}
+\indexentry{definitions.h@{definitions.h}!Arbitrator\_\discretionary {-}{}{}PlayerArrays@{Arbitrator\_\discretionary {-}{}{}PlayerArrays}|hyperpage}{18}
+\indexentry{Arbitrator\_\discretionary {-}{}{}PlayerArrays@{Arbitrator\_\discretionary {-}{}{}PlayerArrays}!definitions.h@{definitions.h}|hyperpage}{18}
+\indexentry{definitions.h@{definitions.h}!Arbitrator\_\discretionary {-}{}{}Sens\_\discretionary {-}{}{}rotation\_\discretionary {-}{}{}correct@{Arbitrator\_\discretionary {-}{}{}Sens\_\discretionary {-}{}{}rotation\_\discretionary {-}{}{}correct}|hyperpage}{19}
+\indexentry{Arbitrator\_\discretionary {-}{}{}Sens\_\discretionary {-}{}{}rotation\_\discretionary {-}{}{}correct@{Arbitrator\_\discretionary {-}{}{}Sens\_\discretionary {-}{}{}rotation\_\discretionary {-}{}{}correct}!definitions.h@{definitions.h}|hyperpage}{19}
+\indexentry{definitions.h@{definitions.h}!Arbitrator\_\discretionary {-}{}{}Taille\_\discretionary {-}{}{}Mouvement\_\discretionary {-}{}{}Correcte@{Arbitrator\_\discretionary {-}{}{}Taille\_\discretionary {-}{}{}Mouvement\_\discretionary {-}{}{}Correcte}|hyperpage}{19}
+\indexentry{Arbitrator\_\discretionary {-}{}{}Taille\_\discretionary {-}{}{}Mouvement\_\discretionary {-}{}{}Correcte@{Arbitrator\_\discretionary {-}{}{}Taille\_\discretionary {-}{}{}Mouvement\_\discretionary {-}{}{}Correcte}!definitions.h@{definitions.h}|hyperpage}{19}
+\indexentry{definitions.h@{definitions.h}!case\_\discretionary {-}{}{}appartenant\_\discretionary {-}{}{}joueur\_\discretionary {-}{}{}adverse\_\discretionary {-}{}{}avec\_\discretionary {-}{}{}un\_\discretionary {-}{}{}pion@{case\_\discretionary {-}{}{}appartenant\_\discretionary {-}{}{}joueur\_\discretionary {-}{}{}adverse\_\discretionary {-}{}{}avec\_\discretionary {-}{}{}un\_\discretionary {-}{}{}pion}|hyperpage}{19}
+\indexentry{case\_\discretionary {-}{}{}appartenant\_\discretionary {-}{}{}joueur\_\discretionary {-}{}{}adverse\_\discretionary {-}{}{}avec\_\discretionary {-}{}{}un\_\discretionary {-}{}{}pion@{case\_\discretionary {-}{}{}appartenant\_\discretionary {-}{}{}joueur\_\discretionary {-}{}{}adverse\_\discretionary {-}{}{}avec\_\discretionary {-}{}{}un\_\discretionary {-}{}{}pion}!definitions.h@{definitions.h}|hyperpage}{19}
+\indexentry{definitions.h@{definitions.h}!Check\_\discretionary {-}{}{}Args@{Check\_\discretionary {-}{}{}Args}|hyperpage}{20}
+\indexentry{Check\_\discretionary {-}{}{}Args@{Check\_\discretionary {-}{}{}Args}!definitions.h@{definitions.h}|hyperpage}{20}
+\indexentry{definitions.h@{definitions.h}!CheckerWithScreenPosition@{CheckerWithScreenPosition}|hyperpage}{20}
+\indexentry{CheckerWithScreenPosition@{CheckerWithScreenPosition}!definitions.h@{definitions.h}|hyperpage}{20}
+\indexentry{definitions.h@{definitions.h}!colorChecker@{colorChecker}|hyperpage}{20}
+\indexentry{colorChecker@{colorChecker}!definitions.h@{definitions.h}|hyperpage}{20}
+\indexentry{definitions.h@{definitions.h}!copyGameState@{copyGameState}|hyperpage}{20}
+\indexentry{copyGameState@{copyGameState}!definitions.h@{definitions.h}|hyperpage}{20}
+\indexentry{definitions.h@{definitions.h}!Display\_\discretionary {-}{}{}Arrow\_\discretionary {-}{}{}Possibilities@{Display\_\discretionary {-}{}{}Arrow\_\discretionary {-}{}{}Possibilities}|hyperpage}{21}
+\indexentry{Display\_\discretionary {-}{}{}Arrow\_\discretionary {-}{}{}Possibilities@{Display\_\discretionary {-}{}{}Arrow\_\discretionary {-}{}{}Possibilities}!definitions.h@{definitions.h}|hyperpage}{21}
+\indexentry{definitions.h@{definitions.h}!Display\_\discretionary {-}{}{}CheckerDraw@{Display\_\discretionary {-}{}{}CheckerDraw}|hyperpage}{21}
+\indexentry{Display\_\discretionary {-}{}{}CheckerDraw@{Display\_\discretionary {-}{}{}CheckerDraw}!definitions.h@{definitions.h}|hyperpage}{21}
+\indexentry{definitions.h@{definitions.h}!Display\_\discretionary {-}{}{}CheckerMove@{Display\_\discretionary {-}{}{}CheckerMove}|hyperpage}{21}
+\indexentry{Display\_\discretionary {-}{}{}CheckerMove@{Display\_\discretionary {-}{}{}CheckerMove}!definitions.h@{definitions.h}|hyperpage}{21}
+\indexentry{definitions.h@{definitions.h}!Display\_\discretionary {-}{}{}Checkers@{Display\_\discretionary {-}{}{}Checkers}|hyperpage}{22}
+\indexentry{Display\_\discretionary {-}{}{}Checkers@{Display\_\discretionary {-}{}{}Checkers}!definitions.h@{definitions.h}|hyperpage}{22}
+\indexentry{definitions.h@{definitions.h}!Display\_\discretionary {-}{}{}CheckersPossibilities@{Display\_\discretionary {-}{}{}CheckersPossibilities}|hyperpage}{22}
+\indexentry{Display\_\discretionary {-}{}{}CheckersPossibilities@{Display\_\discretionary {-}{}{}CheckersPossibilities}!definitions.h@{definitions.h}|hyperpage}{22}
+\indexentry{definitions.h@{definitions.h}!Display\_\discretionary {-}{}{}Clear@{Display\_\discretionary {-}{}{}Clear}|hyperpage}{22}
+\indexentry{Display\_\discretionary {-}{}{}Clear@{Display\_\discretionary {-}{}{}Clear}!definitions.h@{definitions.h}|hyperpage}{22}
+\indexentry{definitions.h@{definitions.h}!Display\_\discretionary {-}{}{}Die@{Display\_\discretionary {-}{}{}Die}|hyperpage}{22}
+\indexentry{Display\_\discretionary {-}{}{}Die@{Display\_\discretionary {-}{}{}Die}!definitions.h@{definitions.h}|hyperpage}{22}
+\indexentry{definitions.h@{definitions.h}!Display\_\discretionary {-}{}{}DrawBar@{Display\_\discretionary {-}{}{}DrawBar}|hyperpage}{23}
+\indexentry{Display\_\discretionary {-}{}{}DrawBar@{Display\_\discretionary {-}{}{}DrawBar}!definitions.h@{definitions.h}|hyperpage}{23}
+\indexentry{definitions.h@{definitions.h}!Display\_\discretionary {-}{}{}DrawOut@{Display\_\discretionary {-}{}{}DrawOut}|hyperpage}{23}
+\indexentry{Display\_\discretionary {-}{}{}DrawOut@{Display\_\discretionary {-}{}{}DrawOut}!definitions.h@{definitions.h}|hyperpage}{23}
+\indexentry{definitions.h@{definitions.h}!Display\_\discretionary {-}{}{}DrawSelectedArrow@{Display\_\discretionary {-}{}{}DrawSelectedArrow}|hyperpage}{23}
+\indexentry{Display\_\discretionary {-}{}{}DrawSelectedArrow@{Display\_\discretionary {-}{}{}DrawSelectedArrow}!definitions.h@{definitions.h}|hyperpage}{23}
+\indexentry{definitions.h@{definitions.h}!Display\_\discretionary {-}{}{}Exit@{Display\_\discretionary {-}{}{}Exit}|hyperpage}{23}
+\indexentry{Display\_\discretionary {-}{}{}Exit@{Display\_\discretionary {-}{}{}Exit}!definitions.h@{definitions.h}|hyperpage}{23}
+\indexentry{definitions.h@{definitions.h}!Display\_\discretionary {-}{}{}GameActions@{Display\_\discretionary {-}{}{}GameActions}|hyperpage}{24}
+\indexentry{Display\_\discretionary {-}{}{}GameActions@{Display\_\discretionary {-}{}{}GameActions}!definitions.h@{definitions.h}|hyperpage}{24}
+\indexentry{definitions.h@{definitions.h}!Display\_\discretionary {-}{}{}Init@{Display\_\discretionary {-}{}{}Init}|hyperpage}{24}
+\indexentry{Display\_\discretionary {-}{}{}Init@{Display\_\discretionary {-}{}{}Init}!definitions.h@{definitions.h}|hyperpage}{24}
+\indexentry{definitions.h@{definitions.h}!Display\_\discretionary {-}{}{}Message@{Display\_\discretionary {-}{}{}Message}|hyperpage}{24}
+\indexentry{Display\_\discretionary {-}{}{}Message@{Display\_\discretionary {-}{}{}Message}!definitions.h@{definitions.h}|hyperpage}{24}
+\indexentry{definitions.h@{definitions.h}!Display\_\discretionary {-}{}{}RefreshGameBoard@{Display\_\discretionary {-}{}{}RefreshGameBoard}|hyperpage}{24}
+\indexentry{Display\_\discretionary {-}{}{}RefreshGameBoard@{Display\_\discretionary {-}{}{}RefreshGameBoard}!definitions.h@{definitions.h}|hyperpage}{24}
+\indexentry{definitions.h@{definitions.h}!Display\_\discretionary {-}{}{}Score@{Display\_\discretionary {-}{}{}Score}|hyperpage}{25}
+\indexentry{Display\_\discretionary {-}{}{}Score@{Display\_\discretionary {-}{}{}Score}!definitions.h@{definitions.h}|hyperpage}{25}
+\indexentry{definitions.h@{definitions.h}!Free\_\discretionary {-}{}{}SAI@{Free\_\discretionary {-}{}{}SAI}|hyperpage}{25}
+\indexentry{Free\_\discretionary {-}{}{}SAI@{Free\_\discretionary {-}{}{}SAI}!definitions.h@{definitions.h}|hyperpage}{25}
+\indexentry{definitions.h@{definitions.h}!Game\_\discretionary {-}{}{}FirstToPlay@{Game\_\discretionary {-}{}{}FirstToPlay}|hyperpage}{25}
+\indexentry{Game\_\discretionary {-}{}{}FirstToPlay@{Game\_\discretionary {-}{}{}FirstToPlay}!definitions.h@{definitions.h}|hyperpage}{25}
+\indexentry{definitions.h@{definitions.h}!Game\_\discretionary {-}{}{}Init@{Game\_\discretionary {-}{}{}Init}|hyperpage}{26}
+\indexentry{Game\_\discretionary {-}{}{}Init@{Game\_\discretionary {-}{}{}Init}!definitions.h@{definitions.h}|hyperpage}{26}
+\indexentry{definitions.h@{definitions.h}!Game\_\discretionary {-}{}{}LaunchDie@{Game\_\discretionary {-}{}{}LaunchDie}|hyperpage}{26}
+\indexentry{Game\_\discretionary {-}{}{}LaunchDie@{Game\_\discretionary {-}{}{}LaunchDie}!definitions.h@{definitions.h}|hyperpage}{26}
+\indexentry{definitions.h@{definitions.h}!Game\_\discretionary {-}{}{}Play@{Game\_\discretionary {-}{}{}Play}|hyperpage}{26}
+\indexentry{Game\_\discretionary {-}{}{}Play@{Game\_\discretionary {-}{}{}Play}!definitions.h@{definitions.h}|hyperpage}{26}
+\indexentry{definitions.h@{definitions.h}!get\_\discretionary {-}{}{}distance@{get\_\discretionary {-}{}{}distance}|hyperpage}{26}
+\indexentry{get\_\discretionary {-}{}{}distance@{get\_\discretionary {-}{}{}distance}!definitions.h@{definitions.h}|hyperpage}{26}
+\indexentry{definitions.h@{definitions.h}!Init\_\discretionary {-}{}{}SAI@{Init\_\discretionary {-}{}{}SAI}|hyperpage}{27}
+\indexentry{Init\_\discretionary {-}{}{}SAI@{Init\_\discretionary {-}{}{}SAI}!definitions.h@{definitions.h}|hyperpage}{27}
+\indexentry{definitions.h@{definitions.h}!inTab@{inTab}|hyperpage}{27}
+\indexentry{inTab@{inTab}!definitions.h@{definitions.h}|hyperpage}{27}
+\indexentry{definitions.h@{definitions.h}!Load\_\discretionary {-}{}{}API@{Load\_\discretionary {-}{}{}API}|hyperpage}{27}
+\indexentry{Load\_\discretionary {-}{}{}API@{Load\_\discretionary {-}{}{}API}!definitions.h@{definitions.h}|hyperpage}{27}
+\indexentry{definitions.h@{definitions.h}!Menu\_\discretionary {-}{}{}Click@{Menu\_\discretionary {-}{}{}Click}|hyperpage}{27}
+\indexentry{Menu\_\discretionary {-}{}{}Click@{Menu\_\discretionary {-}{}{}Click}!definitions.h@{definitions.h}|hyperpage}{27}
+\indexentry{definitions.h@{definitions.h}!Menu\_\discretionary {-}{}{}Display@{Menu\_\discretionary {-}{}{}Display}|hyperpage}{28}
+\indexentry{Menu\_\discretionary {-}{}{}Display@{Menu\_\discretionary {-}{}{}Display}!definitions.h@{definitions.h}|hyperpage}{28}
+\indexentry{definitions.h@{definitions.h}!Menu\_\discretionary {-}{}{}Fill@{Menu\_\discretionary {-}{}{}Fill}|hyperpage}{28}
+\indexentry{Menu\_\discretionary {-}{}{}Fill@{Menu\_\discretionary {-}{}{}Fill}!definitions.h@{definitions.h}|hyperpage}{28}
+\indexentry{definitions.h@{definitions.h}!Menu\_\discretionary {-}{}{}Text@{Menu\_\discretionary {-}{}{}Text}|hyperpage}{28}
+\indexentry{Menu\_\discretionary {-}{}{}Text@{Menu\_\discretionary {-}{}{}Text}!definitions.h@{definitions.h}|hyperpage}{28}
+\indexentry{definitions.h@{definitions.h}!Menu\_\discretionary {-}{}{}TextInput@{Menu\_\discretionary {-}{}{}TextInput}|hyperpage}{28}
+\indexentry{Menu\_\discretionary {-}{}{}TextInput@{Menu\_\discretionary {-}{}{}TextInput}!definitions.h@{definitions.h}|hyperpage}{28}
