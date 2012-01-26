@@ -320,6 +320,7 @@ void Display_Exit(SDisplay *display)
 	for( i=0; i<6; i++ )
 	{
 		SDL_FreeSurface(display->die[i]);
+		SDL_FreeSurface(display->die_played[i]);
 	}
 	SDL_FreeSurface(display->screen);
 	

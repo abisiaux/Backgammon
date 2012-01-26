@@ -367,8 +367,8 @@ int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions
 						(*ai_struct[0].AI_MakeDecision)(copyGameState(gameState,EPlayer1), mvmt_ia, lastTimeError); // PENSER A ENVOYER COPIE DU GAMESTATE
 						for(i=0;i<4;i++)
 						{
-							//if(mvmt_ia[i] != NULL)
-							//Checker_Move(display, gameState, &mvmt_ia[i], game);
+							if(mvmt_ia[i].src_point != EPos_nopos && mvmt_ia[i].dest_point != EPos_nopos)
+								Checker_Move(display, gameState, &mvmt_ia[i], game);
 						}
 						curentP = EPlayer1;
 					}

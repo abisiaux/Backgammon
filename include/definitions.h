@@ -123,9 +123,20 @@ typedef struct
 
 /**************************** DEFINITIONS POUR LE MOTEUR DE JEU ******************************/
 
-/* Initialise la partie */
+/**
+ *Permet d'initialiser l'état du jeu (disposition des jetons au début de la partie)
+ *@param SMove tableau[4]
+ *	@return SGameState*
+ * Etat du jeu courant
+ */
 SGameState* Game_Init();
 
+/**
+ *Permet d'initialiser l'état du jeu (disposition des jetons au début de la partie)
+ *@param SDisplay
+ *	@return SGameState*
+ * Etat du jeu courant
+ */
 int Game_Play( SDisplay* display, EGameMode gameMode, SGame* game, SAI_Functions* ai_struct);
 
 
