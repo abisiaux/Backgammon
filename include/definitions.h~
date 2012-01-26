@@ -386,7 +386,7 @@ void Display_DrawBar(SDisplay* display, SGameState* gameState, SGame* game);
  * \param display Structure d'affichage
  * \param gameState Etat du jeu
  * \param game Informations sur le jeu (noms des joueurs, couleurs des pions des joueurs,...)
- * \param wantDouble Détermine si il y a eu demande de double
+ * \param player Joueur courant
  * \return Retourne 1 si quitter, 0 sinon
  */
 int Display_GameActions(SDisplay *display, SGameState* gameState, SGame *game, EPlayer player);
@@ -512,13 +512,13 @@ int Arbitrator_AuthorizedDeplacement(SGameState* gameState, SMove* move, EPlayer
 int Arbitrator_PlayerArrays(SZone zone, EPlayer player);
 
 /**
- * \fn int case_appartenant_joueur_adverse_avec_un_pion(SZone zone, EPlayer player);
+ * \fn int Arbitrator_Case_Appartenant_Joueur_Adverse_Avec_Un_Pion()
  * \brief 
  * \param zone
  * \param player
  * \return
  */
-int case_appartenant_joueur_adverse_avec_un_pion(SZone zone, EPlayer player);
+int Arbitrator_Case_Appartenant_Joueur_Adverse_Avec_Un_Pion( SZone zone, EPlayer player);
 
 /**
  * \fn int Arbitrator_EmptyPosition(SZone zone)
@@ -535,7 +535,8 @@ int Arbitrator_EmptyPosition(SZone zone);
  * \param arrivee Position d'arrivee
  * \return Retourne la distance entre ces deux positions
  */
-unsigned int get_distance(EPosition depart, EPosition arrivee);
+unsigned int Arbitrator_Get_Distance(EPosition depart, EPosition arrivee);
+
 
 /**
  * \fn int Arbitrator_Sens_rotation_correct(EPlayer player, EPosition depart, EPosition arrivee)
@@ -559,6 +560,7 @@ int Arbitrator_Sens_rotation_correct(EPlayer player, EPosition depart, EPosition
  */
 int Arbitrator_Pion_Depart_Autorise(int x, int y, EPlayer player, SGameState* game, EPosition posDepart);
 
+
 /**
  * \fn int Arbitrator_NumberOfDieForMove(SGameState* game, EPlayer player, SMove move)
  * \brief Détermine le nombre de dés utilisés pour faire un mouvement.
@@ -578,6 +580,7 @@ int Arbitrator_NumberOfDieForMove(SGameState* game, EPlayer player, SMove move);
  */
 int Arbitrator_NumberOfDieCanPlay(SGameState* gameState, EPlayer player); // A IMPLEMENTER
 
+
 /**
  * \fn int Arbitrator_Taille_Mouvement_Correcte(unsigned int taille_mouvement, SGame* game, SGameState* gameState)
  * \brief Détermine si le mouvement correspond à un des dés encore jouable.
@@ -588,6 +591,47 @@ int Arbitrator_NumberOfDieCanPlay(SGameState* gameState, EPlayer player); // A I
  */
 int Arbitrator_Taille_Mouvement_Correcte(unsigned int taille_mouvement, SGame* game, SGameState* gameState);
 
+/*Retourne 1 si le joueur peut encore jouer dans le tour, 0 sinon*/
+/**
+ * \fn int Arbitrator_Player_Can_Play(SGameState *gameState, SGame *game, EPlayer player)
+ * \brief Détermine si le joueur peut encore jouer dans le tour.
+ * \param gameState Etat du jeu
+ * \param game Informations sur le jeu (noms des joueurs, couleurs des pions des joueurs,...)
+ * \param player Joueur à analyser
+ * \return Retourne vrai si un mouvement est encore possible, faux sinon.
+ */
+int Arbitrator_Player_Can_Play(SGameState *gameState, SGame *game, EPlayer player);
+
+/*Retourne 1 si la zone est accessible au player*/
+/**
+ * \fn int Arbitrator_Zone_Accessible(SGameState *gameState, EPlayer player, EPosition pos)
+ * \brief Détermine si la case est accessible pour un joueur donné.
+ * \param gameState Etat du jeu
+ * \param player Joueur à analyser
+ * \param pos position de destination
+ * \return Retourne vrai si case accessible, faux sinon.
+ */
+int Arbitrator_Zone_Accessible(SGameState *gameState, EPlayer player, EPosition pos);
+
+/*Retourne le nombre de pions prisonniers pour un joueur donné*/
+/**
+ * \fn int Arbitrator_Nb_Pion_Prison(SGameState* game, EPlayer player)
+ * \brief Retourne le nombre de pion prisonniers pour un joueur donné.
+ * \param gameState Etat du jeu
+ * \param player Joueur à analyser
+ * \return Nombre de pions prisonniers.
+ */
+int Arbitrator_Nb_Pion_Prison(SGameState* game, EPlayer player);
+
+/*Retourne 1 si le joueur peut deplacer des pions dans le OUT*/
+/**
+ * \fn int Arbitrator_Jeu_Out_Possible(SGameState* game, EPlayer player)
+ * \brief Détermine si un joueur peut envoyer des pions dans la zone OUT.
+ * \param gameState Etat du jeu
+ * \param player Joueur à analyser
+ * \return Retourne vrai si le joueur peut jouer en OUT, faux sinon.
+ */
+int Arbitrator_Jeu_Out_Possible(SGameState* game, EPlayer player);
 /**************************** FIN SPECIFICATION ARBITRE ******************************/
 
 

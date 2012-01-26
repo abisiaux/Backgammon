@@ -718,7 +718,7 @@ void Display_CheckerMove(SDisplay *display, SGameState* gameState, SMove *move, 
 	Display_RefreshGameBoard(display, gameState, game);
 	
 	//Mise a jour du tableau des dés utilisables.
-	unsigned int taille_mouvement = get_distance(move->src_point,move->dest_point);
+	unsigned int taille_mouvement = Arbitrator_Get_Distance(move->src_point,move->dest_point);
 	for(int i=0;i<4;i++)
 	{
 		if(game->die_To_Play[i] == 1) // dé non utilisé jusqu'a present
