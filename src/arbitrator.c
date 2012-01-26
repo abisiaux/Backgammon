@@ -343,7 +343,7 @@ int Arbitrator_Player_Can_Play(SGameState *gameState, SGame *game, EPlayer playe
 						}
 					
 					}
-					else if(Nb_Des_Encore_Jouables == 3)// trois dés jouables
+					else if(Nb_Des_Encore_Jouables >= 3)// trois dés jouables
 					{
 						int de = gameState->die1; // 3 dés jouables, donc de1 = de2 = de3 = de4
 						
@@ -371,36 +371,9 @@ int Arbitrator_Player_Can_Play(SGameState *gameState, SGame *game, EPlayer playe
 								return 1;
 							}
 						}
-					}
-					else // quatre dés jouables
-					{
-						int de = gameState->die1; // 4 dés jouables, donc de1 = de2 = de3 = de4
-						
-						if((i+(sens*de) <= EPos_24)  &&  (i+(sens*de) >= EPos_1) ) // si le dé permet de jouer sur une fleche (pas en out)
+						if(Nb_Des_Encore_Jouables > 3)
 						{
-							if(Arbitrator_Zone_Accessible(gameState, player, i+(sens*de)))
-							{
-								//mouvement possible ici
-								return 1;
-							}
-						}
-						if((i+(2*(sens*de)) <= EPos_24)  &&  (i+(2*(sens*de)) >= EPos_1) ) // si le dé permet de jouer sur une fleche (pas en out)
-						{
-							if(Arbitrator_Zone_Accessible(gameState, player, i+(2*(sens*de))))
-							{
-								//mouvement possible ici
-								return 1;
-							}
-						}
-						if((i+(3*(sens*de)) <= EPos_24)  &&  (i+(3*(sens*de)) >= EPos_1) ) // si le dé permet de jouer sur une fleche (pas en out)
-						{
-							if(Arbitrator_Zone_Accessible(gameState, player, i+(3*(sens*de))))
-							{
-								//mouvement possible ici
-								return 1;
-							}
-						}
-						if((i+(4*de) <= EPos_24)  &&  (i+(4*(sens*de)) >= EPos_1) ) // si le dé permet de jouer sur une fleche (pas en out)
+							if((i+(4*(sens*de)) <= EPos_24)  &&  (i+(4*(sens*de)) >= EPos_1) ) // si le dé permet de jouer sur une fleche (pas en out)
 						{
 							if(Arbitrator_Zone_Accessible(gameState, player, i+(4*(sens*de))))
 							{
@@ -408,20 +381,268 @@ int Arbitrator_Player_Can_Play(SGameState *gameState, SGame *game, EPlayer playe
 								return 1;
 							}
 						}
-					
+						}
 					}
 				}
 			
 			}
-			//test pour une possibilité en sortie de BAR
+/************************		TEST POUR UNE POSSIBILITE EN SORTIE DE BAR		***************************************************/
 			if(  ( (player == EPlayer1) && (gameState->zones[EPos_BarP1].nb_checkers > 0) )  ||  ( (player == EPlayer2) && (gameState->zones[EPos_BarP2].nb_checkers > 0) )  )
 			{
-				return 1; // A IMPLEMENTER
+				int pos_IN=EPos_1;
+				if(player == EPlayer2)
+					pos_IN=EPos_24;
+				if(Nb_Des_Encore_Jouables == 1)// un seul dé jouable
+				{
+					int de = 0;
+					for(int j=0; j<4; j++) // on récupère la valeur du dé non joué
+					{
+						if(game->die_To_Play[j] == 1)
+						{
+							switch(j)
+							{
+								case 1: // Le dé non joué est le dé 1
+									de = gameState->die1;
+									break;
+									
+								case 2:
+									de = gameState->die2;
+									break;
+									
+								default:
+									de = gameState->die1;
+									break;
+							}
+						}
+					} 
+					if( (pos_IN+(sens*de) <= EPos_24)  &&  (pos_IN+(sens*de) >= EPos_1) ) // si le dé permet de jouer sur une fleche (pas en out)
+					{
+						if(Arbitrator_Zone_Accessible(gameState, player, pos_IN+(sens*de)))
+						{
+							//mouvement possible ici
+							return 1;
+						}
+					}
+				}
+				else if(Nb_Des_Encore_Jouables == 2)// deux dés jouables
+				{
+					int de1 = 0;
+					int de2 = 0;
+					for(int j=0; j<4; j++) // on récupère la valeur des dés non joués
+					{
+						if(game->die_To_Play[j] == 1)
+						{
+							switch(j)
+							{
+								case 1: // Un des dés non joués est le dé 1
+									de1 = gameState->die1;
+									break;
+									
+								case 2: // Un des dés non joués est le dé 2
+									de2 = gameState->die2;
+									break;
+									
+								default:
+									break;
+							}
+						}
+					}
+					if(de1 == 0)
+						de1 = gameState->die1;
+					if(de2 == 0)
+						de2 = gameState->die1;
+							
+					if((pos_IN+(sens*de1) <= EPos_24)  &&  (pos_IN+(sens*de1) >= EPos_1) ) // si le dé permet de jouer sur une fleche (pas en out)
+					{
+						if(Arbitrator_Zone_Accessible(gameState, player, pos_IN+(sens*de1)))
+						{
+							//mouvement possible ici
+							return 1;
+						}
+					}
+					if((pos_IN+(sens*de2) <= EPos_24)  &&  (pos_IN+(sens*de2) >= EPos_1) ) // si le dé permet de jouer sur une fleche (pas en out)
+					{
+						if(Arbitrator_Zone_Accessible(gameState, player, pos_IN+(sens*de2)))
+						{
+							//mouvement possible ici
+							return 1;
+						}
+					}
+					if((pos_IN+(sens*(de1+de2)) <= EPos_24)  &&  (pos_IN+(sens*(de1+de2)) >= EPos_1) ) // si le dé permet de jouer sur une fleche (pas en out)
+					{
+						if(Arbitrator_Zone_Accessible(gameState, player, pos_IN+(sens*(de1+de2))))
+						{
+							//mouvement possible ici
+							return 1;
+						}
+					}
+				
+				}
+				else if(Nb_Des_Encore_Jouables >= 3)// trois dés jouables
+				{
+					int de = gameState->die1; // 3 dés jouables, donc de1 = de2 = de3 = de4
+					
+					if((pos_IN+(sens*de) <= EPos_24)  &&  (pos_IN+(sens*de) >= EPos_1) ) // si le dé permet de jouer sur une fleche (pas en out)
+					{
+						if(Arbitrator_Zone_Accessible(gameState, player, pos_IN+(sens*de)))
+						{
+							//mouvement possible ici
+							return 1;
+						}
+					}
+					if((pos_IN+(2*(sens*de)) <= EPos_24)  &&  (pos_IN+(2*(sens*de)) >= EPos_1) ) // si le dé permet de jouer sur une fleche (pas en out)
+					{
+						if(Arbitrator_Zone_Accessible(gameState, player, pos_IN+(2*(sens*de))))
+						{
+							//mouvement possible ici
+							return 1;
+						}
+					}
+					if((pos_IN+(3*(sens*de)) <= EPos_24)  &&  (pos_IN+(3*(sens*de)) >= EPos_1) ) // si le dé permet de jouer sur une fleche (pas en out)
+					{
+						if(Arbitrator_Zone_Accessible(gameState, player, pos_IN+(3*(sens*de))))
+						{
+							//mouvement possible ici
+							return 1;
+						}
+					}
+					if(Nb_Des_Encore_Jouables > 3)
+					{
+						if((pos_IN+(4*(sens*de)) <= EPos_24)  &&  (pos_IN+(4*(sens*de)) >= EPos_1) ) // si le dé permet de jouer sur une fleche (pas en out)
+					{
+						if(Arbitrator_Zone_Accessible(gameState, player, pos_IN+(4*(sens*de))))
+						{
+							//mouvement possible ici
+							return 1;
+						}
+					}	
+					}
+				}
+					
 			}
-			//test pour une possibilité en sortie OUT
+/************************		TEST POUR UNE POSSIBILITE EN SORTIE OUT		***************************************************/
 			if(Arbitrator_Jeu_Out_Possible(gameState, player))
 			{
-				return 1; // A IMPLEMENTER
+				EPosition deb_zone_out = EPos_19;
+				if(player == EPlayer2)
+				{
+					deb_zone_out = EPos_6;
+				}
+				for(int i=1;i <= 6 ;i++)
+				{
+					if(  (gameState->zones[deb_zone_out+(sens*i)-1].player == player)  &&  (gameState->zones[deb_zone_out+(sens*i)-1].nb_checkers > 0)  ) // si la zone lui appartient
+					{
+						if(Nb_Des_Encore_Jouables == 1)// un seul dé jouable
+						{
+							int de = 0;
+							for(int j=0; j<4; j++) // on récupère la valeur du dé non joué
+							{
+								if(game->die_To_Play[j] == 1)
+								{
+									switch(j)
+									{
+										case 1: // Le dé non joué est le dé 1
+											de = gameState->die1;
+											break;
+										
+										case 2:
+											de = gameState->die2;
+											break;
+										
+										default:
+											de = gameState->die1;
+											break;
+									}
+								}
+							} 
+							if(i+de-1 == 6)
+							{
+								//mouvement possible ici
+								return 1;
+							}
+						
+						}
+						else if(Nb_Des_Encore_Jouables == 2)// deux dés jouables
+						{
+							int de1 = 0;
+							int de2 = 0;
+							for(int j=0; j<4; j++) // on récupère la valeur des dés non joués
+							{
+								if(game->die_To_Play[j] == 1)
+								{
+									switch(j)
+									{
+										case 1: // Un des dés non joués est le dé 1
+											de1 = gameState->die1;
+											break;
+										
+										case 2: // Un des dés non joués est le dé 2
+											de2 = gameState->die2;
+											break;
+										
+										default:
+											break;
+									}
+								}
+							}
+							if(de1 == 0)
+								de1 = gameState->die1;
+							if(de2 == 0)
+								de2 = gameState->die1;
+								
+							if(i+de1-1 == 6)
+							{
+								//mouvement possible ici
+								return 1;
+							
+							}
+							if(i+de2-1 == 6)
+							{
+								//mouvement possible ici
+								return 1;
+							}
+						
+							if(i+de1+de2-1 == 6)
+							{
+								//mouvement possible ici
+								return 1;
+							}
+						
+					
+						}
+						else if(Nb_Des_Encore_Jouables >= 3)// trois dés jouables
+						{
+							int de = gameState->die1; // 3 dés jouables, donc de1 = de2 = de3 = de4
+						
+							if(i+de-1 == 6)
+							{
+								//mouvement possible ici
+								return 1;
+							}
+						
+							if(i+(2*de)-1 == 6)
+							{
+								//mouvement possible ici
+								return 1;
+							}
+						
+							if(i+(3*de)-1 == 6)
+							{
+								//mouvement possible ici
+								return 1;
+							}
+							if(Nb_Des_Encore_Jouables > 3)
+							{
+								if(i+(4*de)-1 == 6)
+								{
+									//mouvement possible ici
+									return 1;
+								}
+							}
+						
+						}
+					}
+				}
 			}	
 	
 	}
