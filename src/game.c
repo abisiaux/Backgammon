@@ -279,14 +279,13 @@ int Game_Play(SDisplay* display, EGameMode gameMode, SGame* game, SIA_Functions*
 	
 	int i=0;
 	EPlayer curentP;
-	int action,accept;
+	int action;
 	char* tmp = (char*)malloc(100*sizeof(char));
 	
 	SDL_Event event;
 	int quit = 0;
 	int finish;
 	SGameState* copyGameS;
-	SMove mouvement; // Mouvement pour le joueur humain
 	
 	/** DECLARATIONS IA **/
 	SMove mvmt_ia[4]; // Tableau de mouvement a fournir à l'IA
@@ -669,7 +668,6 @@ void convertMove(SMove* move,EPlayer player)
 	}
 	else
 	{
-		EPosition tmp;
 		// Si c'est une barre
 		if( move->src_point == EPos_BarP1)
 		{

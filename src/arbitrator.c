@@ -653,4 +653,5 @@ int Arbitrator_Zone_Accessible(SGameState *gameState, EPlayer player, int pos)
 		if((gameState->zones[pos].player == player)  ||  (gameState->zones[pos].nb_checkers < 2) )
 			return 1;
 	}
+	return 0;
 }

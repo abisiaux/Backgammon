@@ -32,10 +32,10 @@ void Display_Init(SDisplay* display, SGame* game)
 	}
 	
 	// Enregistrement du path des images
-	display->img_path = "../ressources/pictures/";
+	display->img_path = "ressources/pictures/";
 	
 	// Enregistrement du path des polices
-	display->font_path = "../ressources/fonts/";
+	display->font_path = "ressources/fonts/";
 	temp_path = (char*)malloc(100*sizeof(char));
 	
 	// Chargement de l'icone de la fenêtre
@@ -1434,7 +1434,6 @@ int* Display_Arrow_Possibilities(SDisplay *display, SGameState *gameState, EPlay
 	}
 
 	SDL_Flip(display->screen);
-	printf("%x\n",arriveesPossibles);
 	return arriveesPossibles;
 }
 void Display_DrawSelectedArrow(SDisplay *display, EPosition pos)
