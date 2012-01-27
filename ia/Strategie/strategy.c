@@ -54,19 +54,15 @@ void EndGame()
 }
 
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 void MakeDecision(const SGameState * const gameState, SMove moves[4], unsigned int lastTimeError)
 {
 	srand(time(NULL));	// Pour le random
 	currentGameState = *gameState;  // Copie locale de l etat courant du jeu
 
-    // RaZ du tableau de mouvements
-    int i = 0;
-    for(i = 0 ; i < 4; i++)
-    {
-        moves[i].src_point = EPos_nopos;
-        moves[i].dest_point = EPos_nopos;
-    }
+    ResetTab(moves);    // RaZ du tableau recu
     
 	// Remplissage du tableau de des
 	dies[1] = currentGameState.die1;
@@ -86,11 +82,7 @@ void MakeDecision(const SGameState * const gameState, SMove moves[4], unsigned i
 	//printf("DES INITIAUX : | %d | %d | %d | %d |\n", dies[1], dies[2], dies[3], dies[4]);	
 	ListPotentialMoves();
     
-    // Remplissage du tableau renvoye
-    for(i = 0 ; i <= 3 ; i++)
-    {
-        moves[i] = finalMoves[i];
-    }
+    CopyTab(moves, finalMoves); // Copie de nos mouvements choisis dans le tableau de renvoi
 }
 
 
@@ -98,12 +90,13 @@ void MakeDecision(const SGameState * const gameState, SMove moves[4], unsigned i
 
 
 /** void ListPotentialMoves()
-  * Liste l ensemble des mouvements potentiellement réalisables 
+  * Liste l ensemble des mouvements potentiellement realisables 
 **/
 void ListPotentialMoves()
 {
 	// Remise a zero du tableau de mouvements
     potentialMoves = realloc(potentialMoves, 0);
+    potentialMoves = NULL;
     if(potentialMoves != NULL)
     {
         printf("Erreur d'allocation !\n");
@@ -112,7 +105,6 @@ void ListPotentialMoves()
     // Si un a un pion prisonnier, il faut le liberer avant toute chose
     if(HavePrisoner)
     {
-        //printf("TA %d PRISONNERS PATATE !!!\n", currentGameState.zones[EPos_BarP1].nb_checkers);
         IsEligibleForRelease();
     }
     else
@@ -163,12 +155,7 @@ void ListPotentialMoves()
                 }
             }
         }
-        int j = 0;
-        for(j = 0 ; j <= (moveNumber - 1) ; j++)
-        {
-            //printf("MOUVEMENT %d : Depart de %d ; Arrivee de %d ; Mangeur?%d ; Marqueur?%d ; Protecteur?%d\n", j, potentialMoves[j].from, potentialMoves[j].to, potentialMoves[j].canEat, potentialMoves[j].canMark, potentialMoves[j].canProtect);
-        }
-        if(!(moveNumber == 0))
+        if(!(moveNumber == 0))  // On continue seulement si on a au moins un mouvement realisable
         {
             ChooseMove(moveNumber - 1);
         }
@@ -181,7 +168,6 @@ void ListPotentialMoves()
 
 /** void IsEligibleForRelease()
   * Determine si un pion prisonnier peut etre libere
-  * Si oui, affecte un priorite a chaque mouvement de sortie possible
 **/
 void IsEligibleForRelease()
 {
@@ -200,14 +186,12 @@ void IsEligibleForRelease()
                 canPlay = 1;
                 FillPotentialMoves(EPos_BarP1, dies[nbdies], moveNumber);
                 moveNumber++;
-                //printf("Sortie n°%d sur %d ; priorite de %d\n", moveNumber, potentialMoves[moveNumber-1].to, potentialMoves[moveNumber-1].priority);
             }
         }
     }
     if(!(canPlay))  // Si on ne peut pas jouer, notre tour est termine
     {
         FinalReturn(-1);
-        //printf("TOUR TERMINE !!!!!\n");
     }
     else
     {
@@ -219,14 +203,14 @@ void IsEligibleForRelease()
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-/** void FillPotentialMoves(EPosition start, int die, int moveNumber)
+/** void FillPotentialMoves(const EPosition start, const int die, const int moveNumber)
   * Remplie le tableau de mouvements potentiels
-  @param EPosition start : le point de depart du mouvement a ajouter
-         int die : la valeur du de utilise
-         int moveNumber : le numero du mouvement a ajouter (pour redimensionner le tableau)
+  * @param const EPosition start : le point de depart du mouvement a ajouter
+  * @param const int die : la valeur du de utilise
+  * @param const int moveNumber : le numero du mouvement a ajouter (pour redimensionner le tableau)
   *
 **/
-void FillPotentialMoves(EPosition start, int die, int moveNumber)
+void FillPotentialMoves(const EPosition start, const int die, const int moveNumber)
 {
     // Augmentation de la taille du tableau de 1
     potentialMoves = (Strat_move*) realloc(potentialMoves, (moveNumber+1) * sizeof(Strat_move));
@@ -235,6 +219,7 @@ void FillPotentialMoves(EPosition start, int die, int moveNumber)
     potentialMoves[moveNumber].canMark = 0;
     potentialMoves[moveNumber].canProtect = 0;
     potentialMoves[moveNumber].priority = 0;
+    potentialMoves[moveNumber].proba = 0;
     if(start == EPos_BarP1) // Si le mouvement vient de la prison, l arrivee n est pas calculee de la meme facon
     {
         potentialMoves[moveNumber].to = 24 - die;
@@ -257,36 +242,29 @@ void FillPotentialMoves(EPosition start, int die, int moveNumber)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    
-    
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 /** EvaluateToExit()
   * Evalue chaque mouvement de sortie de prison et modifie la priorite de chacun
-  * Priorite 1 : Si on peut manger un pion                      => 4
-  * Priorite 2 : Si on peut protéger un de nos pions seuls      => 3
-  * Priorite 3 : Si on peut aller sur une zone nous appartenant => 2
-  * Priorite 4 : Si aucune autre solution                       => 1
+  * @param Strat_move* const move : le mouvement a evaluer
 **/
-void EvaluateToExit(Strat_move* move)
+void EvaluateToExit(Strat_move* const move)
 {
     SZone exit = currentGameState.zones[move->to];
     if( (exit.player == EPlayer2) && (exit.nb_checkers == 1) )
     {
-        move->priority = 4;
+        move->priority = 4; // Si on peut manger un pion
     }
     else if( (exit.player == EPlayer1) && (exit.nb_checkers == 1) )
     {
-        move->priority = 3;
+        move->priority = 3; // Si on peut proteger un de nos pions seuls
     }
     else if( (exit.player == EPlayer1) && (exit.nb_checkers > 1) )
     {
-        move->priority = 2;
+        move->priority = 2; // Si on peut aller sur une zone nous appartenant
     }
     else
     {
-        move->priority = 1;
+        move->priority = 1; // Si aucune autre solution
     }
 }
 
@@ -294,52 +272,29 @@ void EvaluateToExit(Strat_move* move)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-/** ChooseMove
+/** void ChooseMove(const int tabLength)
   * Selectionne un mouvement dans le tableau de mouvements potentiels
-  * @param Strat_move currentList[MAX_POTENTIAL_MOVES] : liste des mouvements potentiels
+  * @param const int tabLength : la taille du tableau de mouvements potentiels
 **/
-void ChooseMove(int tabLength)
+void ChooseMove(const int tabLength)
 {
-	int choosen = 0;
-    
-    // Priorite 1 : Si on a des prisonniers
-    if( HavePrisoner )   // S il y a des prisonniers, seuls eux sont listes donc pas besoin de parcourir la liste
+    if( HavePrisoner )                                              // Priorite 1 : si on a des prisonniers
     {
         FinalReturn( FindMaxPriority(potentialMoves, tabLength) );
-        choosen = 1;
     }
-    else if( CanWeMark(&currentGameState) )
+    else if( CanWeMark(&currentGameState) )                         // Priorite 2 : si on peut marquer
     {
         FinalReturn( ChooseMarkMove(tabLength) );
-        choosen = 1;
     }
-    else if( CanWeProtect(potentialMoves, tabLength) )
+    else if( CanWeProtect(potentialMoves, tabLength) )              // Priorite 3 : Si on peut proteger
     {
-        choosen = 1;
-        /*if(i <= tabLength)     // On continue de parcourir seulement s'il y a d'autres mouvements
-        {                           // Pour regarder s il y a une plus grande priorite
-            int currentPriority = potentialMoves[i].priority;
-            int iPrim = i + 1;
-            while( (iPrim <= tabLength) )
-            {
-                if( (potentialMoves[iPrim].canProtect) && (potentialMoves[iPrim].priority > currentPriority))
-                {
-                    currentPriority = potentialMoves[iPrim].priority;
-                    i = iPrim;
-                }
-                iPrim++;
-            }
-        }
-        FinalReturn(i);*/
         FinalReturn( ChooseProtectMove(tabLength) );
     }
-    
-    if(!(choosen) && CanWeEat(potentialMoves, tabLength) )   // Si on peut manger un pion
+    else if( CanWeEat(potentialMoves, tabLength) )                  // Priorite 2 : Si on peut manger
     {
-        choosen = 1;
         FinalReturn( ChooseEatMove(tabLength) );
     }
-    if(!(choosen))  // Choix par defaut (aucun meilleur a priori)
+    else                                                            // Choix par defaut (aucun meilleur a priori)
     {
         FinalReturn( ChooseDefaultMove(tabLength) );
     }
@@ -349,13 +304,13 @@ void ChooseMove(int tabLength)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-/** UpdateAfterDecision
-    * Met a jour la liste des mouvements potentiels de la strategie apres la choix d un premier mouvement
+/** void UpdateAfterDecision(const int previousMoveIndex, const int exitPrison)
+    * Met a jour la liste des mouvements potentiels de la strategie apres la choix d un mouvement
     * ainsi que l etat courant du plateau
-    * @param previousMoveIndex : la position, dans la liste, du mouvement precedemment effectue
-    * @param exitPrison : indique si le mouvement choisit est une sortie de prison
+    * @param const int previousMoveIndex : la position du mouvement effectue dans le tableau de mouvements potentiels
+    * @param exitPrison : indique si le mouvement choisi est une sortie de prison
 **/
-void UpdateAfterDecision(int previousMoveIndex, int exitPrison)
+void UpdateAfterDecision(const int previousMoveIndex, const int exitPrison)
 {
 	Strat_move lastMove = potentialMoves[previousMoveIndex];
     
@@ -395,9 +350,7 @@ void UpdateAfterDecision(int previousMoveIndex, int exitPrison)
         }
         value++;
     }
-    //A SUPPRIMER : AFFICHAGE DE LA LISTE DES DES APRES UN CHOIX
-	//printf("DES : %d ||| %d | %d | %d | %d |\n", dies[0], dies[1], dies[2], dies[3], dies[4]);
-	// 3 : On recomment l evaluation du plateau seulement s il reste des des
+	// 3 : On recommence l evaluation du plateau seulement s il reste des des
     if(dies[0] > 0)
 	{
 		ListPotentialMoves();
@@ -408,14 +361,14 @@ void UpdateAfterDecision(int previousMoveIndex, int exitPrison)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-/** int ChooseMarkMove()
- * Choisis le meilleur mouvement marqueur a jouer
+/** int ChooseMarkMove(const int length)
+ * Affecte des priorites aux mouvements marqueurs
  * On privilegie le rapprochement vers la sortie plutot que la sortie directe
- * @param int length : la taille du tableau de mouvements
+ * @param const int length : la taille du tableau de mouvements
  * @return int : l index du mouvement choisi (-1 si aucun)
  *
  **/
-int ChooseMarkMove(int length)
+int ChooseMarkMove(const int length)
 {
     // Si on est la, tous les mouvements ont un canMark == 1 !
     int i = 0;
@@ -440,13 +393,13 @@ int ChooseMarkMove(int length)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-/** Strat_move* ChooseEatMove()
-  * Choisis le meilleur mouvement "mangeur" a jouer
-  * @param int length : la taille du tableau de mouvements
+/** int ChooseEatMove(const int length)
+  * Affecte des priorites aux mouvements mangeurs
+  * @param const int length : la taille du tableau de mouvements
   * @return int : l index du mouvement choisi (-1 si aucun)
   *
  **/
-int ChooseEatMove(int length)
+int ChooseEatMove(const int length)
 {
     int i = 0;
     int choice = -1;
@@ -475,13 +428,13 @@ int ChooseEatMove(int length)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-/** Strat_move* ChooseProtectMove()
- * Choisis le meilleur mouvement protecteur a jouer
- * @param int length : la taille du tableau de mouvements
+/** int ChooseProtectMove(const int length)
+ * Affecte des priorites aux mouvements protecteurs
+ * @param const int length : la taille du tableau de mouvements
  * @return int : l index du mouvement choisi (-1 si aucun)
  *
  **/
-int ChooseProtectMove(int length)
+int ChooseProtectMove(const int length)
 {
     int i = 0;
     while( i <= length )
@@ -496,8 +449,8 @@ int ChooseProtectMove(int length)
         }
         else if( (potentialMoves[i].canProtect) && (currentGameState.zones[potentialMoves[i].from].nb_checkers == 2) )
         {   
-            // PROBAAAAAAAAAAAA
             potentialMoves[i].priority = 1;
+            potentialMoves[i].proba = ProbaRisk(potentialMoves[i].from);
         }
         i++;
     }
@@ -509,14 +462,14 @@ int ChooseProtectMove(int length)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-/** int ChooseDefaultMove(int length)
+/** int ChooseDefaultMove(const int length)
   * Choisis un mouvement par defaut (si aucun autre n a ete determine avant)
   * - On regarde si on peut remplir les cases de 1 a 6 (la sortie de prison adverse) par au moins 2 de nos pions
   * - Sinon, on prend au hasard
   * @param length : la taille du tableau de mouvements
   * return int : l index du mouvement selectionne
 */
-int ChooseDefaultMove(int length)
+int ChooseDefaultMove(const int length)
 {
     int i = 0;
     // Remplissage 1 a 6
@@ -534,15 +487,15 @@ int ChooseDefaultMove(int length)
             }
             else if( (currentGameState.zones[potentialMoves[i].to].nb_checkers == 1) )
             {
-                // PROBAAAAAAA
                 potentialMoves[i].priority = 2; // Mise en danger d un pion sur la zone de depart
+                potentialMoves[i].proba = ProbaRisk(potentialMoves[i].from);
             }
             else if( (currentGameState.zones[potentialMoves[i].to].nb_checkers == 0)
                   && (currentGameState.zones[EPos_BarP2].nb_checkers == 0)
                   && (dies[5] == dies[4]) )
             {
-                // PROBAAAAAA
                 potentialMoves[i].priority = 1; // Mise en place d un seul pion mais avec aucun pion adverse a sortir de prison
+                potentialMoves[i].proba = ProbaRisk(potentialMoves[i].to);
             }
         }
         i++;
@@ -584,12 +537,86 @@ int ChooseDefaultMove(int length)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-/** void FinalReturn(Strat_move* move)
+/** int probaRisk(const EPosition zone)
+  * Calcule le risque d etre mange au tour suivant
+  * @param const EPosition zone : la zone a evaluer
+  * @preturn int : 1- la probalibilite d etre mange
+**/
+int ProbaRisk(const EPosition zone)
+{
+    if( ((currentGameState.zones[zone-6].player == EPlayer2) && (currentGameState.zones[zone-6].nb_checkers > 0))
+        && ((zone > EPos_6) && (zone < EPos_19)) )
+    {
+        return 100-47;
+    }
+    if( ((currentGameState.zones[zone-5].player == EPlayer2) && (currentGameState.zones[zone-5].nb_checkers > 0))
+        && ((zone > EPos_5) && (zone < EPos_20)) )
+    {
+        return 100-41;
+    }
+    if( ((currentGameState.zones[zone-4].player == EPlayer2) && (currentGameState.zones[zone-4].nb_checkers > 0))
+        && ((zone > EPos_4) && (zone < EPos_21)) )
+    {
+        return 100-41;
+    }
+    if( ((currentGameState.zones[zone-3].player == EPlayer2) && (currentGameState.zones[zone-3].nb_checkers > 0))
+        && ((zone > EPos_3) && (zone < EPos_22)) )
+    {
+        return 100-38;
+    }
+    if( ((currentGameState.zones[zone-2].player == EPlayer2) && (currentGameState.zones[zone-2].nb_checkers > 0))
+        && ( (zone > EPos_2) && (zone < EPos_23) ))
+    {
+        return 100-33;
+    }
+    if( ((currentGameState.zones[zone-1].player == EPlayer2) && (currentGameState.zones[zone-1].nb_checkers > 0))
+        && ( (zone > EPos_1) && (zone < EPos_24) ))
+    {
+        return 100-30;
+    }
+    if( ((currentGameState.zones[zone-7].player == EPlayer2) && (currentGameState.zones[zone-7].nb_checkers > 0))
+       && ( (zone > EPos_7) && (zone < EPos_18) ))
+    {
+        return 100-16;
+    }
+    if( ((currentGameState.zones[zone-8].player == EPlayer2) && (currentGameState.zones[zone-8].nb_checkers > 0))
+       && ( (zone > EPos_8) && (zone < EPos_17) ))
+    {
+        return 100-16;
+    }
+    if( ((currentGameState.zones[zone-9].player == EPlayer2) && (currentGameState.zones[zone-9].nb_checkers > 0))
+       && ( (zone > EPos_9) && (zone < EPos_16) ))
+    {
+        return 100-13;
+    }
+    if( ((currentGameState.zones[zone-10].player == EPlayer2) && (currentGameState.zones[zone-10].nb_checkers > 0))
+       && ( (zone > EPos_10) && (zone < EPos_15) ))
+    {
+        return 100-8;
+    }
+    if( ((currentGameState.zones[zone-12].player == EPlayer2) && (currentGameState.zones[zone-12].nb_checkers > 0))
+       && ( (zone > EPos_12) && (zone < EPos_13) ))
+    {
+        return 100-8;
+    }
+    if( ((currentGameState.zones[zone-11].player == EPlayer2) && (currentGameState.zones[zone-11].nb_checkers > 0))
+       && ( (zone > EPos_11) && (zone < EPos_14) ))
+    {
+        return 100-5;
+    }
+    return 2;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+/** void FinalReturn(const int index)
   * Stocke les mouvements a renvoyer dans un tableau intermediaire
-  * @param Strat_move* move : le mouvement a stocker
+  * @paramconst int index : l index, dans le tableau de mouvements potentiels, de celui choisi
   *
 **/
-void FinalReturn(int index)
+void FinalReturn(const int index)
 {
     if(index != -1)
     {

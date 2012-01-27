@@ -18,17 +18,22 @@ int Arbitrator_AuthorizedDeplacement(SGameState* gameState, SMove *move, EPlayer
 	//2- mouvement(nombre de case à parcourir) correspond au nombre indiqué par un des dés ?
 	//4- Sens du mouvement autorisé? 
 	//3- position d'arrivée est vide ou lui appartenant ou avec un seul pion adverse ?
-	EPosition posDepart = (move->src_point)-1;
+	EPosition posDepart = (move->src_point);
 	printf("SRC : %d\n",posDepart);
-	EPosition posArrivee = (move->dest_point)-1;
+	EPosition posArrivee = (move->dest_point);
 	printf("DEST : %d\n",posArrivee);
  	SZone zoneDepart = (gameState->zones)[posDepart]; // zone de départ
- 	printf("PLAYER : %d\n",(gameState->zones)[posDepart].player);
+ 	printf("PLAYER : %d\n",gameState->zones[posDepart].player);
  	/*for(int i=0; i<28; i++)
  		printf("i=%d -> %d -> %d\n",i,(game->zones)[i].player,(game->zones)[i].nb_checkers);*/
 	SZone zoneArrivee = (gameState->zones)[posArrivee]; // zone d arrivee
 	// si le joueur ne joue pas le pion en prison, alors qu'il y en a un, le coup est incorrect
-	if((Arbitrator_Nb_Pion_Prison(gameState,player) > 0) && (((posDepart != EPos_BarP1) && (player == EPlayer1)) || ((posDepart != EPos_BarP2) && (player == EPlayer2))))
+	
+	EPosition bar = EPos_BarP1;
+	if(player == EPlayer2)
+		bar = EPos_BarP2;
+	printf("Pos depart %d\n",posDepart);
+	if((Arbitrator_Nb_Pion_Prison(gameState,player) > 0) && posDepart != bar)
 	{
 		printf("PION EN PRISON !! %d\n",Arbitrator_Nb_Pion_Prison(gameState,player));
 		return 0;
@@ -106,14 +111,14 @@ unsigned int Arbitrator_Get_Distance(EPosition depart, EPosition arrivee)
 	//depart est une case prison
 	if(depart == EPos_BarP1)
 	{
-		depart = EPos_1;
+		printf("DEPART=%d ,ARRIVEE=%d\n",depart,arrivee);
+		return arrivee+1;
 	}
 	else if(depart == EPos_BarP2)
 	{
-		depart = EPos_24;
+		printf("DEPART=%d ,ARRIVEE=%d\n",depart,arrivee);
+		return 24 - arrivee;
 	}
-
-	
 
 	if(((int)(depart) - (int)(arrivee)) < 0)
 		return (unsigned int)(-1*((int)(depart) - (int)(arrivee)));

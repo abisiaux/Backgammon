@@ -25,6 +25,9 @@ SGameState* Game_Init()
 	game->die1 = 0;
 	game->die2 = 0;
 	
+	game->score = 0;
+	game->scoreP2 = 0;
+	
 	for(i=0;i<28;i++) game->zones[i].nb_checkers=0;
 	
 	game->zones[0].player=EPlayer1;
@@ -46,15 +49,12 @@ SGameState* Game_Init()
 	game->zones[18].nb_checkers=5;
 	game->zones[5].player=EPlayer2;
 	game->zones[5].nb_checkers=5;
-	
-	
-	return game;
-}
 
-void initScore(SGameState* gameState)
-{
-	gameState->score = 0;
-	gameState->scoreP2 = 0;
+	game->zones[24].player=EPlayer1;
+	game->zones[25].player=EPlayer1;
+	game->zones[26].player=EPlayer2;
+	game->zones[27].player=EPlayer2;
+	return game;
 }
 
 int Game_FirstToPlay(SDisplay* display, EGameMode gameMode, SGame* game, SGameState *gameState)
@@ -88,8 +88,6 @@ int Game_FirstToPlay(SDisplay* display, EGameMode gameMode, SGame* game, SGameSt
 				Game_LaunchDie(gameState, game);
 				Display_RefreshGameBoard(display, gameState, game);
 				SDL_Delay(1500);
-				dieP1[0] = gameState->die1;
-				dieP1[1] = gameState->die2;
 			
 				sprintf(tmp,"%s, lance les des !", game->player2_name);
 				quit = Display_Message(display, tmp, msg_position, msg_color,1,1);
@@ -427,14 +425,22 @@ int Game_Play(SDisplay* display, EGameMode gameMode, SGame* game, SIA_Functions*
 						sprintf(tmp, "%s, c'est ton tour !", game->player1_name);
 						Display_Message(display, tmp, msg_position, msg_color,1,0);
 						SDL_Flip(display->screen);
-						quit = Display_GameActions(display, gameState, game,curentP);
-						if(quit)
+						action = Display_GameActions(display, gameState, game, curentP);
+						if(action == 1)
 						{
+							quit = 1;
 							break;
 						}
-
+						if(action == 2)
+						{
+							finish = 1;
+							winner = EPlayer1;
+							break;
+						}
+						
 						Display_RefreshGameBoard(display, gameState, game);
 						quit = Display_CheckersPossibilities(display, gameState, curentP, game);
+						printf("etat des dés : 1=>[%d]\t2=>[%d]\t3=>[%d]\t4=>[%d]\n", game->die_To_Play[0],game->die_To_Play[1],game->die_To_Play[2],game->die_To_Play[3]);
 						if(quit)
 						{
 							break;
@@ -443,11 +449,9 @@ int Game_Play(SDisplay* display, EGameMode gameMode, SGame* game, SIA_Functions*
 					}
 					else
 					{
-	
+
 						Game_LaunchDie(gameState, game);
 						Display_RefreshGameBoard(display, gameState, game);
-						/* DEROULEMENT JEU AI */
-						/* DEMANDER DOUBLE PUIS MOUVEMENT*/
 						
 						for(i=0;i<4;i++)
 						{
@@ -460,11 +464,15 @@ int Game_Play(SDisplay* display, EGameMode gameMode, SGame* game, SIA_Functions*
 						{
 							if(mvmt_ia[i].src_point != EPos_nopos && mvmt_ia[i].dest_point != EPos_nopos)
 							{
-								printf("AI JOUE src = %d dest = %d\n",mvmt_ia[i].src_point + 1,mvmt_ia[i].dest_point + 1);
-								mvmt_ia[i].src_point += 1;
+								printf("AI JOUE src = %d dest = %d\n",mvmt_ia[i].src_point,mvmt_ia[i].dest_point);
+								convertMove(&(mvmt_ia[i]),curentP);
+								printf("AI JOUE src = %d dest = %d\n",mvmt_ia[i].src_point,mvmt_ia[i].dest_point);
+								/*if(Arbitrator_AuthorizedDeplacement(gameState, mvmt_ia, curentP, game))
+								{*/
+									mvmt_ia[i].src_point += 1;
 								mvmt_ia[i].dest_point += 1;
-								//if(Arbitrator_AuthorizedDeplacement(gameState, mvmt_ia, curentP, game))
 									Display_CheckerMove(display, gameState, &mvmt_ia[i], game);
+								//}
 							}
 						}
 						free(copyGameS);
@@ -477,17 +485,62 @@ int Game_Play(SDisplay* display, EGameMode gameMode, SGame* game, SIA_Functions*
 					{
 						Game_LaunchDie(gameState, game);
 						Display_RefreshGameBoard(display, gameState, game);
-						/* DEROULEMENT JEU AI */
-						/* DEMANDER DOUBLE PUIS MOUVEMENT*/
+						
+						for(i=0;i<4;i++)
+						{
+							mvmt_ia[i].src_point = EPos_nopos;
+							mvmt_ia[i].dest_point = EPos_nopos;
+						}
+						copyGameS = copyGameState(gameState,curentP);
+						(*ia_struct[0].IA_MakeDecision)(copyGameS, mvmt_ia, lastTimeError); 
+						for(i=0;i<4;i++)
+						{
+							if(mvmt_ia[i].src_point != EPos_nopos && mvmt_ia[i].dest_point != EPos_nopos && !allDieUsed(gameState,game))
+							{
+								printf("AI %d JOUE src = %d dest = %d\n",curentP,mvmt_ia[i].src_point,mvmt_ia[i].dest_point);
+								convertMove(&(mvmt_ia[i]),curentP);
+								printf("AI %d JOUE src = %d dest = %d\n",curentP,mvmt_ia[i].src_point,mvmt_ia[i].dest_point);
+								/*if(Arbitrator_AuthorizedDeplacement(gameState, mvmt_ia, curentP, game))
+								{*/
+									mvmt_ia[i].src_point += 1;
+									mvmt_ia[i].dest_point += 1;
+									Display_CheckerMove(display, gameState, &mvmt_ia[i], game);
+								//}
+							}
+						}
+						free(copyGameS);
 						curentP = EPlayer2;
 					}
 					else
 					{
-	
 						Game_LaunchDie(gameState, game);
 						Display_RefreshGameBoard(display, gameState, game);
 						/* DEROULEMENT JEU AI */
 						/* DEMANDER DOUBLE PUIS MOUVEMENT*/
+						
+						for(i=0;i<4;i++)
+						{
+							mvmt_ia[i].src_point = EPos_nopos;
+							mvmt_ia[i].dest_point = EPos_nopos;
+						}
+						copyGameS = copyGameState(gameState,curentP);
+						(*ia_struct[1].IA_MakeDecision)(copyGameS, mvmt_ia, lastTimeError); 
+						for(i=0;i<4;i++)
+						{
+							if(mvmt_ia[i].src_point != EPos_nopos && mvmt_ia[i].dest_point != EPos_nopos && !allDieUsed(gameState,game))
+							{
+								printf("AI %d JOUE src = %d dest = %d\n",curentP,mvmt_ia[i].src_point,mvmt_ia[i].dest_point);
+								convertMove(&(mvmt_ia[i]),curentP);
+								printf("AI %d JOUE src = %d dest = %d\n",curentP,mvmt_ia[i].src_point,mvmt_ia[i].dest_point);
+								/*if(Arbitrator_AuthorizedDeplacement(gameState, mvmt_ia, curentP, game))
+								{*/
+									mvmt_ia[i].src_point += 1;
+								mvmt_ia[i].dest_point += 1;
+									Display_CheckerMove(display, gameState, &mvmt_ia[i], game);
+								//}
+							}
+						}
+						free(copyGameS);
 						curentP = EPlayer1;
 					}
 					break;
@@ -547,20 +600,24 @@ int Game_Play(SDisplay* display, EGameMode gameMode, SGame* game, SIA_Functions*
 
 void Game_LaunchDie(SGameState *gameState, SGame *game) 
 {
-	srand(time(NULL)); // Initialisation du generateur de nombre aleatoire
-	gameState->die1 = 1+(rand()/(float)RAND_MAX)*6; // Tirage aléatoire d'un chiffre entre 1 et 6
-	gameState->die2 = 1+(rand()/(float)RAND_MAX)*6; // Tirage aléatoire d'un chiffre entre 1 et 6
-	printf("Dé 1 : %d Dé 2 : %d\n",gameState->die1,gameState->die2);
-	int i;
-	if(gameState->die1 != gameState->die2)
+	gameState->die1 = 0;
+	gameState->die2 = 0;
+	while(gameState->die1 == gameState->die2)
 	{
-		for(i=0;i<2;i++) game->die_To_Play[i]=1;
-		for(i=2;i<4;i++) game->die_To_Play[i]=0;
+		gameState->die1 = 1+(rand()/(float)RAND_MAX)*6; // Tirage aléatoire d'un chiffre entre 1 et 6
+		gameState->die2 = 1+(rand()/(float)RAND_MAX)*6; // Tirage aléatoire d'un chiffre entre 1 et 6
+		int i;
+		if(gameState->die1 != gameState->die2)
+		{
+			for(i=0;i<2;i++) game->die_To_Play[i]=1;
+			for(i=2;i<4;i++) game->die_To_Play[i]=0;
+		}
+		else
+		{
+			for(i=0;i<4;i++) game->die_To_Play[i]=1;
+		}
 	}
-	else
-	{
-		for(i=0;i<4;i++) game->die_To_Play[i]=1;
-	}
+	printf("De1=%d De2=%d \n",gameState->die1,gameState->die2);
 }
 
 SGameState* copyGameState(SGameState* gameState, EPlayer player)
@@ -596,3 +653,45 @@ SGameState* copyGameState(SGameState* gameState, EPlayer player)
 	return toReturn;
 }
 
+void convertMove(SMove* move,EPlayer player)
+{
+	if(player == EPlayer2)
+	{
+		// Si c'est une barre
+		if( move->src_point == EPos_BarP1)
+		{
+			move->src_point = EPos_BarP2;
+		}
+		// Si c'est une sortie
+		if( move->src_point == EPos_OutP1)
+		{
+			move->dest_point = EPos_OutP2;
+		}
+	}
+	else
+	{
+		EPosition tmp;
+		// Si c'est une barre
+		if( move->src_point == EPos_BarP1)
+		{
+			move->dest_point = 24 - move->dest_point;
+		}
+		// Si c'est une sortie
+		else if( move->src_point == EPos_OutP1)
+		{
+			move->dest_point = EPos_OutP2;
+		}
+		else
+		{
+			//tmp = move->src_point;
+			//move->src_point = 24 - move->dest_point;
+			//move->dest_point = tmp;
+			/*if(move->src_point <= 12)
+				move->dest_point = 24 -move->dest_point;
+			/*else if(move->src_point > 12)
+				move->dest_point = 24 -move->dest_point;*/
+			if(move->src_point > move->dest_point)
+				move->dest_point = move->src_point + (move->src_point - move->dest_point);
+		}
+	}
+}

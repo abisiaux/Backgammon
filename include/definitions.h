@@ -398,6 +398,10 @@ int Display_GameActions(SDisplay *display, SGameState* gameState, SGame *game, E
  * \param game Informations sur le jeu (noms des joueurs, couleurs des pions des joueurs,...)
  */
 void Display_Double(SDisplay* display, SGame* game);
+
+
+
+void onClickChecker(int x, int y, int tab[28], EPlayer player, SGameState* gameState, SGame* game, SDisplay* display);
 /**************************** FIN SPECIFICATION INTERFACE GRAPHIQUE ******************************/
 
 
@@ -634,7 +638,12 @@ int Arbitrator_Nb_Pion_Prison(SGameState* game, EPlayer player);
 int Arbitrator_Jeu_Out_Possible(SGameState* game, EPlayer player);
 /**************************** FIN SPECIFICATION ARBITRE ******************************/
 
+/********NOUVELLES FONCTIONS A COMMENTER*/
+void updateDieStatue(SMove* mouvement, SGameState* gameState, SGame* game);
 
+void convertMove(SMove* move,EPlayer player);
+
+#define VITESSE 5
 #endif
 
 

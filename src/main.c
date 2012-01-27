@@ -17,6 +17,7 @@
 
 int main(int argc, char **argv)
 {
+	srand(time(NULL)); // Initialisation du generateur de nombre aleatoire
 	
 	SIA_Functions* ia_struct = Init_SAI();
 	
@@ -49,6 +50,8 @@ int main(int argc, char **argv)
 			break;
 	}
 	
+	/*SGameState *gameState;
+	gameState = Game_Init(); /* Initialisation de la partie */
 	
 	SDL_Event event;
 	int quit = 0;
@@ -57,7 +60,7 @@ int main(int argc, char **argv)
 	/* Affichage du menu */
 
 	quit = Menu_Display(&display,gameMode, &game);
-	
+	//Display_RefreshGameBoard(&display, gameState, &game);
 	while (!quit) // Boucle principale
 	{
 		SDL_WaitEvent(&event);
@@ -68,6 +71,9 @@ int main(int argc, char **argv)
 		{
 			case SDL_QUIT:
 				quit = 1;
+				break;
+			case SDL_MOUSEMOTION:
+				printf("x = %d et y=%d \n",event.motion.x,event.motion.y);
 				break;
 
 		}
