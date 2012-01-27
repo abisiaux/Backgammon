@@ -13,29 +13,23 @@
 
 int Arbitrator_AuthorizedDeplacement(SGameState* gameState, SMove *move, EPlayer player, SGame *game)
 {
-	;
+	
 	//1- position de départ lui appartient bien ?
 	//2- mouvement(nombre de case à parcourir) correspond au nombre indiqué par un des dés ?
 	//4- Sens du mouvement autorisé? 
 	//3- position d'arrivée est vide ou lui appartenant ou avec un seul pion adverse ?
 	EPosition posDepart = (move->src_point);
-	printf("SRC : %d\n",posDepart);
-	EPosition posArrivee = (move->dest_point);
-	printf("DEST : %d\n",posArrivee);
- 	SZone zoneDepart = (gameState->zones)[posDepart]; // zone de départ
- 	printf("PLAYER : %d\n",gameState->zones[posDepart].player);
- 	/*for(int i=0; i<28; i++)
- 		printf("i=%d -> %d -> %d\n",i,(game->zones)[i].player,(game->zones)[i].nb_checkers);*/
+	EPosition posArrivee = (move->dest_point);;
+ 	SZone zoneDepart = (gameState->zones)[posDepart]; // zone de départ;
 	SZone zoneArrivee = (gameState->zones)[posArrivee]; // zone d arrivee
 	// si le joueur ne joue pas le pion en prison, alors qu'il y en a un, le coup est incorrect
 	
 	EPosition bar = EPos_BarP1;
 	if(player == EPlayer2)
 		bar = EPos_BarP2;
-	printf("Pos depart %d\n",posDepart);
+;
 	if((Arbitrator_Nb_Pion_Prison(gameState,player) > 0) && posDepart != bar)
 	{
-		printf("PION EN PRISON !! %d\n",Arbitrator_Nb_Pion_Prison(gameState,player));
 		return 0;
 	}
 	
@@ -63,15 +57,12 @@ int Arbitrator_AuthorizedDeplacement(SGameState* gameState, SMove *move, EPlayer
 					}
 					return 1;
 				}	
-				//else printf("CASE ARRIVEE PAS VIDE OU APPARTENANT AU JOUEUR ADVERSE AVEC + d'1 PION\n");
+				
 			}
-			//else printf("SENS NON AUTORISE\n");
+			
 		}
-		//else printf("NB SAUTS CORRESPOND PAS AU NOMBRE DU DE\n");
+		
 	}
-
-
-	else printf("CASE DEPART APPARTENANT JOUEUR ADVERSE player : %d\n",zoneDepart.player);
 
 	return 0;	
 	
@@ -82,7 +73,6 @@ int Arbitrator_PlayerArrays(SZone zone, EPlayer player)
 	
 	if(zone.player == player)
 	{
-		//printf("POS APPARTIENT AU JOUEUR\n");
 	 	return 1;
 	}	
 	return 0;
@@ -91,7 +81,6 @@ int Arbitrator_Case_Appartenant_Joueur_Adverse_Avec_Un_Pion(SZone zone, EPlayer 
 {
 	if((zone.player != player) && (zone.nb_checkers == 1))
 	{
-		//printf("CASE JOUEUR ADVERSE AVEC 1 SEUL PION\n");
 		return 1;
 	}
 	return 0;
@@ -100,10 +89,8 @@ int Arbitrator_EmptyPosition(SZone zone)
 {
 	if(zone.nb_checkers == 0)
 	{
-		//printf("POS VIDE\n");
 		return 1;
 	}
-	//else printf("POS NON VIDE\n");
 	return 0;
 }
 unsigned int Arbitrator_Get_Distance(EPosition depart, EPosition arrivee)
@@ -111,12 +98,10 @@ unsigned int Arbitrator_Get_Distance(EPosition depart, EPosition arrivee)
 	//depart est une case prison
 	if(depart == EPos_BarP1)
 	{
-		printf("DEPART=%d ,ARRIVEE=%d\n",depart,arrivee);
 		return arrivee+1;
 	}
 	else if(depart == EPos_BarP2)
 	{
-		printf("DEPART=%d ,ARRIVEE=%d\n",depart,arrivee);
 		return 24 - arrivee;
 	}
 
